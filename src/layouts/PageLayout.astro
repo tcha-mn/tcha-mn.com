@@ -17,10 +17,13 @@ const { metadata } = Astro.props;
 
 <Layout metadata={metadata}>
   <slot name="announcement">
-    <Announcement />
+    <Announcement
+      description="Get your tickets for Hello, Dolly!"
+      link="https://lakevilleareaartscenter.com/1175/Hello-Dolly"
+    />
   </slot>
   <slot name="header">
-    <Header {...headerData} isSticky showRssFeed showToggleTheme />
+    <Header {...headerData} isSticky showToggleTheme />
   </slot>
   <main>
     <slot />

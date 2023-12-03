@@ -1,0 +1,31 @@
+---
+import { Icon } from 'astro-icon/components';
+
+const { text, links, currentPath } = Astro.props;
+---
+
+<>
+  <button class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center">
+    {text}
+    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden md:inline" />
+  </button>
+  <ul
+    class="dropdown-menu md:backdrop-blur-md dark:md:bg-dark rounded md:absolute pl-4 md:pl-0 md:hidden font-medium md:bg-white/90 md:min-w-[200px] drop-shadow-xl"
+  >
+    {
+      links.map(({ text: subtext, href }) => (
+        <li>
+          <a
+            class:list={[
+              'first:rounded-t last:rounded-b md:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap',
+              { 'aw-link-active': href === currentPath },
+            ]}
+            href={href}
+          >
+            {subtext}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</>

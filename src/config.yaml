@@ -1,5 +1,5 @@
 site:
-  name: AstroWind
+  name: Twin Cities Homeschoolers for the Arts
   site: 'https://astrowind.vercel.app'
   base: '/'
   trailingSlash: false

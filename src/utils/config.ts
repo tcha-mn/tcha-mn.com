@@ -83,8 +83,8 @@ const DEFAULT_SITE_NAME = 'Website';
 const getSite = () => {
   const _default = {
     name: DEFAULT_SITE_NAME,
-    site: 'https://tcha-mn.github.io',
-    base: '/tcha-mn.com',
+    site: undefined,
+    base: '/',
     trailingSlash: false,
 
     googleSiteVerificationId: '',

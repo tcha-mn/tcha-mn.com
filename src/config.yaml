@@ -14,7 +14,7 @@ metadata:
   title:
     default: Twin Cities Homeschoolers for the Arts
     template: '%s — Twin Cities Homeschoolers for the Arts'
-  description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
+  description: Providing performing arts classes and opportunities to home educated students in the Minneapolis/St. Paul area.
   robots:
     index: true
     follow: true

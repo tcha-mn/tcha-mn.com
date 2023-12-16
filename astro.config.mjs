@@ -12,6 +12,8 @@ import { readingTimeRemarkPlugin } from './src/utils/frontmatter.mjs';
 import { ANALYTICS, SITE } from './src/utils/config.ts';
 import sanity from '@sanity/astro';
 import react from '@astrojs/react';
+import node from '@astrojs/node';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) =>
   ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown
@@ -26,6 +28,9 @@ export default defineConfig({
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
   output: 'hybrid',
+  adapter: node({
+    mode: 'standalone',
+  }),
   integrations: [
     tailwind({
       applyBaseStyles: false,

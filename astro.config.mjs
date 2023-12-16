@@ -1,8 +1,6 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
-
 import { defineConfig } from 'astro/config';
-
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
@@ -10,13 +8,11 @@ import partytown from '@astrojs/partytown';
 import compress from 'astro-compress';
 import icon from 'astro-icon';
 import tasks from './src/utils/tasks';
-
 import { readingTimeRemarkPlugin } from './src/utils/frontmatter.mjs';
-
 import { ANALYTICS, SITE } from './src/utils/config.ts';
-
+import sanity from '@sanity/astro';
+import react from '@astrojs/react';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
-
 const whenExternalScripts = (items = []) =>
   ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown
     ? Array.isArray(items)
@@ -24,13 +20,12 @@ const whenExternalScripts = (items = []) =>
       : [items()]
     : [];
 
+// https://astro.build/config
 export default defineConfig({
   site: SITE.site,
   base: SITE.base,
   trailingSlash: SITE.trailingSlash ? 'always' : 'never',
-
-  output: 'static',
-
+  output: 'hybrid',
   integrations: [
     tailwind({
       applyBaseStyles: false,
@@ -53,15 +48,14 @@ export default defineConfig({
         ],
       },
     }),
-
     ...whenExternalScripts(() =>
       partytown({
-        config: { forward: ['dataLayer.push'] },
+        config: {
+          forward: ['dataLayer.push'],
+        },
       })
     ),
-
     tasks(),
-
     compress({
       CSS: true,
       HTML: {
@@ -72,12 +66,18 @@ export default defineConfig({
       SVG: true,
       Logger: 1,
     }),
+    sanity.sanityIntegration({
+      projectId: 'fzxx7ejh',
+      dataset: 'production',
+      // Set useCdn to false if you're building statically.
+      useCdn: false,
+      studioBasePath: '/admin',
+    }),
+    react(),
   ],
-
   markdown: {
     remarkPlugins: [readingTimeRemarkPlugin],
   },
-
   vite: {
     resolve: {
       alias: {

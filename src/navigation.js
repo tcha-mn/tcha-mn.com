@@ -1,5 +1,5 @@
 import { getPermalink, getAsset } from './utils/permalinks';
-import { SITE } from './src/utils/config.ts';
+import { SITE } from '~/utils/config.ts';
 
 export const headerData = {
   links: [

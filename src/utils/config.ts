@@ -1,3 +1,4 @@
+import type { ClientConfig } from '@sanity/client';
 import fs from 'fs';
 import yaml from 'js-yaml';
 import merge from 'lodash.merge';
@@ -69,6 +70,7 @@ export interface AnalyticsConfig {
 
 const config = yaml.load(fs.readFileSync('src/config.yaml', 'utf8')) as {
   site?: SiteConfig;
+  sanity?: ClientConfig;
   metadata?: MetaDataConfig;
   i18n?: I18NConfig;
   apps?: {
@@ -91,6 +93,14 @@ const getSite = () => {
   };
 
   return merge({}, _default, config?.site ?? {}) as SiteConfig;
+};
+
+const getSanity = () => {
+  const _default = {
+    dataset: 'production',
+    useCdn: false,
+  };
+  return merge({}, _default, config?.sanity ?? {}) as ClientConfig;
 };
 
 const getMetadata = () => {
@@ -202,3 +212,4 @@ export const METADATA = getMetadata();
 export const APP_BLOG = getAppBlog();
 export const UI = getUI();
 export const ANALYTICS = getAnalytics();
+export const SANITY = getSanity();

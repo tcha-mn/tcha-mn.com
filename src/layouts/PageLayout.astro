@@ -1,10 +1,12 @@
 ---
-import Layout from '~/layouts/Layout.astro';
-import Header from '~/components/widgets/Header.astro';
-import Footer from '~/components/widgets/Footer.astro';
-import Announcement from '~/components/widgets/Announcement.astro';
+import { sanityClient } from 'sanity:client';
 
-import { headerData, footerData } from '~/navigation';
+import Announcement from '~/components/widgets/Announcement.astro';
+import Footer from '~/components/widgets/Footer.astro';
+import Header from '~/components/widgets/Header.astro';
+import Layout from '~/layouts/Layout.astro';
+
+import { footerData, headerData } from '~/navigation';
 
 import type { MetaData } from '~/types';
 
@@ -12,16 +14,19 @@ export interface Props {
   metadata?: MetaData;
 }
 
+const announcement = await sanityClient.fetch(`*[_type == "coming-soon" && date > now()] | order(date) [0]`);
+
 const { metadata } = Astro.props;
 ---
 
 <Layout metadata={metadata}>
-  <slot name="announcement">
-    <Announcement
-      description="Get your tickets for Hello, Dolly!"
-      link="https://lakevilleareaartscenter.com/1175/Hello-Dolly"
-    />
-  </slot>
+  {
+    announcement && (
+      <slot name="announcement">
+        <Announcement {...announcement} />
+      </slot>
+    )
+  }
   <slot name="header">
     <Header {...headerData} isSticky showToggleTheme />
   </slot>

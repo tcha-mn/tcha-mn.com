@@ -1,3 +1,6 @@
+sanity:
+  projectId: fzxx7ejh
+
 site:
   name: Twin Cities Homeschoolers for the Arts
   site: 'https://tcha-mn.github.io'
@@ -9,14 +12,14 @@ site:
 # Default SEO metadata
 metadata:
   title:
-    default: AstroWind
-    template: '%s — AstroWind'
+    default: Twin Cities Homeschoolers for the Arts
+    template: '%s — Twin Cities Homeschoolers for the Arts'
   description: "\U0001F680 Suitable for Startups, Small Business, Sass Websites, Professional Portfolios, Marketing Websites, Landing Pages & Blogs."
   robots:
     index: true
     follow: true
   openGraph:
-    site_name: AstroWind
+    site_name: Twin Cities Homeschoolers for the Arts
     images:
       - url: '~/assets/images/default.png'
         width: 1200

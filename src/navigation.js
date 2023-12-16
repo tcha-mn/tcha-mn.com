@@ -1,33 +1,38 @@
 import { getPermalink, getAsset } from './utils/permalinks';
+import { SITE } from './src/utils/config.ts';
 
 export const headerData = {
   links: [
     {
       text: 'About Us',
-      href: '/about',
+      href: `${SITE.base}/about`,
     },
     {
       text: 'Registration',
-      href: '/registration',
+      href: `${SITE.base}/registration`,
     },
     {
       text: 'Classes',
       links: [
         {
           text: 'Choir',
-          href: '/choir',
+          href: `${SITE.base}/choir`,
         },
         {
           text: 'Dance',
-          href: '/dance',
+          href: `${SITE.base}/dance`,
         },
         {
           text: 'Drama',
-          href: '/drama',
+          href: `${SITE.base}/drama`,
         },
         {
           text: 'Lessons',
-          href: '/lessons',
+          href: `${SITE.base}/lessons`,
+        },
+        {
+          text: 'Juggling',
+          href: `${SITE.base}/juggling`,
         },
       ],
     },
@@ -82,19 +87,19 @@ export const footerData = {
     {
       title: 'Info',
       links: [
-        { text: 'About Us', href: '/about' },
-        { text: 'Contact Us', href: '/contact' },
-        { text: 'FAQ', href: '/faqs' },
+        { text: 'About Us', href: `${SITE.base}/about` },
+        { text: 'Contact Us', href: `${SITE.base}/contact` },
+        { text: 'FAQ', href: `${SITE.base}/faqs` },
       ],
     },
     {
       title: 'Education',
       links: [
-        { text: 'Registration', href: '/registration' },
-        { text: 'Choir', href: '/choir' },
-        { text: 'Dance', href: '/dance' },
-        { text: 'Drama', href: '/drama' },
-        { text: 'Lessons', href: '/lessons' },
+        { text: 'Registration', href: `${SITE.base}/registration` },
+        { text: 'Choir', href: `${SITE.base}/choir` },
+        { text: 'Dance', href: `${SITE.base}/dance` },
+        { text: 'Drama', href: `${SITE.base}/drama` },
+        { text: 'Lessons', href: `${SITE.base}/lessons` },
       ],
     },
     {

@@ -1,0 +1,34 @@
+---
+import Item from '~/components/classes/ListItem.astro';
+import type { Class } from '@types/Class';
+import { sanityClient } from 'sanity:client';
+
+export interface Props {
+  classes: Array<Class>;
+  classType: string;
+}
+
+const { classType } = Astro.props;
+
+const QUERY = `*[_type == "class" && class_type == "${classType}"] | order(age_minimum){
+  _id,
+  _createdAt,
+  title,
+  description,
+  "image": preview_image.asset->url,
+  "alt": preview_image.alt,
+  "instructors": instructors[]->{name, "headshot": headshot.asset->url}
+}`;
+const classes = await sanityClient.fetch<Class[]>(QUERY);
+console.log(classes[0]);
+---
+
+<ul>
+  {
+    classes.map((classItem) => (
+      <li class="mb-12 md:mb-20">
+        <Item post={classItem} />
+      </li>
+    ))
+  }
+</ul>

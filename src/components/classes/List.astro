@@ -2,9 +2,10 @@
 import Item from '~/components/classes/ListItem.astro';
 import type { Class } from '@types/Class';
 import { sanityClient } from 'sanity:client';
+import type { ClassType } from '@types/ClassType';
 
 export interface Props {
-  classType: string;
+  classType: ClassType;
 }
 
 const { classType } = Astro.props;
@@ -22,14 +23,13 @@ const QUERY = `*[_type == "class" && class_type == "${classType}"] | order(age_m
   "ages": {"min": age_minimum, "max": age_maximum},
 }`;
 const classes = await sanityClient.fetch<Class[]>(QUERY);
-console.log(classes[0]);
 ---
 
 <ul>
   {
     classes.map((classItem) => (
       <li class="mb-12 md:mb-20">
-        <Item post={classItem} />
+        <Item classItem={classItem} />
       </li>
     ))
   }

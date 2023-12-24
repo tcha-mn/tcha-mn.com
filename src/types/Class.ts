@@ -1,11 +1,12 @@
 import type { Instructor } from './Instructor';
+import type { ClassType } from '@types/ClassType';
 
 export type Class = {
   _id: string;
   _createdAt: Date;
   title: string;
   description: string;
-  classType: string;
+  classType: ClassType;
   ages: { min: number; max: number };
   spots: number;
   price: number;

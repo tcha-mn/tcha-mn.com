@@ -47,7 +47,7 @@ const { post } = Astro.props;
           {post.title}
         </h3>
         <span>
-          {post.instructors.length > 1 ? 'Instructors:' : 'Instructor:'}
+          <!-- {post.instructors.length > 1 ? 'Instructors:' : 'Instructor:'} -->
           {
             post.instructors.map((instructor) => (
               <span class="text-sm rounded bg-gray-400 dark:bg-slate-700 py-1 px-2">{instructor.name}</span>
@@ -57,7 +57,9 @@ const { post } = Astro.props;
         <div class="mt-2 mb-1">
           <span class="text-sm">
             <Icon name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
-            <time datetime={String(post.publishDate)} class="inline-block">{getFormattedDate(post.publishDate)}</time>
+            <time datetime=`${post.classTimes.start}/${post.classTimes.end}` class="inline-block"
+              >{post.classTimes.start} - {post.classTimes.end}</time
+            >
             <!-- {
               post.category && (
                 <>
@@ -71,11 +73,23 @@ const { post } = Astro.props;
             } -->
           </span>
         </div>
+        <div class="mt-2 mb-1">
+          <span class="text-sm">
+            <Icon name="tabler:school" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+            {post.ages.min} - {post.ages.max}
+          </span>
+        </div>
+        <div class="mt-2 mb-1">
+          <span class="text-sm">
+            <Icon name="tabler:currency-dollar" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+            {post.price}
+          </span>
+        </div>
       </header>
 
-      <footer class="mt-5">
+      <!-- <footer class="mt-5">
         <PostTags tags={post.tags} />
-      </footer>
+      </footer> -->
     </div>
   </div>
   {post.description && <p class="flex-grow text-muted dark:text-slate-400 text-lg">{post.description}</p>}

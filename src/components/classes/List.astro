@@ -4,7 +4,6 @@ import type { Class } from '@types/Class';
 import { sanityClient } from 'sanity:client';
 
 export interface Props {
-  classes: Array<Class>;
   classType: string;
 }
 
@@ -15,9 +14,12 @@ const QUERY = `*[_type == "class" && class_type == "${classType}"] | order(age_m
   _createdAt,
   title,
   description,
+  price,
   "image": preview_image.asset->url,
   "alt": preview_image.alt,
-  "instructors": instructors[]->{name, "headshot": headshot.asset->url}
+  "instructors": instructors[]->{name, "headshot": headshot.asset->url},
+  "classTimes": class_times,
+  "ages": {"min": age_minimum, "max": age_maximum},
 }`;
 const classes = await sanityClient.fetch<Class[]>(QUERY);
 console.log(classes[0]);

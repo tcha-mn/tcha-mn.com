@@ -5,12 +5,13 @@ import { sanityClient } from 'sanity:client';
 import type { ClassType } from '@types/ClassType';
 
 export interface Props {
-  classType: ClassType;
+  classType?: ClassType;
+  debug?: boolean;
 }
 
-const { classType } = Astro.props;
+const { classType = '', debug = false } = Astro.props;
 
-const QUERY = `*[_type == "class" && class_type == "${classType}"] | order(age_minimum){
+const QUERY = `*[_type == "class" ${classType != '' ? `&& class_type == "${classType}"` : ''} ] | order(age_minimum){
   _id,
   _createdAt,
   title,
@@ -22,7 +23,11 @@ const QUERY = `*[_type == "class" && class_type == "${classType}"] | order(age_m
   "classTimes": class_times,
   "ages": {"min": age_minimum, "max": age_maximum},
 }`;
+
 const classes = await sanityClient.fetch<Class[]>(QUERY);
+if (debug) {
+  console.log(classes);
+}
 ---
 
 <ul>

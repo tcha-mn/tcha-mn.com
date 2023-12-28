@@ -23,7 +23,7 @@ const { classItem } = Astro.props;
             widths={[400, 600]}
             width={600}
             sizes="(max-width: 900px) 400px, 600px"
-            alt={classItem.alt}
+            alt={classItem.alt ? classItem.alt : ''}
             aspectRatio="16:9"
             loading="lazy"
             decoding="async"
@@ -38,9 +38,10 @@ const { classItem } = Astro.props;
         </h3>
         <span>
           {
-            classItem.instructors.map((instructor) => (
-              <span class="text-sm rounded bg-gray-400 dark:bg-slate-700 py-1 px-2">{instructor.name}</span>
-            ))
+            classItem.instructors != null &&
+              classItem.instructors.map((instructor) => (
+                <span class="text-sm rounded bg-slate-200 dark:bg-slate-700 py-1 px-2">{instructor.name}</span>
+              ))
           }
         </span>
         <div class="mt-2 mb-1">

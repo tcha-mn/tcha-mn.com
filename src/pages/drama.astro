@@ -7,7 +7,7 @@ import Layout from '../layouts/PageLayout.astro';
 import List from '../components/classes/List.astro';
 
 const metadata = {
-  title: 'Choir Classes | TCHA',
+  title: 'Drama Classes | TCHA',
 };
 ---
 
@@ -17,14 +17,14 @@ const metadata = {
   <Hero
     tagline="Classes"
     image={{
-      src: '/src/assets/images/choir-banner.webp',
-      alt: 'Caos Image',
+      src: '/src/assets/images/drama-banner.webp',
+      alt: 'Hero Image',
     }}
   >
-    <Fragment slot="title">Choir</Fragment>
+    <Fragment slot="title">Drama</Fragment>
 
     <Fragment slot="subtitle">
-      TCHA offers several choir classes each semester for a variety of ages ranging from Kindergarten through 12th
+      TCHA offers several drama classes each semester for a variety of ages ranging from Kindergarten through 12th
       grade.
     </Fragment>
   </Hero>
@@ -32,6 +32,6 @@ const metadata = {
     <h2 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-3xl md:text-4xl mb-12">
       Classes
     </h2>
-    <List classType="Choir" />
+    <List classType="Drama" />
   </section>
 </Layout>

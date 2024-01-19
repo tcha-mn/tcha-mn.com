@@ -1,5 +1,5 @@
 import type { Instructor } from './Instructor';
-import type { ClassType } from '@types/ClassType';
+import type { ClassType } from './ClassType';
 
 export type Class = {
   _id: string;

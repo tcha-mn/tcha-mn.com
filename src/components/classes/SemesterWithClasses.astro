@@ -1,0 +1,29 @@
+---
+import Item from './ListItem.astro';
+import type { Class } from '@schema/Class';
+import type { Semester } from '@schema/Semester';
+import SemesterInfo from './SemesterInfo.astro';
+
+export interface Props {
+  semester: Semester;
+  classes: Class[];
+}
+
+const { semester, classes } = Astro.props;
+---
+
+<div class="mb-20">
+  <SemesterInfo semester={semester} />
+  <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-xl md:text-3xl mb-12">
+    Classes
+  </h3>
+  <ul>
+    {
+      classes.map((classItem) => (
+        <li class="mb-12 md:mb-20">
+          <Item classItem={classItem} />
+        </li>
+      ))
+    }
+  </ul>
+</div>

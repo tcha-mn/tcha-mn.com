@@ -1,0 +1,31 @@
+---
+import { DateTime } from 'luxon';
+
+import type { Semester } from '@schema/Semester';
+
+export interface Props {
+  semester: Semester;
+}
+const { semester } = Astro.props;
+
+const registrationOpenDate = DateTime.fromISO(semester.registration_open);
+const earlyRegistrationEndDate = DateTime.fromISO(semester.early_registration_end);
+const semesterStarts = DateTime.fromISO(semester.dates.start);
+
+const now = DateTime.now();
+
+let registrationStatus = registrationOpenDate < now && semesterStarts > now ? 'open!' : '';
+if (earlyRegistrationEndDate > now) {
+  registrationStatus += ` (Early registration discounts are available until ${earlyRegistrationEndDate.toLocaleString(
+    DateTime.DATE_FULL
+  )})`;
+}
+---
+
+<h2 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-3xl md:text-4xl mb-12">
+  {semester.name} Semester
+</h2>
+
+<p class="text-xl text-muted mb-6 dark:text-slate-300">
+  Registration is currently {registrationStatus} Classes begin on {semesterStarts.toLocaleString(DateTime.DATE_FULL)}.
+</p>

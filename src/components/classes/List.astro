@@ -1,8 +1,10 @@
 ---
-import Item from '~/components/classes/ListItem.astro';
-import type { Class } from '@types/Class';
+import type { Class } from '@schema/Class';
 import { sanityClient } from 'sanity:client';
-import type { ClassType } from '@types/ClassType';
+import type { ClassType } from '@schema/ClassType';
+import type { Semester } from '@schema/Semester';
+
+import SemesterWithClasses from './SemesterWithClasses.astro';
 
 export interface Props {
   classType?: ClassType;
@@ -11,31 +13,26 @@ export interface Props {
 
 const { classType = '', debug = false } = Astro.props;
 
-const QUERY = `*[_type == "class" ${classType != '' ? `&& class_type == "${classType}"` : ''} ] | order(age_minimum){
-  _id,
-  _createdAt,
-  title,
-  description,
-  price,
-  "image": preview_image.asset->url,
-  "alt": preview_image.alt,
-  "instructors": instructors[]->{name, "headshot": headshot.asset->url},
-  "classTimes": class_times,
-  "ages": {"min": age_minimum, "max": age_maximum},
+const classFilter = classType ? `&& class_type == "${classType}"` : '';
+const QUERY = `*[_type == "semester" && registration_open < now() && dates.end > now()] | order(registration_open) {
+  "semester": { name, dates, registration_open, early_registration_end },
+  "classes": *[_type == "class" ${classFilter} && references(^._id)] | order(age_minimum) {
+    _id,
+    _createdAt,
+    title,
+    description,
+    price,
+    "image": preview_image.asset->url,
+    "alt": preview_image.alt,
+    "instructors": instructors[]->{name, "headshot": headshot.asset->url},
+    "classTimes": class_times,
+    "ages": {"min": age_minimum, "max": age_maximum},
+  }
 }`;
-
-const classes = await sanityClient.fetch<Class[]>(QUERY);
+const semesters = await sanityClient.fetch<{ semester: Semester; classes: Class[] }[]>(QUERY);
 if (debug) {
-  console.log(classes);
+  console.log(semesters[0].semester);
 }
 ---
 
-<ul>
-  {
-    classes.map((classItem) => (
-      <li class="mb-12 md:mb-20">
-        <Item classItem={classItem} />
-      </li>
-    ))
-  }
-</ul>
+{semesters.map(({ semester, classes }) => <SemesterWithClasses semester={semester} classes={classes} />)}

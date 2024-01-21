@@ -10,8 +10,14 @@ export type Class = {
   ages: { min: number; max: number };
   spots: number;
   price: number;
-  image: string;
-  alt: string;
+  preview_image: {
+    _type: string;
+    alt: string;
+    asset: {
+      _ref: string;
+    };
+  };
   instructors: Instructor[];
   classTimes: { _type: string; start: string; end: string };
+  dates?: { day_of_week: string; start: string; end: string };
 };

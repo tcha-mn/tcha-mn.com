@@ -99,6 +99,7 @@ const getSanity = () => {
   const _default = {
     dataset: 'production',
     useCdn: false,
+    apiVersion: '2024-01-19',
   };
   return merge({}, _default, config?.sanity ?? {}) as ClientConfig;
 };

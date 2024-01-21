@@ -3,10 +3,10 @@
   "compilerOptions": {
     "strictNullChecks": true,
     "allowJs": true,
-    "baseUrl": ".",
+    "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"],
-      "@schema/*": ["src/schema/*"]
-    }
-  }
+      "@schema/*": ["src/schema/*"],
+    },
+  },
 }

@@ -7,7 +7,7 @@ import Layout from '../layouts/PageLayout.astro';
 import List from '../components/classes/List.astro';
 
 const metadata = {
-  title: 'Drama Classes | TCHA',
+  title: 'Dance Classes | TCHA',
 };
 ---
 
@@ -17,18 +17,17 @@ const metadata = {
   <Hero
     tagline="Classes"
     image={{
-      src: '/src/assets/images/drama-banner.webp',
+      src: '/src/assets/images/dance-banner.webp',
       alt: 'Hero Image',
     }}
   >
-    <Fragment slot="title">Drama</Fragment>
+    <Fragment slot="title">Dance</Fragment>
 
     <Fragment slot="subtitle">
-      TCHA offers several drama classes each semester for a variety of ages ranging from Kindergarten through 12th
-      grade.
+      TCHA offers ballet, lyrical, tap and jazz dance classes for students ranging from PreK-12th grade.
     </Fragment>
   </Hero>
   <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
-    <List classType="Drama" />
+    <List classType="Dance" />
   </section>
 </Layout>

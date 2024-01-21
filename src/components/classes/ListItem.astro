@@ -1,28 +1,43 @@
 ---
+import { sanityClient } from 'sanity:client';
+import listify from 'listify';
+import { toHTML } from '@portabletext/to-html';
+import imageUrlBuilder from '@sanity/image-url';
+import { DateTime } from 'luxon';
+
 import Image from '~/components/common/Image.astro';
 
 import { Icon } from 'astro-icon/components';
 import type { Class } from '@schema/Class';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 export interface Props {
   classItem: Class;
 }
 
+const builder = imageUrlBuilder(sanityClient);
+
+const urlFor = (source: SanityImageSource) => {
+  return builder.image(source);
+};
+
 const { classItem } = Astro.props;
+const classStart = classItem.dates && DateTime.fromISO(classItem.dates.start);
+const classEnd = classItem.dates && DateTime.fromISO(classItem.dates.end);
 ---
 
 <article class={`max-w-md mx-auto md:max-w-none`}>
   <div class="flex flex-wrap gap-6 mb-4">
     {
-      classItem.image && (
+      classItem.preview_image && (
         <div class="basis-4/12 grow">
           <Image
-            src={classItem.image}
+            src={urlFor(classItem.preview_image).width(900).url()}
             class="object-cover w-full h-full rounded shadow-lg bg-gray-400 dark:bg-slate-700"
             widths={[400, 600]}
             width={600}
             sizes="(max-width: 900px) 400px, 600px"
-            alt={classItem.alt ? classItem.alt : ''}
+            alt={classItem.preview_image.alt ? classItem.preview_image.alt : ''}
             aspectRatio="16:9"
             loading="lazy"
             decoding="async"
@@ -39,7 +54,73 @@ const { classItem } = Astro.props;
           {
             classItem.instructors != null &&
               classItem.instructors.map((instructor) => (
-                <span class="text-sm rounded bg-slate-200 dark:bg-slate-700 py-1 px-2">{instructor.name}</span>
+                <>
+                  <div class="flex items-center gap-4">
+                    <img class="w-20 h-20 rounded-full" src={urlFor(instructor.headshot).size(150, 150).url()} alt="" />
+                    <div class="font-medium dark:text-white">
+                      <div>{instructor.name}</div>
+                      <div class="text-sm text-gray-500 dark:text-gray-400">{listify(instructor.class_types)}</div>
+                      <button
+                        id={'bio-for-' + classItem._id}
+                        type="button"
+                        class="py-2 px-3 me-2 mb-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        data-drawer-target={'instructor-for-' + classItem._id}
+                        data-drawer-show={'instructor-for-' + classItem._id}
+                        data-drawer-placement="right"
+                        aria-controls={'instructor-for-' + classItem._id}
+                      >
+                        Read Bio
+                      </button>
+                    </div>
+                  </div>
+
+                  <div
+                    id={'instructor-for-' + classItem._id}
+                    aria-controlledby={'bio-for-' + classItem._id}
+                    class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
+                    tabindex="-1"
+                    aria-labelledby="drawer-right-label"
+                  >
+                    <img
+                      src={urlFor(instructor.headshot).maxWidth(80).url()}
+                      class="h-auto max-w-full"
+                      alt={instructor.name}
+                    />
+                    <h5
+                      id="drawer-right-label"
+                      class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
+                    >
+                      {instructor.name}
+                    </h5>
+                    <button
+                      type="button"
+                      data-drawer-hide={'instructor-for-' + classItem._id}
+                      aria-controls={'instructor-for-' + classItem._id}
+                      class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
+                    >
+                      <svg
+                        class="w-3 h-3"
+                        aria-hidden="true"
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 14 14"
+                      >
+                        <path
+                          stroke="currentColor"
+                          stroke-linecap="round"
+                          stroke-linejoin="round"
+                          stroke-width="2"
+                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                        />
+                      </svg>
+                      <span class="sr-only">Close menu</span>
+                    </button>
+                    <div
+                      class="flex flex-col gap-2"
+                      set:html={instructor.class_type_bio ? toHTML(instructor.class_type_bio) : instructor.bio}
+                    />
+                  </div>
+                </>
               ))
           }
         </span>
@@ -51,6 +132,21 @@ const { classItem } = Astro.props;
             >
           </span>
         </div>
+        {
+          classItem.dates && (
+            <div class="mt-2 mb-1">
+              <span class="text-sm">
+                <Icon
+                  title="Schedule"
+                  name="tabler:calendar"
+                  class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                />
+                Weekly on {classItem.dates.day_of_week}s, {classStart?.toLocaleString(DateTime.DATE_MED)} -
+                {classEnd?.toLocaleString(DateTime.DATE_MED)}
+              </span>
+            </div>
+          )
+        }
         <div class="mt-2 mb-1">
           <span class="text-sm">
             <Icon title="Age Range" name="tabler:school" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />

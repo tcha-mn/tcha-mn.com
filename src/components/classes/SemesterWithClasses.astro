@@ -1,6 +1,8 @@
 ---
+import InstructorPanel from './Instructor.astro';
 import Item from './ListItem.astro';
 import type { Class } from '@schema/Class';
+import type { Instructor } from '@schema/Instructor';
 import type { Semester } from '@schema/Semester';
 import SemesterInfo from './SemesterInfo.astro';
 
@@ -10,6 +12,16 @@ export interface Props {
 }
 
 const { semester, classes } = Astro.props;
+const instructors = classes
+  .map((classItem) => classItem.instructors)
+  .flat()
+  .reduce(
+    (acc, curr) => {
+      if (acc[curr._id]) return acc;
+      return { ...acc, [curr._id]: curr };
+    },
+    {} as Record<string, Instructor>
+  );
 ---
 
 <div class="mb-20">
@@ -27,3 +39,4 @@ const { semester, classes } = Astro.props;
     }
   </ul>
 </div>
+{Object.values(instructors).map((i) => <InstructorPanel instructor={i} />)}

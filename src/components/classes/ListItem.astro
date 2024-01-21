@@ -1,15 +1,16 @@
 ---
-import { sanityClient } from 'sanity:client';
-import listify from 'listify';
 import { toHTML } from '@portabletext/to-html';
 import imageUrlBuilder from '@sanity/image-url';
+import { Avatar, Button } from 'flowbite-react';
+import listify from 'listify';
 import { DateTime } from 'luxon';
+import { sanityClient } from 'sanity:client';
+import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
 
 import Image from '~/components/common/Image.astro';
 
-import { Icon } from 'astro-icon/components';
 import type { Class } from '@schema/Class';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import { Icon } from 'astro-icon/components';
 
 export interface Props {
   classItem: Class;
@@ -26,7 +27,7 @@ const classStart = classItem.dates && DateTime.fromISO(classItem.dates.start);
 const classEnd = classItem.dates && DateTime.fromISO(classItem.dates.end);
 ---
 
-<article class={`max-w-md mx-auto md:max-w-none`}>
+<article class="max-w-md mx-auto md:max-w-none">
   <div class="flex flex-wrap gap-6 mb-4">
     {
       classItem.preview_image && (
@@ -54,73 +55,24 @@ const classEnd = classItem.dates && DateTime.fromISO(classItem.dates.end);
           {
             classItem.instructors != null &&
               classItem.instructors.map((instructor) => (
-                <>
-                  <div class="flex items-center gap-4">
-                    <img class="w-20 h-20 rounded-full" src={urlFor(instructor.headshot).size(150, 150).url()} alt="" />
-                    <div class="font-medium dark:text-white">
-                      <div>{instructor.name}</div>
-                      <div class="text-sm text-gray-500 dark:text-gray-400">{listify(instructor.class_types)}</div>
-                      <button
-                        id={'bio-for-' + classItem._id}
-                        type="button"
-                        class="py-2 px-3 me-2 mb-2 text-xs font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                        data-drawer-target={'instructor-for-' + classItem._id}
-                        data-drawer-show={'instructor-for-' + classItem._id}
-                        data-drawer-placement="right"
-                        aria-controls={'instructor-for-' + classItem._id}
-                      >
-                        Read Bio
-                      </button>
-                    </div>
-                  </div>
-
-                  <div
-                    id={'instructor-for-' + classItem._id}
-                    aria-controlledby={'bio-for-' + classItem._id}
-                    class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-80 dark:bg-gray-800"
-                    tabindex="-1"
-                    aria-labelledby="drawer-right-label"
-                  >
-                    <img
-                      src={urlFor(instructor.headshot).maxWidth(80).url()}
-                      class="h-auto max-w-full"
-                      alt={instructor.name}
-                    />
-                    <h5
-                      id="drawer-right-label"
-                      class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"
+                <div class="flex items-center gap-4">
+                  <Avatar img={urlFor(instructor.headshot).size(150, 150).url()} size="lg" rounded>
+                    <div>{instructor.name}</div>
+                    <div class="text-sm text-gray-500 dark:text-gray-400">{listify(instructor.class_types)}</div>
+                    <Button
+                      size="xs"
+                      color="light"
+                      pill
+                      id={'bio-for-' + classItem._id}
+                      data-drawer-target={'instructor-' + instructor._id}
+                      data-drawer-show={'instructor-' + instructor._id}
+                      data-drawer-placement="right"
+                      aria-controls={'instructor-' + instructor._id}
                     >
-                      {instructor.name}
-                    </h5>
-                    <button
-                      type="button"
-                      data-drawer-hide={'instructor-for-' + classItem._id}
-                      aria-controls={'instructor-for-' + classItem._id}
-                      class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
-                    >
-                      <svg
-                        class="w-3 h-3"
-                        aria-hidden="true"
-                        xmlns="http://www.w3.org/2000/svg"
-                        fill="none"
-                        viewBox="0 0 14 14"
-                      >
-                        <path
-                          stroke="currentColor"
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                        />
-                      </svg>
-                      <span class="sr-only">Close menu</span>
-                    </button>
-                    <div
-                      class="flex flex-col gap-2"
-                      set:html={instructor.class_type_bio ? toHTML(instructor.class_type_bio) : instructor.bio}
-                    />
-                  </div>
-                </>
+                      Read Bio
+                    </Button>
+                  </Avatar>
+                </div>
               ))
           }
         </span>

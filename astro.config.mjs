@@ -12,6 +12,7 @@ import { ANALYTICS, SITE, SANITY } from './src/utils/config.ts';
 import { sanityIntegration } from '@sanity/astro';
 import sentry from "@sentry/astro";
 import spotlightjs from "@spotlightjs/astro";
+import react from "@astrojs/react";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) => ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown ? Array.isArray(items) ? items.map(item => item()) : [items()] : [];
 
@@ -33,7 +34,7 @@ export default defineConfig({
     config: {
       forward: ['dataLayer.push']
     }
-  })), tasks(), sanityIntegration(SANITY), sentry(), spotlightjs()],
+  })), tasks(), sanityIntegration(SANITY), sentry(), spotlightjs(), react()],
   image: {
     service: squooshImageService()
   },

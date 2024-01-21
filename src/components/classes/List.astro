@@ -18,7 +18,6 @@ const QUERY = `*[_type == "semester" && registration_open < now() && dates.end >
   "semester": { name, dates, registration_open, early_registration_end },
   "classes": *[_type == "class" ${classFilter} && references(^._id)] | order(age_minimum, age_maximum) {
     _id,
-    _createdAt,
     title,
     description,
     price,
@@ -26,6 +25,7 @@ const QUERY = `*[_type == "semester" && registration_open < now() && dates.end >
     "alt": preview_image.asset->alt,
     dates,
     "instructors": instructors[]->{
+      _id,
       name,
       headshot,
       class_types,

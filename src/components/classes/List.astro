@@ -3,6 +3,7 @@ import type { Class } from '@schema/Class';
 import { sanityClient } from 'sanity:client';
 import type { ClassType } from '@schema/ClassType';
 import type { Semester } from '@schema/Semester';
+import { picture } from 'astro-sanity-picture';
 
 import SemesterWithClasses from './SemesterWithClasses.astro';
 
@@ -27,7 +28,7 @@ const QUERY = `*[_type == "semester" && registration_open < now() && dates.end >
     "instructors": instructors[]->{
       _id,
       name,
-      headshot,
+      ${picture('headshot')},
       class_types,
       bio,
       "class_type_bio": class_type_bio[class_type==^.^.class_type][0].bio

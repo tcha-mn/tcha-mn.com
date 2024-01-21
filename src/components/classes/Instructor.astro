@@ -1,4 +1,5 @@
 ---
+import SanityPicture, { setSanityPictureDefaults } from 'astro-sanity-picture';
 import { toHTML } from '@portabletext/to-html';
 import imageUrlBuilder from '@sanity/image-url';
 import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
@@ -11,11 +12,7 @@ export interface Props {
 }
 const { instructor } = Astro.props;
 
-const builder = imageUrlBuilder(sanityClient);
-
-const urlFor = (source: SanityImageSource) => {
-  return builder.image(source);
-};
+setSanityPictureDefaults({ imageUrlBuilder: imageUrlBuilder(sanityClient) });
 ---
 
 <div
@@ -24,7 +21,11 @@ const urlFor = (source: SanityImageSource) => {
   tabindex="-1"
   aria-labelledby="drawer-right-label"
 >
-  <img src={urlFor(instructor.headshot).maxWidth(80).url()} class="h-auto max-w-full" alt={instructor.name} />
+  <SanityPicture
+    src={instructor.headshot}
+    sizes="(max-width: 600px) 80px"
+    img={{ alt: instructor.name, class: 'h-auto max-w-full' }}
+  />
   <h5
     id="drawer-right-label"
     class="inline-flex items-center mb-4 text-base font-semibold text-gray-500 dark:text-gray-400"

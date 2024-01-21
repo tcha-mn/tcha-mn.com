@@ -1,0 +1,137 @@
+---
+import { sanityClient } from 'sanity:client';
+import { Icon } from 'astro-icon/components';
+
+import Hero from '../components/widgets/Hero.astro';
+import Layout from '../layouts/PageLayout.astro';
+import SanityPicture, { picture, setSanityPictureDefaults } from 'astro-sanity-picture';
+import { toHTML } from '@portabletext/to-html';
+import imageUrlBuilder from '@sanity/image-url';
+setSanityPictureDefaults({ imageUrlBuilder: imageUrlBuilder(sanityClient) });
+
+const metadata = {
+  title: 'Private Lessons | TCHA',
+};
+
+interface PrivateInstructor {
+  name: string;
+  bio: string;
+  class_type_bio?: string;
+  private_lessons: {
+    instrument: string;
+    email?: string;
+    website?: string;
+    phone?: string;
+  };
+}
+
+const QUERY = `*[_type == "instructor" && "Private Lessons" in class_types] {
+  name,
+  bio,
+  ${picture('headshot')},
+  "class_type_bio": class_type_bio[class_type == ^.^.class_type][0].bio,
+  private_lessons
+} | order(name)`;
+const instructors = await sanityClient.fetch<PrivateInstructor[]>(QUERY);
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero
+    tagline="Classes"
+    image={{
+      src: '~/assets/images/private-lessons-banner.webp',
+      alt: 'Private piano lesson',
+    }}
+  >
+    <Fragment slot="title">Private Lessons</Fragment>
+
+    <Fragment slot="subtitle">
+      TCHA has partnered with a number of private music instructors as resources for our community to develop skills in
+      various instruments.
+    </Fragment>
+  </Hero>
+  <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
+    <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-xl md:text-3xl mb-12">
+      Instructors
+    </h3>
+    <ul>
+      {
+        instructors.map(({ private_lessons: lessons, ...instructor }) => (
+          <li class="mb-12 md:mb-20">
+            <article class="max-w-md mx-auto md:max-w-none">
+              <div class="flex flex-wrap gap-6 mb-4">
+                <div class="basis-4/12 grow">
+                  <SanityPicture
+                    src={instructor.headshot}
+                    sizes="(max-width: 600px) 400px, 600px"
+                    widths={[400, 600]}
+                    img={{ alt: instructor.name }}
+                  />
+                </div>
+                <div class="mt-2 basis-7/12 grow">
+                  <header>
+                    <h4 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
+                      {instructor.name}
+                    </h4>
+                  </header>
+                  <div class="mt-2 mb-1">
+                    <span class="text-sm">
+                      <Icon
+                        title="Lessons Available In"
+                        name="tabler:school"
+                        class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                      />
+                      {lessons.instrument}
+                    </span>
+                  </div>
+                  {lessons.email && (
+                    <div class="mt-2 mb-1">
+                      <span class="text-sm">
+                        <Icon
+                          title="Email"
+                          name="tabler:send"
+                          class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                        />
+                        <a href={'mailto:' + lessons.email}>{lessons.email}</a>
+                      </span>
+                    </div>
+                  )}
+                  {lessons.website && (
+                    <div class="mt-2 mb-1">
+                      <span class="text-sm">
+                        <Icon
+                          title="Website"
+                          name="tabler:world"
+                          class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                        />
+                        <a href={lessons.website}>{lessons.website}</a>
+                      </span>
+                    </div>
+                  )}
+                  {lessons.phone && (
+                    <div class="mt-2 mb-1">
+                      <span class="text-sm">
+                        <Icon
+                          title="Phone Number"
+                          name="tabler:phone"
+                          class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                        />
+                        <a href={'tel:' + lessons.phone}>{lessons.phone}</a>
+                      </span>
+                    </div>
+                  )}
+                  <p
+                    class="mt-3"
+                    set:html={instructor.class_type_bio ? toHTML(instructor.class_type_bio) : instructor.bio}
+                  />
+                </div>
+              </div>
+            </article>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+</Layout>

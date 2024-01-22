@@ -1,0 +1,47 @@
+---
+import { sanityClient } from 'sanity:client';
+import { Badge } from 'flowbite-react';
+import type { Semester } from '@schema/Semester';
+
+import Layout from '../layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Class Registration | TCHA',
+};
+
+const QUERY = `*[_type == "semester" && registration_open < now() && dates.start > now()] | order(registration_open) {
+  name, registration_open, dates{start}, early_registration_end
+}[0]
+`;
+const semester = await sanityClient.fetch<Semester>(QUERY);
+const registrationOpen = new Date(semester.registration_open) < new Date();
+
+---
+<Layout metadata={metadata}>
+  <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
+    { registrationOpen && (<>
+      <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading md:text-3xl mb-12">
+        Class registration for {semester.name} is currently open!
+      </h3>
+      <div id="galore-embed-wrapper">
+        <script type="text/javascript">
+          (function (d, s, id) {
+            if (d.getElementById(id)) {
+              return;
+            }
+            var js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://getgalore.com/embed.js';
+            js.setAttribute('data-src', 'https://www.care.com/connect/tcha/embed?widget_id=88&logo=false&per_page=20');
+            d.getElementById('galore-embed-wrapper').appendChild(js);
+          })(document, 'script', 'load-galore-embed');
+        </script>
+      </div>
+    </>)}
+    { !registrationOpen && (
+      <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading md:text-3xl mb-12">
+      Class registration is not currently open. Check back soon for class availability for next semester!
+      </h3>
+    )}
+  </section>
+</Layout>

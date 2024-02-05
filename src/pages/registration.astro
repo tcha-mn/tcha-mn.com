@@ -4,10 +4,23 @@ import { Badge } from 'flowbite-react';
 import type { Semester } from '@schema/Semester';
 
 import Layout from '../layouts/PageLayout.astro';
+import { getAllClasses } from '~/utils/care-api';
 
 const metadata = {
   title: 'Class Registration | TCHA',
 };
+
+type ConnectEvents = {
+  page: number;
+  total: number;
+  last_page: boolean;
+  series: Object[];
+  activities: Object[];
+  notification: boolean;
+}
+
+const classes =  await getAllClasses();
+console.log(classes)
 
 const QUERY = `*[_type == "semester" && registration_open < now() && dates.start > now()] | order(registration_open) {
   name, registration_open, dates{start}, early_registration_end
@@ -19,6 +32,17 @@ const registrationOpen = new Date(semester.registration_open) < new Date();
 ---
 <Layout metadata={metadata}>
   <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
+    <script define:vars={{classes}}>
+      console.log(classes)
+    </script>
+    <!-- <ul>
+      {classes.map((c) => 
+      <li>
+        <a href={c.web_url} target="_blank">
+          {c.title}
+        </a>
+      </li>)}
+    </ul> -->
     { registrationOpen && (<>
       <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading md:text-3xl mb-12">
         Class registration for {semester.name} is currently open!

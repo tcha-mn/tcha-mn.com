@@ -16,10 +16,10 @@ const { semester, classes } = Astro.props;
   <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-xl md:text-3xl mb-12">
     Classes
   </h3>
-  <ul>
+  <ul class="flex flex-wrap gap-x-10">
     {
       classes.map((classItem) => (
-        <li class="mb-12 md:mb-20">
+        <li class="mb-12">
           <Item classItem={classItem} />
         </li>
       ))

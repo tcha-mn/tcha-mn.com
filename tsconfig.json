@@ -6,7 +6,6 @@
     "baseUrl": "./",
     "paths": {
       "~/*": ["src/*"],
-      "@schema/*": ["src/schema/*"],
     },
     "jsx": "react-jsx",
     "jsxImportSource": "react",

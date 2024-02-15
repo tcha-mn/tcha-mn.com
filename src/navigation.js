@@ -1,11 +1,19 @@
-import { getPermalink, getAsset } from './utils/permalinks';
 import { SITE } from '~/utils/config.ts';
+
+import { fetchAll } from '~/queries/TheatreSeasons';
+
+const seasons = await fetchAll();
 
 export const headerData = {
   links: [
     {
       text: 'About Us',
-      href: `${SITE.base}/about`,
+      links: [
+        {
+          text: 'Board of Directors',
+          href: '#',
+        },
+      ],
     },
     {
       text: 'Registration',
@@ -38,12 +46,12 @@ export const headerData = {
     },
     {
       text: 'Theatre',
-      links: [
-        { text: 'Fall Musical' },
-        { text: 'Winter Ministry Play' },
-        { text: 'Spring Classic Play' },
-        { text: 'Summer Junior Musical' },
-      ],
+      links: seasons.map((s) => {
+        if (!s.isVisible) {
+          return { text: `${s.title} Season (coming soon!)` };
+        }
+        return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}` };
+      }),
     },
   ],
   actions: [

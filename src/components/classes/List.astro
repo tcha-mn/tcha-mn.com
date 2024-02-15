@@ -1,11 +1,8 @@
 ---
-import type { Class } from '@schema/Class';
-import { sanityClient } from 'sanity:client';
-import type { ClassType } from '@schema/ClassType';
-import type { Semester } from '@schema/Semester';
-import { picture } from 'astro-sanity-picture';
+import { fetchAll } from '~/queries/SemesterWithClasses.ts';
 
 import SemesterWithClasses from './SemesterWithClasses.astro';
+import type { ClassType } from '~/queries/ClassType';
 
 export interface Props {
   classType?: ClassType;
@@ -14,30 +11,8 @@ export interface Props {
 
 const { classType = '', debug = false } = Astro.props;
 
-const classFilter = classType ? `&& class_type == "${classType}"` : '';
-const QUERY = `*[_type == "semester" && registration_open < now() && dates.end > now()] | order(registration_open) {
-  "semester": { name, dates, registration_open, early_registration_end },
-  "classes": *[_type == "class" ${classFilter} && references(^._id)] | order(age_minimum, age_maximum) {
-    _id,
-    title,
-    description,
-    price,
-    preview_image,
-    "alt": preview_image.asset->alt,
-    dates,
-    "instructors": instructors[]->{
-      _id,
-      name,
-      ${picture('headshot')},
-      class_types,
-      bio,
-      "class_type_bio": class_type_bio[class_type==^.^.class_type][0].bio
-    },
-    "classTimes": class_times,
-    "ages": {"min": age_minimum, "max": age_maximum},
-  }
-}`;
-const semesters = await sanityClient.fetch<{ semester: Semester; classes: Class[] }[]>(QUERY);
+const semesters = await fetchAll({ classType });
+
 if (debug) {
   console.log(semesters[0].semester);
 }

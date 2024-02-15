@@ -1,5 +1,5 @@
 ---
-import { sanityClient } from 'sanity:client';
+import { fetchAll, type FAQ } from '~/queries/FAQ';
 import { toHTML } from '@portabletext/to-html';
 
 import Layout from '~/layouts/PageLayout.astro';
@@ -15,18 +15,11 @@ const Categories = {
 const metadata = {
   title: 'FAQs',
 };
-interface FAQ {
-  category: string;
-  question: string;
-  response: any;
-}
-
 function filterFAQ(category: string) {
   return (faq: FAQ) => faq.category === category;
 }
 
-const QUERY = `*[_type == "faq"] | order(question) {question, response, category}`;
-const faqs = await sanityClient.fetch<FAQ[]>(QUERY);
+const faqs = await fetchAll();
 ---
 
 <Layout metadata={metadata}>

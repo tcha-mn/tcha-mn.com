@@ -14,7 +14,7 @@ const semesterStarts = DateTime.fromISO(semester.dates.start);
 
 const now = DateTime.now();
 
-let registrationStatus = registrationOpenDate < now && semesterStarts > now ? 'open!' : '';
+let registrationStatus = registrationOpenDate < now && semesterStarts > now ? 'open!' : 'closed.';
 if (earlyRegistrationEndDate > now) {
   registrationStatus += ` (Early registration discounts are available until ${earlyRegistrationEndDate.toLocaleString(
     DateTime.DATE_FULL

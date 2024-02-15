@@ -3,8 +3,8 @@ sanity:
 
 site:
   name: Twin Cities Homeschoolers for the Arts
-  site: 'https://tcha-mn.github.io'
-  base: '/tcha-mn.com'
+  site: 'https://staging.tcha-mn.com'
+  base: ''
   trailingSlash: false
 
   googleSiteVerificationId: orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M

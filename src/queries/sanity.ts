@@ -40,4 +40,5 @@ export function makeDataAccess<Result, Options extends BaseQueryOptions = BaseQu
   };
 }
 
+export type { SanityImageSource };
 export { SanityPicture };

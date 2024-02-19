@@ -10,5 +10,5 @@ declare module 'luxon' {
 }
 
 export function parseDate(date: string) {
-  return DateTime.fromISO(date);
+  return DateTime.fromISO(date, { zone: 'utc' });
 }

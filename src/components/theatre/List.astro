@@ -1,0 +1,21 @@
+---
+import Item from '~/components/theatre/ListItem.astro';
+import type { Show, TheatreSeason } from '~/queries/TheatreSeasons';
+
+export interface Props {
+  season: TheatreSeason;
+  shows: Array<Show>;
+}
+
+const { season, shows } = Astro.props;
+---
+
+<ul>
+  {
+    shows.map((show) => (
+      <li class="mb-12 md:mb-20">
+        <Item show={show} season={season} />
+      </li>
+    ))
+  }
+</ul>

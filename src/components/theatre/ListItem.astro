@@ -1,0 +1,65 @@
+---
+import { Icon } from 'astro-icon/components';
+import type { Show, TheatreSeason } from '~/queries/TheatreSeasons';
+
+import { SanityPicture } from '~/queries/sanity';
+import { DateTime } from 'luxon';
+
+export interface Props {
+  season: TheatreSeason;
+  show: Show;
+}
+
+const { season, show } = Astro.props;
+
+function getFormattedDate(d: DateTime): string {
+  return d.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
+}
+
+const link = `/theatre/${season.slug}/${show.slug}`;
+---
+
+<article class={`max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 ${show.hero ? 'md:grid-cols-2' : ''}`}>
+  {
+    (
+      <a class="relative block group" href={link ?? 'javascript:void(0)'}>
+        <div class="relative h-0 pb-[56.25%] md:pb-[75%] md:h-72 lg:pb-[56.25%] overflow-hidden bg-gray-400 dark:bg-slate-700 rounded shadow-lg">
+          {show.hero && (
+            <SanityPicture
+              src={show.hero}
+              sizes="(max-width: 600px) 80px"
+              img={{ alt: show.title, class: 'h-auto max-w-full' }}
+            />
+          )}
+        </div>
+      </a>
+    )
+  }
+  <div class="mt-2">
+    <header>
+      <div class="mb-1">
+        <h2 class="text-xl sm:text-2xl font-bold leading-tight mb-2 font-heading dark:text-slate-300">
+          {
+            link ? (
+              <a class="hover:text-primary dark:hover:text-blue-700 transition ease-in duration-200" href={link}>
+                {show.title}
+              </a>
+            ) : (
+              show.title
+            )
+          }
+        </h2>
+        <span class="text-sm">
+          <Icon name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+          <time datetime={String(show.date_range.start)} class="inline-block"
+            >{getFormattedDate(show.date_range.start)}</time
+          >
+          <span>-</span>
+          <time datetime={String(show.date_range.end)} class="inline-block"
+            >{getFormattedDate(show.date_range.end)}</time
+          >
+        </span>
+      </div>
+    </header>
+  </div>
+</article>

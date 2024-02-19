@@ -1,0 +1,52 @@
+---
+import { fetchSlugs, fetchSeasonInfo } from '~/queries/TheatreSeasons';
+import Hero from '../../components/widgets/Hero.astro';
+import Layout from '../../layouts/PageLayout.astro';
+import { SanityPicture } from '~/queries/sanity';
+import ShowList from '~/components/theatre/List.astro';
+
+export async function getStaticPaths() {
+  const seasons = await fetchSlugs();
+  const paths = seasons.map((season) => ({ params: { season: season.slug } }));
+  return paths;
+}
+export interface Props {
+  season: string;
+}
+const { season } = Astro.params;
+
+const { season: seasonInfo, shows } = await fetchSeasonInfo({ season });
+const metadata = {
+  title: `${seasonInfo.title} | TCHA`,
+};
+---
+
+<Layout metadata={metadata}>
+  <!-- Hero Widget ******************* -->
+
+  <Hero tagline="Theatre Season">
+    {
+      /*
+    <Fragment slot="image">
+      <SanityPicture
+        src={seasonInfo.hero}
+        sizes="(max-width: 600px) 80px"
+        img={{ alt: seasonInfo.title, class: 'h-auto max-w-full' }}
+      />
+    </Fragment>
+      */
+    }
+    <Fragment slot="title">{seasonInfo.title}</Fragment>
+
+    <Fragment slot="subtitle">
+      {seasonInfo.description || '[This season needs a description]'}
+    </Fragment>
+  </Hero>
+  <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
+    <ShowList season={seasonInfo} shows={shows} />
+  </section>
+</Layout>
+
+Season: {season}
+SeasonInfo: <pre><code>{JSON.stringify(seasonInfo, undefined, '  ')}</code></pre>
+Shows: <pre><code>{JSON.stringify(shows, undefined, '  ')}</code></pre>

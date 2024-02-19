@@ -61,8 +61,7 @@ const QUERY = ({ classType, registration, picture }: QueryOptions) => `*[
       name,
       ${picture('headshot')},
       class_types,
-      bio,
-      "class_type_bio": class_type_bio[class_type==^.^.class_type][0].bio
+      "bio": coalesce(class_type_bio[class_type == ^.^.class_type][0].bio, bio),
     },
     "classTimes": class_times,
     "grades": { "min": grade_minimum, "max": grade_maximum },

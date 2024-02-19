@@ -32,7 +32,7 @@
     "astro-portabletext": "^0.9.6",
     "astro-sanity-picture": "^0.2.0",
     "debug": "^4.3.4",
-    "flowbite": "^2.2.1",
+    "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.2",
     "limax": "4.1.0",
     "listify": "^1.0.3",

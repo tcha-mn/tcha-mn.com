@@ -7,6 +7,7 @@ const seasons = await fetchAll();
 export const headerData = {
   links: [
     {
+      id: 'about',
       text: 'About Us',
       links: [
         {
@@ -20,6 +21,7 @@ export const headerData = {
       href: `${SITE.base}/registration`,
     },
     {
+      id: 'classes',
       text: 'Classes',
       links: [
         {
@@ -45,6 +47,7 @@ export const headerData = {
       ],
     },
     {
+      id: 'theatre',
       text: 'Theatre',
       links: seasons.map((s) => {
         if (!s.isVisible) {

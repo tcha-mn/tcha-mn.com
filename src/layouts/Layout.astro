@@ -38,6 +38,7 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
     <ViewTransitions fallback="swap" />
+    <script is:inline src="https://tally.so/widgets/embed.js"></script>
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
@@ -50,6 +51,24 @@ const { language, textDirection } = I18N;
         content-visibility: auto;
       }
     </style>
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.0/flowbite.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script>
+      document.addEventListener('astro:page-load', () => {
+        window.initFlowbite();
+      });
+      document.addEventListener('astro:after-swap', () => {
+        document.querySelectorAll<HTMLImageElement>('img[data-x-lqip="true"]').forEach((img) => {
+          img.addEventListener('load', () => {
+            img.animate([{ opacity: 0 }, { opacity: 1 }], {
+              duration: parseInt(img.dataset['xLqipTransitionDuration']!),
+              fill: 'forwards',
+            });
+          });
+          if (img.complete) {
+            img.style.opacity = '1';
+          }
+        });
+      });
+    </script>
   </body>
 </html>

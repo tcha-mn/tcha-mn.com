@@ -14,7 +14,8 @@ const semesterStarts = DateTime.fromISO(semester.dates.start);
 
 const now = DateTime.now();
 
-let registrationStatus = registrationOpenDate < now && semesterStarts > now ? 'open!' : 'closed.';
+const registrationOpen = registrationOpenDate < now && semesterStarts > now;
+let registrationStatus = registrationOpen ? 'open!' : 'closed.';
 if (earlyRegistrationEndDate > now) {
   registrationStatus += ` (Early registration discounts are available until ${earlyRegistrationEndDate.toLocaleString(
     DateTime.DATE_FULL
@@ -27,7 +28,8 @@ if (earlyRegistrationEndDate > now) {
 </h2>
 
 <p class="text-xl text-muted mb-6 dark:text-slate-300">
-  Registration is currently {registrationStatus} Classes begin on {semesterStarts.toLocaleString(DateTime.DATE_FULL)}.
+  Registration is currently {registrationStatus}
+  {registrationOpen && `Classes begin on ${semesterStarts.toLocaleString(DateTime.DATE_FULL)}.`}
 </p>
 
 FIXME: Add dates for this semester in here

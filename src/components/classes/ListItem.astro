@@ -125,7 +125,7 @@ const classEnd = classItem.dates && DateTime.fromISO(classItem.dates.end);
       sizes="(max-width: 600px) 80px"
       img={{ alt: classItem.title, class: 'h-auto max-w-full' }}
     />
-    <div class="flex flex-col gap-2 mb-3">{classItem.description}</div>
+    <div class="flex flex-col gap-2 mt-3 mb-3">{classItem.description}</div>
     <h4
       id={'class-' + classItem._id + '-instructor-heading'}
       class="inline-flex items-center mb-4 text-2xl font-semibold dark:text-white"
@@ -136,12 +136,16 @@ const classEnd = classItem.dates && DateTime.fromISO(classItem.dates.end);
       classItem.instructors != null &&
         classItem.instructors.map((instructor) => (
           <>
-            <SanityPicture
-              src={instructor.headshot}
-              sizes="(max-width: 600px) 80px"
-              img={{ alt: instructor.name, class: 'h-auto max-w-full' }}
-            />
-            <figcaption class="mt-2 text-xl text-center text-gray-500 dark:text-gray-400">{instructor.name}</figcaption>
+            <figure>
+              <SanityPicture
+                src={instructor.headshot}
+                sizes="(max-width: 600px) 80px"
+                img={{ alt: instructor.name, class: 'h-auto max-w-full' }}
+              />
+              <figcaption class="mt-2 text-xl text-center text-gray-500 dark:text-gray-400">
+                {instructor.name}
+              </figcaption>
+            </figure>
 
             <div
               class="flex flex-col gap-2 mt-2"

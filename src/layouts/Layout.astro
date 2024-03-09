@@ -38,7 +38,17 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
     <ViewTransitions fallback="swap" />
-    <script is:inline src="https://tally.so/widgets/embed.js"></script>
+    <script src="https://tally.so/widgets/embed.js"></script>
+    <script type="importmap">
+      {
+        "imports": {
+          "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.10",
+          "@fullcalendar/daygrid": "https://cdn.skypack.dev/@fullcalendar/daygrid@6.1.10",
+          "@fullcalendar/google-calendar": "https://cdn.skypack.dev/@fullcalendar/google-calendar@6.1.10",
+          "@fullcalendar/list": "https://cdn.skypack.dev/@fullcalendar/list@6.1.10"
+        }
+      }
+    </script>
   </head>
 
   <body class="antialiased text-default bg-page tracking-tight">
@@ -51,7 +61,7 @@ const { language, textDirection } = I18N;
         content-visibility: auto;
       }
     </style>
-    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script>
       document.addEventListener('astro:page-load', () => {
         window.initFlowbite();

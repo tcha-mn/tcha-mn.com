@@ -1,0 +1,42 @@
+---
+import Layout from '../layouts/PageLayout.astro';
+
+const metadata = {
+  title: 'Events Calendar | TCHA',
+};
+---
+
+<Layout metadata={metadata}>
+  <script type="module">
+    import { Calendar } from '@fullcalendar/core';
+    import dayGridPlugin from '@fullcalendar/daygrid';
+    import listPlugin from '@fullcalendar/list';
+    import googleCalendarPlugin from '@fullcalendar/google-calendar';
+
+    document.addEventListener('astro:page-load', () => {
+      var calendarEl = document.getElementById('calendar');
+      const calendar = new Calendar(calendarEl, {
+        plugins: [dayGridPlugin, listPlugin, googleCalendarPlugin],
+        googleCalendarApiKey: 'AIzaSyDDtm0Kq9peyIES6MurVMzvpj0qxPd57es',
+        events: {
+          googleCalendarId: 'tcha-mn.com_vhub6lsh2nqen4saf0aeb9oe28@group.calendar.google.com',
+        },
+        initialView: 'dayGridMonth',
+        headerToolbar: {
+          left: 'prev,next today',
+          center: 'title',
+          right: 'dayGridMonth,listWeek',
+        },
+        eventClick(info) {
+          info.jsEvent.preventDefault();
+          console.log(info);
+          alert(info.event.extendedProps.description || info.event.extendedProps.location || 'No description');
+        },
+      });
+      calendar.render();
+    });
+  </script>
+  <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
+    <div class="max-w-6xl" id="calendar"></div>
+  </section>
+</Layout>

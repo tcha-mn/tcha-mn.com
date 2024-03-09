@@ -1,0 +1,71 @@
+---
+import Layout from '../layouts/PageLayout.astro';
+import { fetchByTeam } from '~/queries/Leadership';
+import { SanityPicture } from '~/queries/sanity';
+
+const metadata = {
+  title: 'Leadership | TCHA',
+};
+
+const { board, theatre_artistic_directors: theatreArtisticDirectors } = await fetchByTeam();
+---
+
+<Layout metadata={metadata}>
+  <section class="bg-white dark:bg-gray-900">
+    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
+      <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Board of Directors</h2>
+        <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+          The board of directors oversees the overall direction and operations of the TCHA organization.
+        </p>
+      </div>
+      <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {
+          board.map((member) => (
+            <div class="text-center text-gray-500 dark:text-gray-400">
+              <SanityPicture
+                class="mx-auto mb-4 w-48 h-72 rounded-full"
+                src={member.headshot}
+                sizes="(min-width:768px) 50vw, 100vw"
+                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-full' }}
+              />
+              <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <a href="#">{member.name}</a>
+              </h3>
+              <p>{member.role}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+
+    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
+      <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
+        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+          Theatre Artistic Directors
+        </h2>
+        <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+          A creative team in charge of sculpting the vision and production choices for each theatre season.
+        </p>
+      </div>
+      <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+        {
+          theatreArtisticDirectors.map((member) => (
+            <div class="text-center text-gray-500 dark:text-gray-400">
+              <SanityPicture
+                class="mx-auto mb-4 w-48 h-72 rounded-full"
+                src={member.headshot}
+                sizes="(min-width:768px) 50vw, 100vw"
+                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-full' }}
+              />
+              <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+                <a href="#">{member.name}</a>
+              </h3>
+              <p>{member.role}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+</Layout>

@@ -1,5 +1,6 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import type { HTMLAttributes, ImageMetadata } from 'astro/types';
+import type { Testimonial } from '~/queries/Testimonials';
 
 export interface Post {
   /** A unique ID number that identifies a post. */
@@ -148,14 +149,6 @@ export interface Price {
   ribbonTitle?: string;
 }
 
-export interface Testimonial {
-  title?: string;
-  testimonial?: string;
-  name?: string;
-  job?: string;
-  image?: string | unknown;
-}
-
 export interface Input {
   type: HTMLInputTypeAttribute;
   name: string;
@@ -228,7 +221,7 @@ export interface Pricing extends Headline, Widget {
 }
 
 export interface Testimonials extends Headline, Widget {
-  testimonials?: Array<Testimonial>;
+  testimonials?: Testimonial[];
   callToAction?: CallToAction;
 }
 

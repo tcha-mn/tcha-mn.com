@@ -6,11 +6,13 @@ import Note from '~/components/widgets/Note.astro';
 import Features from '~/components/widgets/Features.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
+import { fetchAll as fetchAllTestimonials } from '~/queries/Testimonials';
 
 const metadata = {
   title: 'Twin Cities Homeschoolers for the Arts',
   ignoreTitleTemplate: true,
 };
+const testimonials = await fetchAllTestimonials();
 ---
 
 <Layout metadata={metadata}>
@@ -32,8 +34,8 @@ const metadata = {
 
     <Fragment slot="subtitle">
       <span class="hidden sm:inline">
-        <span class="font-semibold">TCHA</span> exists to provide performing arts classes and opportunities for home
-        educated students in the Minneapolis/St. Paul area.
+        <span class="font-semibold">TCHA</span> exists to provide performing arts classes and opportunities, viewed through
+        a redemptive lens, to home educated students in the Minneapolis/St. Paul area.
       </span>
     </Fragment>
   </Hero>
@@ -53,7 +55,7 @@ const metadata = {
       {
         title: 'Choir',
         description:
-          'We offer large and small choral ensembles for students K-12 with multiple performances throughout the school year.',
+          'Large and small choral ensembles for students K-12 with multiple performances throughout the school year.',
         icon: 'tabler:music',
       },
       {
@@ -64,7 +66,7 @@ const metadata = {
       {
         title: 'Drama',
         description:
-          'Creating secure, efficient, and user-friendly websites that deliver exceptional experiences and lasting value.',
+          'Weekly classes focused on different aspects of theatre including acting, improv, and technical theatre arts.',
         icon: 'tabler:masks-theater',
       },
       {
@@ -72,40 +74,22 @@ const metadata = {
         description: 'Vocal and instrumental instructors are available for private lessons.',
         icon: 'tabler:book',
       },
+      {
+        title: 'Theatre',
+        description:
+          'Performance opportunities for a variety of age ranges including musical theatre and classic plays',
+        icon: 'tabler:theater',
+      },
     ]}
   />
 
   <Testimonials
     title="Words from our community"
-    testimonials={[
-      {
-        testimonial: `The designs are not only visually appealing but also highly professional. The templates have saved me a significant amount of time while helping me make a lasting impression on my clients.`,
-        name: 'Emily Kennedy',
-        job: 'Student',
-        image: {
-          src: 'https://images.unsplash.com/photo-1618835962148-cf177563c6c0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=930&q=80',
-          alt: 'Emily Kennedy Image',
-        },
-      },
-      {
-        testimonial: `It beautifully showcases my work, with its clean and elegant design that lets my photographs shine. Customization was a breeze, even for a non-tech person like me. The result is a professional and immersive portfolio that's garnered numerous compliments.`,
-        name: 'Sarah Hansen',
-        job: 'Alumni',
-        image: {
-          src: 'https://images.unsplash.com/photo-1561406636-b80293969660?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80',
-          alt: 'Sarah Hansen Image',
-        },
-      },
-      {
-        testimonial: `I discovered these templates and I'm impressed by their variety and quality. They've helped me establish a consistent brand image across my marketing and social platforms, elevating my business's overall appearance.`,
-        name: 'Mark Wilkinson',
-        job: 'Parent',
-        image: {
-          src: 'https://images.unsplash.com/photo-1545167622-3a6ac756afa4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=824&q=80',
-          alt: 'Mark Wilkinson Image',
-        },
-      },
-    ]}
+    isDark="false"
+    testimonials={testimonials.map((t) => ({
+      ...t,
+      job: t.relationship,
+    }))}
   />
 
   <!-- CallToAction Widget *********** -->

@@ -5,7 +5,6 @@ import Button from '~/components/ui/Button.astro';
 import Image from '~/components/common/Image.astro';
 import type { Testimonials } from '~/types';
 
-
 const {
   title = '',
   subtitle = '',
@@ -26,20 +25,19 @@ const {
   <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
     {
       testimonials &&
-        testimonials.map(({ title, testimonial, name, job, image }) => (
+        testimonials.map(({ testimonial, name, initials, relationship, image }) => (
           <div class="flex h-auto">
             <div class="flex flex-col p-4 md:p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600">
-              {title && <h2 class="text-lg font-medium leading-6 pb-4">{title}</h2>}
               {testimonial && (
                 <blockquote class="flex-auto">
-                  <p class="text-muted">" {testimonial} "</p>
+                  <p class="text-muted">"{testimonial}"</p>
                 </blockquote>
               )}
 
               <hr class="border-slate-200 dark:border-slate-600 my-4" />
 
               <div class="flex items-center">
-                {image && (
+                {image ? (
                   <div class="h-10 w-10 rounded-full border border-slate-200 dark:border-slate-600">
                     {typeof image === 'string' ? (
                       <Fragment set:html={image} />
@@ -54,11 +52,15 @@ const {
                       />
                     )}
                   </div>
+                ) : (
+                  <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                    <span class="font-medium text-gray-600 dark:text-gray-300">{initials}</span>
+                  </div>
                 )}
 
                 <div class="grow ml-3 rtl:ml-0 rtl:mr-3">
                   {name && <p class="text-base font-semibold">{name}</p>}
-                  {job && <p class="text-xs text-muted">{job}</p>}
+                  {relationship && <p class="text-xs text-muted">{relationship}</p>}
                 </div>
               </div>
             </div>

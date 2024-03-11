@@ -1,0 +1,87 @@
+---
+import type { Headline as HeadlineType, Widget } from '~/types';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import Headline from '../ui/Headline.astro';
+
+export interface Props extends HeadlineType, Widget {
+  items: {
+    value: string;
+    icon?: string;
+  }[];
+  columns?: number;
+  //image?: string | Image;
+}
+
+const {
+  title = await Astro.slots.render('title'),
+  subtitle = await Astro.slots.render('subtitle'),
+  tagline,
+  items = [],
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props as Props;
+const splitPoint = Math.ceil(items.length / 2);
+const rearrangedValues = items
+  .slice(0, splitPoint)
+  .map((item, index) => [
+    { ...item, index },
+    { ...items[splitPoint + index], index: splitPoint + index },
+  ])
+  .flat()
+  .filter((item) => item.value);
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <div class="w-full lg:w-1/2 gap-8 md:gap-12">
+    <Headline
+      title={title}
+      subtitel={subtitle}
+      tagline={tagline}
+      classes={{
+        container: 'text-center md:text-left rtl:md:text-right mb-4 md:mb-8',
+        title: 'mb-4 text-3xl lg:text-4xl font-bold font-heading',
+        subtitle: 'mb-8 text-xl text-muted dark:text-slate-400',
+      }}
+    />
+  </div>
+  <div class="flex flex-wrap space-y-10 md:space-y-0">
+    <div class="md:w-1/2 px-4">
+      <ul class="space-y-10">
+        {
+          items.slice(0, splitPoint).map(({ value }, index) => (
+            <li class="flex md:-mx-4">
+              <div class="pr-2 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4 flex items-start">
+                <span class="flex w-12 h-12 mx-auto items-center justify-center text-2xl font-bold rounded-full bg-blue-100 text-primary">
+                  {index + 1}
+                </span>
+              </div>
+              <div class="pl-4 rtl:pl-0 rtl:pr-4 flex items-start mt-1">
+                <p class="text-muted dark:text-gray-400" set:html={value} />
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+    <div class="md:w-1/2 pl-4">
+      <ul class="space-y-10">
+        {
+          items.slice(splitPoint).map(({ value }, index) => (
+            <li class="flex md:-mx-4">
+              <div class="pr-2 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4 flex items-start">
+                <span class="flex w-12 h-12 mx-auto items-center justify-center text-2xl font-bold rounded-full bg-blue-100 text-primary">
+                  {index + splitPoint + 1}
+                </span>
+              </div>
+              <div class="pl-4 rtl:pl-0 rtl:pr-4 flex items-start mt-1">
+                <p class="text-muted dark:text-gray-400" set:html={value} />
+              </div>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </div>
+</WidgetWrapper>

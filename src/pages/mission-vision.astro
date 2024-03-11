@@ -1,6 +1,5 @@
 ---
-import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import ColumnSteps from '~/components/widgets/ColumnSteps.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
@@ -11,20 +10,6 @@ const metadata = {
 };
 
 const values = await fetchAll();
-
-// Calculate the midpoint of the values array
-const midPoint = Math.ceil(values.length / 2);
-
-// Combine the two halves by interleaving their elements
-const rearrangedValues = values
-  .slice(0, midPoint)
-  .map((item, index) => [
-    { ...item, index },
-    { ...values[midPoint + index], index: midPoint + index },
-  ])
-  .flat()
-  .filter((item) => item.value);
-console.log(rearrangedValues);
 ---
 
 <Layout metadata={metadata}>
@@ -45,49 +30,18 @@ console.log(rearrangedValues);
     </Fragment>
 
     <Fragment slot="content">
-      <p>
+      <p class="mb-3">
         Our board and tutors are all professing Christians, and TCHA operates from a Christian worldview. Depending on
         the tutor or director, prayer, devotionals, worship, and Christ-centered music may be incorporated into our
         classes and productions. TCHA is not affiliated with any denomination or church, but holds to Christian
         principles, including the inerrancy of Scripture as the Word of God, and salvation through faith in Jesus
         Christ.
-        <br />
-        <br />
-        TCHA is a 501(c)(3) charitable non-profit organization.
       </p>
+      <p class="mb-3">TCHA is a 501(c)(3) charitable non-profit organization.</p>
     </Fragment>
   </Hero>
 
-  <WidgetWrapper id="values" isDark containerClass="max-w-6xl mx-auto">
-    <div class="w-full lg:w-1/2 gap-8 md:gap-12">
-      <Headline
-        title="Our Values / Philosophy"
-        classes={{
-          container: 'text-center md:text-left rtl:md:text-right mb-4 md:mb-8',
-          title: 'mb-4 text-3xl lg:text-4xl font-bold font-heading',
-          subtitle: 'mb-8 text-xl text-muted dark:text-slate-400',
-        }}
-      />
-    </div>
-    <div class="w-full px-0">
-      <ul class="grid grid-cols-2 gap-4 gap-x-16">
-        {
-          rearrangedValues.map(({ value, index }) => (
-            <li class="flex md:-mx-4">
-              <div class="pr-4 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4 flex items-start">
-                <span class="flex w-12 h-12 mx-auto items-center justify-center text-2xl font-bold rounded-full bg-blue-100 text-primary">
-                  {index + 1}
-                </span>
-              </div>
-              <div class="pl-4 rtl:pl-0 rtl:pr-4 flex items-start mt-1">
-                <p class="text-muted dark:text-gray-400" set:html={value} />
-              </div>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </WidgetWrapper>
+  <ColumnSteps title="Our Values / Philosophy" items={values} columns={3} />
 
   <!-- Features2 Widget ************** -->
 

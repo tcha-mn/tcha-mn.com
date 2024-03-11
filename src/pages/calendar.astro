@@ -13,7 +13,7 @@ const metadata = {
     import listPlugin from '@fullcalendar/list';
     import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
-    document.addEventListener('astro:page-load', () => {
+    const initCalendar = () => {
       var calendarEl = document.getElementById('calendar');
       const calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, listPlugin, googleCalendarPlugin],
@@ -34,7 +34,9 @@ const metadata = {
         },
       });
       calendar.render();
-    });
+    };
+    document.addEventListener('astro:page-load', initCalendar);
+    document.addEventListener('astro:after-swap', initCalendar);
   </script>
   <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
     <div class="max-w-6xl" id="calendar"></div>

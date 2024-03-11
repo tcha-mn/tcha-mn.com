@@ -33,8 +33,9 @@ const metadata = {
         eventClick(info) {
           info.jsEvent.preventDefault();
           document.getElementById('eventModal-title').innerText = info.event.title;
-          document.getElementById('eventModal-subtitle').innerText =
-            `${dayjs(info.event.start).format('h:mm a')} - ${dayjs(info.event.end).format('h:mm a')}`;
+          document.getElementById('eventModal-subtitle').innerText = info.event.allDay
+            ? 'All Day'
+            : `${dayjs(info.event.start).format('h:mm a')} - ${dayjs(info.event.end).format('h:mm a')}`;
           document.getElementById('eventModal-location').innerText = info.event.extendedProps.location;
           modal.show();
         },
@@ -81,7 +82,7 @@ const metadata = {
             </button>
           </div>
           <div class="px-5 pb-2 border-b dark:border-gray-600">
-            <h4 id="eventModal-subtitle" class="text-sm text-gray-600 dark:text-gray-300">Foobar</h4>
+            <h4 id="eventModal-subtitle" class="text-sm text-gray-600 dark:text-gray-300 italic"></h4>
           </div>
           <!-- Modal body -->
           <div class="space-y-6 p-6">

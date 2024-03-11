@@ -12,7 +12,7 @@ export const headerData = {
       links: [
         {
           text: 'Mission and Vision',
-          href: `${SITE.base}/mission-vision`,
+          href: `${SITE.base}/about`,
         },
         {
           text: 'Leadership',

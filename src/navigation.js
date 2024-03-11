@@ -18,6 +18,10 @@ export const headerData = {
           text: 'Leadership',
           href: `${SITE.base}/leadership`,
         },
+        {
+          text: 'FAQs',
+          href: `${SITE.base}/faqs`,
+        },
       ],
     },
     {
@@ -60,6 +64,7 @@ export const headerData = {
         return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}` };
       }),
     },
+    },
   ],
   actions: [
     { text: 'Donate', href: 'https://www.paypal.com/donate/?hosted_button_id=6PSJWMWAEXSC2', target: '_blank' },
@@ -89,9 +94,8 @@ export const footerData = {
     {
       title: 'Events',
       links: [
-        { text: 'Theatre', href: '#' },
-        { text: 'Fieldtrips', href: '#' },
-        { text: 'Events', href: '#' },
+        { text: 'Theatre', href: '/theatre/2023-2024' },
+        { text: 'Calendar', href: '/calendar' },
       ],
     },
   ],

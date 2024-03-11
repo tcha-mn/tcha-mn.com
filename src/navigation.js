@@ -64,7 +64,11 @@ export const headerData = {
         return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}` };
       }),
     },
-    },
+    // {
+    //   id: 'calendar',
+    //   text: 'Events Calendar',
+    //   href: `${SITE.base}/calendar`,
+    // },
   ],
   actions: [
     { text: 'Donate', href: 'https://www.paypal.com/donate/?hosted_button_id=6PSJWMWAEXSC2', target: '_blank' },

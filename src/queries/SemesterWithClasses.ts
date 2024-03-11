@@ -69,16 +69,9 @@ const QUERY = ({ classType, registration, picture }: QueryOptions) => `*[
   }
 }`;
 
-function processor(result: Result) {
-  return result.map((r) => {
-    console.log(r.semester.dates);
-    return { ...r };
-  });
-}
-
 type Result = {
   semester: Semester;
   classes: Class[];
 }[];
 
-export const fetchAll = makeDataAccess<Result, QueryOptions>(QUERY, processor);
+export const fetchAll = makeDataAccess<Result, QueryOptions>(QUERY);

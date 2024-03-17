@@ -8,7 +8,7 @@ export const headerData = {
   links: [
     {
       id: 'about',
-      text: 'About Us',
+      text: 'About',
       links: [
         {
           text: 'Mission and Vision',
@@ -25,13 +25,14 @@ export const headerData = {
       ],
     },
     {
-      text: 'Registration',
-      href: `${SITE.base}/registration`,
-    },
-    {
       id: 'classes',
       text: 'Classes',
       links: [
+        {
+          text: 'Registration',
+          href: `${SITE.base}/registration`,
+          dividerAfter: true,
+        },
         {
           text: 'Choir',
           href: `${SITE.base}/choir`,
@@ -64,11 +65,11 @@ export const headerData = {
         return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}` };
       }),
     },
-    // {
-    //   id: 'calendar',
-    //   text: 'Events Calendar',
-    //   href: `${SITE.base}/calendar`,
-    // },
+    {
+      id: 'calendar',
+      text: 'Events',
+      href: `${SITE.base}/events`,
+    },
   ],
   actions: [
     { text: 'Donate', href: 'https://www.paypal.com/donate/?hosted_button_id=6PSJWMWAEXSC2', target: '_blank' },

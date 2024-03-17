@@ -36,7 +36,8 @@ const metadata = {
           document.getElementById('eventModal-subtitle').innerText = info.event.allDay
             ? 'All Day'
             : `${dayjs(info.event.start).format('h:mm a')} - ${dayjs(info.event.end).format('h:mm a')}`;
-          document.getElementById('eventModal-location').innerText = info.event.extendedProps.location;
+          document.getElementById('eventModal-location').innerHTML =
+            `${info.event.extendedProps.location}<br />(<a target="_blank" href="https://maps.google.com/?q=${info.event.extendedProps.location}">see map</a>)`;
           modal.show();
         },
       });

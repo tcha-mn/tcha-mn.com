@@ -12,11 +12,21 @@ const { semester, classes } = Astro.props;
 ---
 
 <div class="mb-20">
-  <SemesterInfo semester={semester} />
-  <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-xl md:text-3xl mb-12">
-    Classes
-  </h3>
-  <ul class="flex flex-wrap gap-x-10">
+  {
+    semester.isPopup ? (
+      <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-xl md:text-3xl mb-12">
+        Pop-up Classes
+      </h3>
+    ) : (
+      <>
+        <SemesterInfo semester={semester} />
+        <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-xl md:text-3xl mb-12">
+          Classes
+        </h3>
+      </>
+    )
+  }
+  <ul class="flex flex-wrap justify-between">
     {
       classes.map((classItem) => (
         <li class="mb-12">

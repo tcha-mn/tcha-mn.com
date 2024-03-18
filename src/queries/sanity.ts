@@ -35,7 +35,7 @@ export function makeDataAccess<Result, Options extends BaseQueryOptions = BaseQu
     logger('Query: %s', formedQuery);
     const result = await sanityClient.fetch<Result>(formedQuery);
     const processedResults = preprocessor ? preprocessor(result) : result;
-    logger('Results: %o', processedResults);
+    logger('Results: %j', processedResults);
     return processedResults;
   };
 }

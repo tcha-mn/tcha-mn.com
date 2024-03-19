@@ -19,8 +19,8 @@ const classEnd = classItem.dates.end;
 
 <article class="max-w-md mx-auto md:max-w-none">
   <Card className="max-w-sm" imgAlt={classItem.title} imgSrc={urlFor(classItem.preview_image).url()}>
-    <div class="p-5">
-      <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
+    <div>
+      <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {classItem.title}
       </h5>
       <span>
@@ -30,7 +30,7 @@ const classEnd = classItem.dates.end;
               <div class="flex items-center gap-4">
                 <Avatar
                   img={urlFor(instructor.headshot).size(150, 150).url()}
-                  size="lg"
+                  size="md"
                   rounded
                   className="flex-shrink-0"
                 >
@@ -41,7 +41,7 @@ const classEnd = classItem.dates.end;
             ))
         }
       </span>
-      <div class="mt-2 mb-1">
+      <div class="mt-3 mb-0">
         <span class="text-sm">
           <Icon title="Class Times" name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
           <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
@@ -51,28 +51,30 @@ const classEnd = classItem.dates.end;
       </div>
       {
         classItem.dates && (
-          <div class="mt-2 mb-1">
+          <div class="mt-0.5 mb-0">
             <span class="text-sm">
               <Icon
                 title="Schedule"
                 name="tabler:calendar"
                 class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
               />
-              {classStart.hasSame(classEnd, 'day')
-                ? classStart?.toLocaleString(DateTime.DATE_MED)
-                : `Weekly on ${classItem.dates.day_of_week}s, ${classStart?.toLocaleString(DateTime.DATE_MED)} -
-              ${classEnd?.toLocaleString(DateTime.DATE_MED)}`}
+              <span>
+                {classStart.hasSame(classEnd, 'day')
+                  ? classStart?.toLocaleString(DateTime.DATE_MED)
+                  : `Weekly on ${classItem.dates.day_of_week}s, ${classStart?.toLocaleString(DateTime.DATE_MED)} -
+                ${classEnd?.toLocaleString(DateTime.DATE_MED)}`}
+              </span>
             </span>
           </div>
         )
       }
-      <div class="mt-2 mb-1">
+      <div class="mt-0.5 mb-0">
         <span class="text-sm" title={'Ages ' + classItem.ages.min + '-' + classItem.ages.max}>
           <Icon title="Grades" name="tabler:school" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
           {classItem.grades.min} - {classItem.grades.max}
         </span>
       </div>
-      <div class="mt-2 mb-1">
+      <div class="mt-0.5">
         <span class="text-sm">
           <Icon
             title="Tuition Fee"
@@ -98,7 +100,7 @@ const classEnd = classItem.dates.end;
         data-drawer-show={'class-' + classItem._id}
         data-drawer-placement="right"
         aria-controls={'class-' + classItem._id}
-        class="inline-flex items-center px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        class="inline-flex gap-x-1 items-center mt-4 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Read more <Icon name="tabler:arrow-right" />
       </button>

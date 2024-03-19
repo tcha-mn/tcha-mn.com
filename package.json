@@ -13,9 +13,9 @@
     "lint:eslint": "eslint . --ext .js,.ts,.astro"
   },
   "dependencies": {
-    "@astrojs/react": "^3.0.9",
-    "@astrojs/rss": "^4.0.2",
-    "@astrojs/sitemap": "^3.0.5",
+    "@astrojs/react": "^3.1.0",
+    "@astrojs/rss": "^4.0.5",
+    "@astrojs/sitemap": "^3.1.1",
     "@astrolib/analytics": "^0.5.0",
     "@astrolib/seo": "^1.0.0-beta.5",
     "@ericz1803/react-google-calendar": "^4.3.2",
@@ -32,7 +32,7 @@
     "@spotlightjs/astro": "^1.0.10",
     "@types/react": "^18.2.48",
     "@types/react-dom": "^18.2.18",
-    "astro": "^4.2.1",
+    "astro": "^4.5.6",
     "astro-icon": "^1.0.2",
     "astro-portabletext": "^0.9.6",
     "astro-sanity-picture": "^0.2.0",
@@ -51,7 +51,7 @@
     "unpic": "^3.16.0"
   },
   "devDependencies": {
-    "@astrojs/mdx": "^2.0.5",
+    "@astrojs/mdx": "^2.2.0",
     "@astrojs/partytown": "^2.0.4",
     "@astrojs/tailwind": "5.1.0",
     "@iconify-json/flat-color-icons": "^1.1.10",

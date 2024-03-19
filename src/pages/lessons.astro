@@ -1,38 +1,17 @@
 ---
-import { sanityClient } from 'sanity:client';
 import { Icon } from 'astro-icon/components';
 
+import { fetchAll } from '~/queries/PrivateInstructor';
 import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
-import SanityPicture, { picture, setSanityPictureDefaults } from 'astro-sanity-picture';
+import SanityPicture from 'astro-sanity-picture';
 import { toHTML } from '@portabletext/to-html';
-import imageUrlBuilder from '@sanity/image-url';
-setSanityPictureDefaults({ imageUrlBuilder: imageUrlBuilder(sanityClient) });
 
 const metadata = {
   title: 'Private Lessons | TCHA',
 };
 
-interface PrivateInstructor {
-  name: string;
-  bio: string;
-  class_type_bio?: string;
-  private_lessons: {
-    instrument: string;
-    email?: string;
-    website?: string;
-    phone?: string;
-  };
-}
-
-const QUERY = `*[_type == "instructor" && "Private Lessons" in class_types] {
-  name,
-  bio,
-  ${picture('headshot')},
-  "class_type_bio": class_type_bio[class_type == ^.^.class_type][0].bio,
-  private_lessons
-} | order(name)`;
-const instructors = await sanityClient.fetch<PrivateInstructor[]>(QUERY);
+const instructors = await fetchAll({});
 ---
 
 <Layout metadata={metadata}>
@@ -122,10 +101,7 @@ const instructors = await sanityClient.fetch<PrivateInstructor[]>(QUERY);
                       </span>
                     </div>
                   )}
-                  <p
-                    class="mt-3"
-                    set:html={instructor.class_type_bio ? toHTML(instructor.class_type_bio) : instructor.bio}
-                  />
+                  <p class="mt-3" set:html={toHTML(instructor.bio)} />
                 </div>
               </div>
             </article>

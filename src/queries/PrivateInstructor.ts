@@ -12,12 +12,12 @@ export interface PrivateInstructor extends Instructor {
 }
 
 const QUERY = ({ picture }: BaseQueryOptions) => groq`
-  *[_type == "instructor" && "Private Lessons" in class_types] {
-    name,
-    class_types,
-    "bio": coalesce(class_type_bio[class_type == ^.^.class_type][0].bio, bio),
-    ${picture('headshot')},
-    private_lessons
-  } | order(name)
+*[_type == "instructor" && "Private Lessons" in class_types] {
+  name,
+  class_types,
+  "bio": coalesce(class_type_bio[class_type == ^.^.class_type][0].bio, bio),
+  ${picture('headshot')},
+  private_lessons
+} | order(name)
 `;
 export const fetchAll = makeDataAccess<PrivateInstructor[]>(QUERY);

@@ -33,8 +33,8 @@ export function makeDataAccess<Result, Options extends BaseQueryOptions = BaseQu
   return async (options: Options): Promise<Result> => {
     const formedQuery = typeof query === 'string' ? query : query({ ...options, picture });
     logger('Query: %s', formedQuery);
-    const result = await sanityClient.fetch<Result>(formedQuery);
-    const processedResults = preprocessor ? preprocessor(result) : result;
+    const result = await sanityClient.fetch(formedQuery);
+    const processedResults = preprocessor ? preprocessor(result as PreProcessedResult) : (result as Result);
     logger('Results: %j', processedResults);
     return processedResults;
   };

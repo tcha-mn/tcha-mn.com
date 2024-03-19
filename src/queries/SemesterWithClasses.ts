@@ -64,13 +64,8 @@ export interface Class extends Omit<ClassStringDates, 'dates' | 'registration_op
   registrationLink?: string;
   dates: { day_of_week: string; start: DateTime; end: DateTime; breaks: DateTime[] };
 }
-
-const QUERY = ({ classType, registration, picture }: QueryOptions) => `*[
-    _type == "semester" &&
-    registration_open < now() &&
-    ${registration === 'open' ? 'dates.start < now()' : ''}
-    dates.end > now()
-  ] | order(registration_open) {
+const QUERY = ({ classType, registration, picture }: QueryOptions) => `
+*[_type == "semester" && registration_open < now() && dates.end > now() ${registration === 'open' ? '&& dates.start < now()' : ''}] | order(registration_open) {
   "semester": {
     name,
     dates,
@@ -79,30 +74,36 @@ const QUERY = ({ classType, registration, picture }: QueryOptions) => `*[
     breaks,
     day_of_week
   },
-  "classes": *[_type == "class" ${classType ? ' && class_type == "' + classType + '"' : ''} && references(^._id)
-] | order(age_minimum, age_maximum) {
+  "classes": *[_type == "class" ${classType ? ' && class_type == "' + classType + '"' : ''} && references(^._id)] | order(age_minimum, age_maximum) {
     _id,
     title,
     description,
     price,
     ${picture('preview_image')},
-    "alt": preview_image.asset->alt,
-    "registration_open": coalesce(registration_open, semester->registration_open),
-    "registration_close": coalesce(registration_close, coalesce(dates.start, semester->dates.start)),
+    "alt": preview_image.asset->.alt,
+    "registration_open": coalesce(registration_open, semester->.registration_open),
+    "registration_close": coalesce(registration_close, coalesce(dates.start, semester->.dates.start)),
     registration_link,
-    "dates": coalesce(dates, semester->dates),
-    "instructors": instructors[]->{
+    "dates": coalesce(dates, semester->.dates),
+    "instructors": instructors[]-> {
       _id,
       name,
       ${picture('headshot')},
       class_types,
-      "bio": coalesce(class_type_bio[class_type == ^.^.class_type][0].bio, bio),
+      "bio": coalesce(class_type_bio[class_type == ^.^.class_type][0].bio, bio)
     },
     "classTimes": class_times,
-    "grades": { "min": grade_minimum, "max": grade_maximum },
-    "ages": {"min": age_minimum, "max": age_maximum},
+    "grades": {
+      "min": grade_minimum,
+      "max": grade_maximum
+    },
+    "ages": {
+      "min": age_minimum,
+      "max": age_maximum
+    }
   }
-}`;
+}
+`;
 
 type Result = {
   semester: SemesterStringDates;

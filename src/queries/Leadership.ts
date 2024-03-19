@@ -1,5 +1,5 @@
 import groq from 'groq';
-import { makeDataAccess, type BaseQueryOptions, type SanityImageSource } from './sanity';
+import { makeDataAccess, type BaseQueryOptions } from './sanity';
 import type { SanityImageWithAssetStub } from '@sanity/image-url/lib/types/types';
 
 interface Leadership {
@@ -14,7 +14,16 @@ export interface LeadershipTeam {
 }
 
 const QUERY = ({ picture }: BaseQueryOptions) => groq`{
-  "board": *[_type == "leadership" && team == "Board"] | order(name) { name, role, ${picture('headshot')} },
-  "theatre_artistic_directors": *[_type == "leadership" && team == "Theatre Artistic Directors" ] | order(name) { name, role, ${picture('headshot')} }
-}`;
+  "board": *[_type == "leadership" && team == "Board"] | order(name) {
+    name,
+    role,
+    ${picture('headshot')}
+  },
+  "theatre_artistic_directors": *[_type == "leadership" && team == "Theatre Artistic Directors"] | order(name) {
+    name,
+    role,
+    ${picture('headshot')}
+  }
+}
+`;
 export const fetchByTeam = makeDataAccess<LeadershipTeam>(QUERY);

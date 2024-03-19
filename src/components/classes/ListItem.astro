@@ -28,12 +28,7 @@ const classEnd = classItem.dates.end;
           classItem.instructors != null &&
             classItem.instructors.map((instructor) => (
               <div class="flex items-center gap-4">
-                <Avatar
-                  img={urlFor(instructor.headshot).size(150, 150).url()}
-                  size="md"
-                  rounded
-                  className="flex-shrink-0"
-                >
+                <Avatar img={urlFor(instructor.headshot).size(150, 150).url()} size="md" rounded>
                   <div>{instructor.name}</div>
                   <div class="text-xs text-gray-500 dark:text-gray-400">{listify(instructor.class_types)}</div>
                 </Avatar>
@@ -116,68 +111,121 @@ const classEnd = classItem.dates.end;
 
   <div
     id={'class-' + classItem._id}
-    class="fixed top-0 right-0 z-40 h-screen p-4 overflow-y-auto transition-transform translate-x-full bg-white w-96 dark:bg-gray-800"
+    class="fixed top-24 right-0 bottom-0 w-full max-w-2xl z-40 p-3 pt-1 transition-transform translate-x-full"
     tabindex="-1"
     aria-labelledby="drawer-right-label"
   >
-    <h3
-      id={'class-' + classItem._id + '-label'}
-      class="inline-flex items-center mb-4 text-3xl font-semibold dark:text-white"
-    >
-      {classItem.title}
-    </h3>
-    <button
-      type="button"
-      data-drawer-hide={'class-' + classItem._id}
-      aria-controls={'class-' + classItem._id}
-      class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 absolute top-2.5 end-2.5 inline-flex items-center justify-center dark:hover:bg-gray-600 dark:hover:text-white"
-    >
-      <Icon name="tabler:x" />
-      <span class="sr-only">Close drawer</span>
-    </button>
-    <SanityPicture
-      src={classItem.preview_image}
-      sizes="(max-width: 600px) 80px"
-      img={{ alt: classItem.title, class: 'h-auto max-w-full' }}
-    />
-    <div>
-      {
-        classItem.isOpenForRegistration && classItem.registrationLink && (
-          <button
-            type="button"
-            class="w-full mt-4 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-            onclick={`window.open('${classItem.registrationLink}', '_blank').focus()`}
-          >
-            Register
-          </button>
-        )
-      }
+    <div class="rounded-md p-4 h-full bg-white dark:bg-gray-800 overflow-y-auto">
+      <div class="flex justify-between items-center mb-3">
+        <h3
+          id={'class-' + classItem._id + '-label'}
+          class="inline-flex items-center mb-0 text-3xl font-semibold dark:text-white"
+        >
+          {classItem.title}
+        </h3>
+        <button
+          type="button"
+          data-drawer-hide={'class-' + classItem._id}
+          aria-controls={'class-' + classItem._id}
+          class="bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-lg text-sm w-8 h-8 absoluteq top-2.5q end-2.5q inline-flex items-center justify-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
+        >
+          <Icon name="tabler:x" />
+          <span class="sr-only">Close drawer</span>
+        </button>
+      </div>
+      <SanityPicture
+        src={classItem.preview_image}
+        sizes="(max-width: 600px) 80px"
+        img={{ alt: classItem.title, class: 'h-auto max-w-full rounded-lg' }}
+        class="max-h-40"
+        lqip={{ enabled: false }}
+      />
+      <div>
+        {
+          classItem.isOpenForRegistration && classItem.registrationLink && (
+            <button
+              type="button"
+              class="w-full mt-4 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              onclick={`window.open('${classItem.registrationLink}', '_blank').focus()`}
+            >
+              Register
+            </button>
+          )
+        }
+      </div>
+      <div class="flex flex-wrap gap-x-4 mt-3 mb-2">
+        {
+          classItem.dates && (
+            <div class="basis-full">
+              <span class="text-sm">
+                <Icon
+                  title="Schedule"
+                  name="tabler:calendar"
+                  class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                />
+                <span>
+                  {classStart.hasSame(classEnd, 'day')
+                    ? classStart?.toLocaleString(DateTime.DATE_MED)
+                    : `Weekly on ${classItem.dates.day_of_week}s, ${classStart?.toLocaleString(DateTime.DATE_MED)} -
+                  ${classEnd?.toLocaleString(DateTime.DATE_MED)}`}
+                </span>
+              </span>
+            </div>
+          )
+        }
+        <div>
+          <span class="text-sm">
+            <Icon title="Class Times" name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+            <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
+              >{classItem.classTimes.start} - {classItem.classTimes.end}</time
+            >
+          </span>
+        </div>
+        <div>
+          <span class="text-sm" title={'Ages ' + classItem.ages.min + '-' + classItem.ages.max}>
+            <Icon title="Grades" name="tabler:school" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+            {classItem.grades.min} - {classItem.grades.max}
+          </span>
+        </div>
+        <div>
+          <span class="text-sm">
+            <Icon
+              title="Tuition Fee"
+              name="tabler:currency-dollar"
+              class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+            />
+            {classItem.price}
+          </span>
+        </div>
+      </div>
+      <div>{classItem.description}</div>
+      <h4
+        id={'class-' + classItem._id + '-instructor-heading'}
+        class="inline-flex items-center mt-4 mb-4 text-xl font-semibold dark:text-white"
+      >
+        Instructor{classItem.instructors.length !== 1 ? 's' : ''}
+      </h4>
+      <div class="flex flex-wrap items-start gap-6">
+        {
+          classItem.instructors != null &&
+            classItem.instructors.map((instructor) => (
+              <>
+                <SanityPicture
+                  src={instructor.headshot}
+                  sizes="(max-width: 600px) 80px"
+                  img={{ alt: instructor.name, class: 'h-auto w-full rounded-lg bg-white' }}
+                  lqip={{ enabled: false }}
+                  class="basis-40 grow-0 shrink-0"
+                />
+                <div class="basis-80 grow shrink">
+                  <h5 class="font-semibold">{instructor.name}</h5>
+                  <div class="text-xs text-gray-500 dark:text-gray-400">{listify(instructor.class_types)}</div>
+                  <div class="mt-2 flex flex-col gap-2 " set:html={toHTML(instructor.bio)} />
+                </div>
+              </>
+            ))
+        }
+      </div>
     </div>
-    <div class="flex flex-col gap-2 mt-3 mb-3">{classItem.description}</div>
-    <h4
-      id={'class-' + classItem._id + '-instructor-heading'}
-      class="inline-flex items-center mb-4 text-2xl font-semibold dark:text-white"
-    >
-      Instructor{classItem.instructors.length !== 1 ? 's' : ''}
-    </h4>
-    {
-      classItem.instructors != null &&
-        classItem.instructors.map((instructor) => (
-          <>
-            <figure>
-              <SanityPicture
-                src={instructor.headshot}
-                sizes="(max-width: 600px) 80px"
-                img={{ alt: instructor.name, class: 'h-auto max-w-full' }}
-              />
-              <figcaption class="mt-2 text-xl text-center text-gray-500 dark:text-gray-400">
-                {instructor.name}
-              </figcaption>
-            </figure>
-
-            <div class="flex flex-col gap-2 mt-2" set:html={toHTML(instructor.bio)} />
-          </>
-        ))
-    }
   </div>
 </article>

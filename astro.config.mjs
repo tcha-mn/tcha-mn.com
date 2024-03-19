@@ -7,7 +7,7 @@ import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import tasks from './src/utils/tasks';
 import { ANALYTICS, SITE, SANITY } from './src/utils/config.ts';
-import { sanityIntegration } from '@sanity/astro';
+import sanityIntegration from '@sanity/astro';
 import sentry from '@sentry/astro';
 import spotlightjs from '@spotlightjs/astro';
 import react from '@astrojs/react';

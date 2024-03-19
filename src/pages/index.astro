@@ -1,12 +1,13 @@
 ---
 import Layout from '~/layouts/PageLayout.astro';
 
+import CallToAction from '~/components/widgets/CallToAction.astro';
+import Features from '~/components/widgets/Features.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Note from '~/components/widgets/Note.astro';
-import Features from '~/components/widgets/Features.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
 import { fetchAll as fetchAllTestimonials } from '~/queries/Testimonials';
+import type { CallToAction as HeroCallToAction } from '~/types';
 import { getRegistrationStatus } from '~/utils/registrationIsOpen';
 
 const metadata = {
@@ -15,7 +16,7 @@ const metadata = {
 };
 const testimonials = await fetchAllTestimonials();
 const registrationIsOpen = await getRegistrationStatus();
-const heroActions: Object[] = [];
+const heroActions: HeroCallToAction[] = [];
 if (registrationIsOpen) {
   heroActions.push({
     variant: 'primary',

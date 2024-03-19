@@ -39,7 +39,6 @@ const { language, textDirection } = I18N;
     <Analytics />
     <ViewTransitions fallback="swap" />
     <script src="https://tally.so/widgets/embed.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1/dayjs.min.js"></script>
     <script type="importmap">
       {
         "imports": {
@@ -62,7 +61,7 @@ const { language, textDirection } = I18N;
         content-visibility: auto;
       }
     </style>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.js"></script>
     <script>
       document.addEventListener('astro:page-load', () => {
         window.initFlowbite();

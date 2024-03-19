@@ -100,7 +100,7 @@ export const footerData = {
       title: 'Events',
       links: [
         { text: 'Theatre', href: '/theatre/2023-2024' },
-        { text: 'Calendar', href: '/calendar' },
+        { text: 'Calendar', href: '/events' },
       ],
     },
   ],

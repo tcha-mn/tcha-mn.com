@@ -1,5 +1,5 @@
 import type { Instructor } from './Instructor';
-import { makeDataAccess, type BaseQueryOptions } from './sanity';
+import { makeDynamicDataAccess, type BaseQueryOptions } from './sanity';
 import groq from 'groq';
 
 export interface PrivateInstructor extends Instructor {
@@ -20,4 +20,4 @@ const QUERY = ({ picture }: BaseQueryOptions) => groq`
   private_lessons
 } | order(name)
 `;
-export const fetchAll = makeDataAccess<PrivateInstructor[]>(QUERY);
+export const fetchAll = makeDynamicDataAccess<PrivateInstructor[]>(QUERY);

@@ -17,23 +17,40 @@ export const urlFor = (source: SanityImageSource) => {
   return builder.image(source);
 };
 
-export function makeDataAccess<Result>(query: string): () => Promise<Result>;
-export function makeDataAccess<Result, Options extends BaseQueryOptions = BaseQueryOptions, PreProcessedResult = never>(
+async function queryAndProcess<Result, PreProcessedResult>(
+  query: string,
+  preprocessor?: (result: PreProcessedResult) => Result
+): Promise<Result> {
+  logger('Query: %s', query);
+  const result = await sanityClient.fetch(query);
+  const processedResults = preprocessor ? preprocessor(result as PreProcessedResult) : (result as Result);
+  logger('Results: %j', processedResults);
+  return processedResults;
+}
+
+export function makeDataAccess<Result, PreProcessedResult = never>(
+  query: string,
+  preprocessor?: (result: PreProcessedResult) => Result
+): () => Promise<Result> {
+  return async (): Promise<Result> => queryAndProcess(query, preprocessor);
+}
+
+type ReturnType<Opt, Result> = BaseQueryOptions extends Opt
+  ? () => Promise<Result>
+  : (options: Omit<Opt, 'picture'>) => Promise<Result>;
+
+export function makeDynamicDataAccess<
+  Result,
+  Options extends BaseQueryOptions = BaseQueryOptions,
+  PreProcessedResult = never,
+>(
   query: (options: Options) => string,
   preprocessor?: (result: PreProcessedResult) => Result
-): (options: Omit<Options, 'picture'>) => Promise<Result>;
-
-export function makeDataAccess<Result, Options extends BaseQueryOptions = BaseQueryOptions, PreProcessedResult = never>(
-  query: string | ((options: Options) => string),
-  preprocessor?: (result: PreProcessedResult) => Result
-): (() => Promise<Result>) | ((options: Omit<Options, 'picture'>) => Promise<Result>) {
-  return async (options: Options): Promise<Result> => {
-    const formedQuery = typeof query === 'string' ? query : query({ ...options, picture });
-    logger('Query: %s', formedQuery);
-    const result = await sanityClient.fetch(formedQuery);
-    const processedResults = preprocessor ? preprocessor(result as PreProcessedResult) : (result as Result);
-    logger('Results: %j', processedResults);
-    return processedResults;
+): ReturnType<Options, Result> {
+  return async (options = {}): Promise<Result> => {
+    // @ts-expect-error I can't get this typed correctly...
+    const formedQuery = query({ ...options, picture });
+    return queryAndProcess(formedQuery, preprocessor);
   };
 }
 

@@ -1,5 +1,11 @@
 import { parseDate, DateTime } from '~/utils/dates';
-import { makeDataAccess, type BaseQueryOptions, type SanityImageSource, type PortableTextBlock } from './sanity';
+import {
+  makeDataAccess,
+  type BaseQueryOptions,
+  type SanityImageSource,
+  type PortableTextBlock,
+  makeDynamicDataAccess,
+} from './sanity';
 
 interface TheatreSeasonRaw {
   title: string;
@@ -134,7 +140,7 @@ function processShowInfo(show: ShowRawDetailed): Show {
 }
 
 export const fetchAll = makeDataAccess(SEASON_LIST, (seasons: TheatreSeasonRaw[]) => seasons.map(inflateSeasonDates));
-export const fetchOne = makeDataAccess(SINGLE_SEASON, (season: TheatreSeasonRaw) => inflateSeasonDates(season));
+export const fetchOne = makeDynamicDataAccess(SINGLE_SEASON, (season: TheatreSeasonRaw) => inflateSeasonDates(season));
 export const fetchSlugs = makeDataAccess<TheatreSeasonSlugs[]>(SEASON_SHOW_SLUGS);
-export const fetchSeasonInfo = makeDataAccess(SEASON_INFO, processSeasonInfo);
-export const fetchShowInfo = makeDataAccess(SHOW_INFO, processShowInfo);
+export const fetchSeasonInfo = makeDynamicDataAccess(SEASON_INFO, processSeasonInfo);
+export const fetchShowInfo = makeDynamicDataAccess(SHOW_INFO, processShowInfo);

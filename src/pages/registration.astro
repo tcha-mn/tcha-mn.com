@@ -1,24 +1,66 @@
 ---
-// import { sanityClient } from 'sanity:client';
-// import { Badge } from 'flowbite-react';
-// import type { Semester } from '@schema/Semester';
-//
+import { classesOpenForRegistration } from '~/queries/Registration';
 import Layout from '../layouts/PageLayout.astro';
 
 const metadata = {
   title: 'Class Registration | TCHA',
 };
-//
-// const QUERY = `*[_type == "semester" && registration_open < now() && dates.start > now()] | order(registration_open) {
-//   name, registration_open, dates{start}, early_registration_end
-// }[0]
-// `;
-// const semester = await sanityClient.fetch<Semester>(QUERY);
-// const registrationOpen = new Date(semester.registration_open) < new Date();
+const openClasses = await classesOpenForRegistration();
 ---
 
 <Layout metadata={metadata}>
-  TBD
+  <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+    <div class="relative overflow-x-auto">
+      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <tr>
+            <th scope="col" class="px-6 py-3">Title</th>
+            <th scope="col" class="px-6 py-3">Type</th>
+            <th scope="col" class="px-6 py-3">Ages/Grades</th>
+            <th scope="col" class="px-6 py-3">When</th>
+            <th scope="col" class="px-6 py-3">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {
+            openClasses.map((c) => (
+              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
+                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                  {c.title}
+                </th>
+                <td class="px-6 py-4">{c.class_type}</td>
+                <td class="px-6 py-4">
+                  {c.grades.min} - {c.grades.max}
+                </td>
+                <td class="px-6 py-4">
+                  {c.classTimes.start}-{c.classTimes.end}, {c.dates.toString()}
+                </td>
+                <td>
+                  <a
+                    type="button"
+                    class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    href={c.registrationLink}
+                    target="_blank"
+                  >
+                    Register
+                  </a>
+                  <a
+                    type="button"
+                    class="inline-flex gap-x-1 items-center mt-4 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    href={c.registrationLink}
+                    target="_blank"
+                  >
+                    Learn More
+                  </a>
+                </td>
+              </tr>
+            ))
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <pre><code>{JSON.stringify(openClasses, undefined, '  ')}</code></pre>
   {
     /*
   <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">

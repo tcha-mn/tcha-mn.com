@@ -17,10 +17,7 @@ export const urlFor = (source: SanityImageSource) => {
   return builder.image(source);
 };
 
-export function makeDataAccess<Result, PreProcessedResult = never>(
-  query: string,
-  preprocessor?: (result: PreProcessedResult) => Result
-): () => Promise<Result>;
+export function makeDataAccess<Result>(query: string): () => Promise<Result>;
 export function makeDataAccess<Result, Options extends BaseQueryOptions = BaseQueryOptions, PreProcessedResult = never>(
   query: (options: Options) => string,
   preprocessor?: (result: PreProcessedResult) => Result

@@ -38,8 +38,8 @@ const { language, textDirection } = I18N;
     <SiteVerification />
     <Analytics />
     <ViewTransitions fallback="swap" />
-    <script src="https://tally.so/widgets/embed.js"></script>
-    <script type="importmap">
+    <script async src="https://tally.so/widgets/embed.js"></script>
+    <script is:inline type="importmap">
       {
         "imports": {
           "@fullcalendar/core": "https://cdn.skypack.dev/@fullcalendar/core@6.1.10",

@@ -5,19 +5,19 @@ const { text, links, currentPath } = Astro.props;
 ---
 
 <>
-  <button class="hover:text-link dark:hover:text-white px-4 py-3 flex items-center">
+  <button class="hover:text-link flex items-center px-4 py-3 dark:hover:text-white">
     {text}
-    <Icon name="tabler:chevron-down" class="w-3.5 h-3.5 ml-0.5 rtl:ml-0 rtl:mr-0.5 hidden lg:inline" />
+    <Icon name="tabler:chevron-down" class="ml-0.5 hidden h-3.5 w-3.5 lg:inline rtl:ml-0 rtl:mr-0.5" />
   </button>
   <ul
-    class="dropdown-menu lg:backdrop-blur-md dark:lg:bg-dark rounded lg:absolute pl-4 lg:pl-0 lg:hidden font-medium lg:bg-white/90 lg:min-w-[200px] drop-shadow-xl border dark:border-gray-700 border-gray-200"
+    class="dropdown-menu dark:lg:bg-dark rounded border border-gray-200 pl-4 font-medium drop-shadow-xl dark:border-gray-700 lg:absolute lg:hidden lg:min-w-[200px] lg:bg-white/90 lg:pl-0 lg:backdrop-blur-md"
   >
     {
       links.map(({ text: subtext, href, dividerAfter = false }) => (
         <li class:list={{ 'border-b border-gray-200': dividerAfter }}>
           <a
             class:list={[
-              'first:rounded-t last:rounded-b lg:hover:bg-gray-100 hover:text-link dark:hover:text-white dark:hover:bg-gray-700 py-2 px-5 block whitespace-no-wrap',
+              'hover:text-link whitespace-no-wrap block px-5 py-2 first:rounded-t last:rounded-b dark:hover:bg-gray-700 dark:hover:text-white lg:hover:bg-gray-100',
               { 'aw-link-active': href === currentPath },
             ]}
             href={href}

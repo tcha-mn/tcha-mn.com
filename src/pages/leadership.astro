@@ -12,19 +12,19 @@ const { board, theatre_artistic_directors: theatreArtisticDirectors } = await fe
 
 <Layout metadata={metadata}>
   <section class="bg-white dark:bg-gray-900">
-    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
+    <div class="mx-auto max-w-screen-xl px-4 py-8 text-center lg:px-6 lg:py-16">
       <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">Board of Directors</h2>
-        <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+        <h2 class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">Board of Directors</h2>
+        <p class="font-light text-gray-500 dark:text-gray-400 sm:text-xl">
           The board of directors oversees the overall direction and operations of the TCHA organization.
         </p>
       </div>
-      <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-16">
         {
           board.map((member) => (
             <div class="text-center text-gray-500 dark:text-gray-400">
               <SanityPicture
-                class="mx-auto mb-4 w-48 h-72 rounded-full"
+                class="mx-auto mb-4 h-72 w-48 rounded-full"
                 src={member.headshot}
                 sizes="(min-width:768px) 50vw, 100vw"
                 img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-full' }}
@@ -39,21 +39,21 @@ const { board, theatre_artistic_directors: theatreArtisticDirectors } = await fe
       </div>
     </div>
 
-    <div class="py-8 px-4 mx-auto max-w-screen-xl text-center lg:py-16 lg:px-6">
+    <div class="mx-auto max-w-screen-xl px-4 py-8 text-center lg:px-6 lg:py-16">
       <div class="mx-auto mb-8 max-w-screen-sm lg:mb-16">
-        <h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+        <h2 class="mb-4 text-4xl font-extrabold tracking-tight text-gray-900 dark:text-white">
           Theatre Artistic Directors
         </h2>
-        <p class="font-light text-gray-500 sm:text-xl dark:text-gray-400">
+        <p class="font-light text-gray-500 dark:text-gray-400 sm:text-xl">
           A creative team in charge of sculpting the vision and production choices for each theatre season.
         </p>
       </div>
-      <div class="grid gap-8 lg:gap-16 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+      <div class="grid gap-8 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 lg:gap-16">
         {
           theatreArtisticDirectors.map((member) => (
             <div class="text-center text-gray-500 dark:text-gray-400">
               <SanityPicture
-                class="mx-auto mb-4 w-48 h-72 rounded-full"
+                class="mx-auto mb-4 h-72 w-48 rounded-full"
                 src={member.headshot}
                 sizes="(min-width:768px) 50vw, 100vw"
                 img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-full' }}

@@ -21,14 +21,14 @@ if (semester.early_registration_end > now) {
 }
 ---
 
-<h2 class="font-bold leading-tighter tracking-tighter font-heading text-heading text-3xl md:text-4xl mb-12">
+<h2 class="leading-tighter text-heading mb-12 font-heading text-3xl font-bold tracking-tighter md:text-4xl">
   {semester.name} Semester
 </h2>
 
 {
   registrationOpen && (
     <div
-      class="p-4 mb-4 text-sm text-green-800 rounded-lg bg-green-50 dark:bg-gray-800 dark:text-green-400"
+      class="mb-4 rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-gray-800 dark:text-green-400"
       role="alert"
     >
       <span class="font-medium">Registration is open!</span>.
@@ -37,7 +37,7 @@ if (semester.early_registration_end > now) {
 }
 {
   registrationOpenFuture && (
-    <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+    <div class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400" role="alert">
       <span class="font-medium">
         Registration will open on {semester.registration_open.toLocaleString(DateTime.DATE_FULL)}
       </span>
@@ -46,7 +46,7 @@ if (semester.early_registration_end > now) {
 }
 {
   registrationPast && (
-    <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
+    <div class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400" role="alert">
       <span class="font-medium">
         Registration is no longer open. Please check back later for any upcoming semesters.
       </span>
@@ -56,7 +56,7 @@ if (semester.early_registration_end > now) {
 
 <p class="text-l mb-6">
   Classes for this semester (unless otherwise noted) are held at <a
-    class="text-blue-600 underline dark:text-blue-500 hover:no-underline"
+    class="text-blue-600 underline hover:no-underline dark:text-blue-500"
     target="_blank"
     href="https://maps.google.com/?q=12600 Johnny Cake Ridge Rd, Apple Valley, MN 55124">South Suburban Church</a
   > in Apple Valley on {semester.dates.day_of_week}s from {semester.dates.start.toLocaleString(DateTime.DATE_MED)} to {

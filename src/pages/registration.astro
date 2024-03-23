@@ -9,10 +9,10 @@ const openClasses = await classesOpenForRegistration();
 ---
 
 <Layout metadata={metadata}>
-  <section class="bg-gray-50 dark:bg-gray-900 p-3 sm:p-5">
+  <section class="bg-gray-50 p-3 dark:bg-gray-900 sm:p-5">
     <div class="relative overflow-x-auto">
-      <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-        <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+      <table class="w-full text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+        <thead class="bg-gray-50 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
           <tr>
             <th scope="col" class="px-6 py-3">Title</th>
             <th scope="col" class="px-6 py-3">Type</th>
@@ -24,8 +24,8 @@ const openClasses = await classesOpenForRegistration();
         <tbody>
           {
             openClasses.map((c) => (
-              <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700">
-                <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                <th scope="row" class="whitespace-nowrap px-6 py-4 font-medium text-gray-900 dark:text-white">
                   {c.title}
                 </th>
                 <td class="px-6 py-4">{c.class_type}</td>
@@ -38,7 +38,7 @@ const openClasses = await classesOpenForRegistration();
                 <td>
                   <a
                     type="button"
-                    class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                    class="mb-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-xs font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
                     href={c.registrationLink}
                     target="_blank"
                   >
@@ -46,7 +46,7 @@ const openClasses = await classesOpenForRegistration();
                   </a>
                   <a
                     type="button"
-                    class="inline-flex gap-x-1 items-center mt-4 px-3 py-2 text-xs font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                    class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-blue-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
                     href={c.registrationLink}
                     target="_blank"
                   >

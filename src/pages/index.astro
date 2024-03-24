@@ -16,12 +16,12 @@ const metadata = {
 };
 const testimonials = await fetchAllTestimonials();
 const registrationIsOpen = await isRegistrationOpen();
-const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about' }];
+const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/' }];
 if (registrationIsOpen) {
   heroActions.unshift({
     variant: 'primary',
     text: 'Register for Classes',
-    href: '/registration',
+    href: '/registration/',
     icon: 'tabler:checkbox',
   });
 }

@@ -2,11 +2,13 @@
 // Uncomment line below to activate View Transitions
 import { ViewTransitions } from 'astro:transitions';
 import { ThemeModeScript } from 'flowbite-react';
+import { Icon } from 'astro-icon/components';
 
 import '~/assets/styles/tailwind.css';
 
 import { I18N } from '~/utils/config';
 
+import Subscribe from '~/components/common/Subscribe.astro';
 import CustomStyles from '~/components/CustomStyles.astro';
 import Favicons from '~/components/Favicons.astro';
 import Analytics from '~/components/common/Analytics.astro';
@@ -78,5 +80,6 @@ const { language, textDirection } = I18N;
         });
       });
     </script>
+    <Subscribe />
   </body>
 </html>

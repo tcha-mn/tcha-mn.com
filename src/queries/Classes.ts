@@ -98,7 +98,7 @@ export function parseRawClass({
     isOpenForRegistration: registrationOpen < now && registrationClose > now,
     registration_open: registrationOpen,
     registration_close: registrationClose,
-    moreInfoLink: `/${c.class_type.toLowerCase()}#class-${c._id}`,
+    moreInfoLink: `/${c.class_type.toLowerCase()}/#class-${c._id}`,
     registrationLink: connect_class_id
       ? `https://www.care.com/connect/tcha/series/${connect_class_id}`
       : registration_link,

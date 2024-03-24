@@ -8,24 +8,23 @@ import Note from '~/components/widgets/Note.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import { fetchAll as fetchAllTestimonials } from '~/queries/Testimonials';
 import type { CallToAction as HeroCallToAction } from '~/types';
-import { getRegistrationStatus } from '~/utils/registrationIsOpen';
+import { isRegistrationOpen } from '~/queries/Registration';
 
 const metadata = {
   title: 'Twin Cities Homeschoolers for the Arts',
   ignoreTitleTemplate: true,
 };
 const testimonials = await fetchAllTestimonials();
-const registrationIsOpen = await getRegistrationStatus();
-const heroActions: HeroCallToAction[] = [];
+const registrationIsOpen = await isRegistrationOpen();
+const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about' }];
 if (registrationIsOpen) {
-  heroActions.push({
+  heroActions.unshift({
     variant: 'primary',
     text: 'Register for Classes',
-    href: '/register',
+    href: '/registration',
     icon: 'tabler:checkbox',
   });
 }
-heroActions.push({ text: 'Learn more', href: '/about' });
 ---
 
 <Layout metadata={metadata}>

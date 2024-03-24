@@ -3,13 +3,13 @@ import { Avatar, Card } from 'flowbite-react';
 import listify from 'listify';
 import { DateTime } from 'luxon';
 
-import type { Class } from '~/queries/SemesterWithClasses';
+import type { ParsedClass } from '~/queries/Classes';
 import { SanityPicture, urlFor } from '~/queries/sanity';
 import { Icon } from 'astro-icon/components';
 import { toHTML } from '@portabletext/to-html';
 
 export interface Props {
-  classItem: Class;
+  classItem: ParsedClass;
 }
 
 const { classItem } = Astro.props;
@@ -18,7 +18,12 @@ const classEnd = classItem.dates.end;
 ---
 
 <article class="mx-auto max-w-md md:max-w-none">
-  <Card className="max-w-sm" imgAlt={classItem.title} imgSrc={urlFor(classItem.preview_image).url()}>
+  <Card
+    id={'class-' + classItem._id}
+    className="max-w-sm"
+    imgAlt={classItem.title}
+    imgSrc={urlFor(classItem.preview_image).url()}
+  >
     <div>
       <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {classItem.title}
@@ -91,10 +96,11 @@ const classEnd = classItem.dates.end;
         )
       }
       <button
-        data-drawer-target={'class-' + classItem._id}
-        data-drawer-show={'class-' + classItem._id}
+        id={'class-' + classItem._id + '-button'}
+        data-drawer-target={'class-' + classItem._id + '-drawer'}
+        data-drawer-show={'class-' + classItem._id + '-drawer'}
         data-drawer-placement="right"
-        aria-controls={'class-' + classItem._id}
+        aria-controls={'class-' + classItem._id + '-drawer'}
         class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Read more <Icon name="tabler:arrow-right" />
@@ -110,7 +116,7 @@ const classEnd = classItem.dates.end;
   </Card>
 
   <div
-    id={'class-' + classItem._id}
+    id={'class-' + classItem._id + '-drawer'}
     class="fixed bottom-0 right-0 top-24 z-40 w-full max-w-2xl translate-x-full p-3 pt-1 transition-transform"
     tabindex="-1"
     aria-labelledby="drawer-right-label"
@@ -137,7 +143,6 @@ const classEnd = classItem.dates.end;
         src={classItem.preview_image}
         sizes="(max-width: 600px) 80px"
         img={{ alt: classItem.title, class: 'h-auto max-w-full rounded-lg' }}
-        class="max-h-40"
         lqip={{ enabled: false }}
       />
       <div>

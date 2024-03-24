@@ -13,12 +13,6 @@ const now = DateTime.now();
 const registrationOpenFuture = semester.registration_open > now;
 const registrationOpen = semester.registration_open < now && semester.dates.start > now;
 const registrationPast = semester.dates.start < now;
-let registrationStatus = registrationOpen ? 'open!' : 'closed.';
-if (semester.early_registration_end > now) {
-  registrationStatus += ` (Early registration discounts are available until ${semester.early_registration_end.toLocaleString(
-    DateTime.DATE_FULL
-  )})`;
-}
 ---
 
 <h2 class="leading-tighter text-heading mb-12 font-heading text-3xl font-bold tracking-tighter md:text-4xl">
@@ -31,7 +25,7 @@ if (semester.early_registration_end > now) {
       class="mb-4 rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-gray-800 dark:text-green-400"
       role="alert"
     >
-      <span class="font-medium">Registration is open!</span>.
+      <span class="font-medium">Registration is open!{ semester.early_registration_end > now && ` (Early registration discounts are available until ${semester.early_registration_end.toLocaleString(DateTime.DATE_MED)})`}</span>.
     </div>
   )
 }

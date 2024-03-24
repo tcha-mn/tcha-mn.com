@@ -10,7 +10,7 @@ export interface QueryOptions extends BaseQueryOptions {
 
 export interface RawClass {
   _id: string;
-  //_createdAt: Date;
+  semester: string;
   title: string;
   description: string;
   class_type: ClassType;
@@ -46,6 +46,7 @@ export interface ParsedClass
     isRecurring: boolean;
     toString(): string;
   };
+  moreInfoLink: string;
   registrationLink?: string;
 }
 export const CLASS_QUERY_FRAGMENT = ({ picture, includeInstructors = false }: QueryOptions) => {
@@ -56,6 +57,7 @@ export const CLASS_QUERY_FRAGMENT = ({ picture, includeInstructors = false }: Qu
     class_type,
     description,
     price,
+    "semester": semester->name,
     ${picture('preview_image')},
     "alt": preview_image.asset->.alt,
     "registration_open": coalesce(registration_open, semester->.registration_open),
@@ -96,6 +98,7 @@ export function parseRawClass({
     isOpenForRegistration: registrationOpen < now && registrationClose > now,
     registration_open: registrationOpen,
     registration_close: registrationClose,
+    moreInfoLink: `${c.class_type.toLowerCase()}#class-${c._id}`,
     registrationLink: connect_class_id
       ? `https://www.care.com/connect/tcha/series/${connect_class_id}`
       : registration_link,

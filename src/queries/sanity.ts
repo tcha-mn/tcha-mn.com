@@ -29,26 +29,18 @@ async function queryAndProcess<Result, PreProcessedResult>(
 }
 
 export function makeDataAccess<Result, PreProcessedResult = never>(
-  query: string,
+  query: string | ((options: BaseQueryOptions) => string),
   preprocessor?: (result: PreProcessedResult) => Result
 ): () => Promise<Result> {
-  return async (): Promise<Result> => queryAndProcess(query, preprocessor);
+  return async (): Promise<Result> =>
+    queryAndProcess(typeof query === 'function' ? query({ picture }) : query, preprocessor);
 }
 
-type ReturnType<Opt, Result> = BaseQueryOptions extends Opt
-  ? () => Promise<Result>
-  : (options: Omit<Opt, 'picture'>) => Promise<Result>;
-
-export function makeDynamicDataAccess<
-  Result,
-  Options extends BaseQueryOptions = BaseQueryOptions,
-  PreProcessedResult = never,
->(
+export function makeDynamicDataAccess<Result, Options extends BaseQueryOptions, PreProcessedResult = never>(
   query: (options: Options) => string,
   preprocessor?: (result: PreProcessedResult) => Result
-): ReturnType<Options, Result> {
-  return async (options = {}): Promise<Result> => {
-    // @ts-expect-error I can't get this typed correctly...
+): (options: Omit<Options, 'picture'>) => Promise<Result> {
+  return async (options: Exclude<Options, BaseQueryOptions>): Promise<Result> => {
     const formedQuery = query({ ...options, picture });
     return queryAndProcess(formedQuery, preprocessor);
   };

@@ -24,10 +24,10 @@ const { board, theatre_artistic_directors: theatreArtisticDirectors } = await fe
           board.map((member) => (
             <div class="text-center text-gray-500 dark:text-gray-400">
               <SanityPicture
-                class="mx-auto mb-4 h-72 w-48 rounded-full"
+                class="mx-auto mb-4 h-72 w-48 rounded-xl"
                 src={member.headshot}
                 sizes="(min-width:768px) 50vw, 100vw"
-                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-full' }}
+                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-xl' }}
               />
               <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 <a href="#">{member.name}</a>
@@ -53,10 +53,10 @@ const { board, theatre_artistic_directors: theatreArtisticDirectors } = await fe
           theatreArtisticDirectors.map((member) => (
             <div class="text-center text-gray-500 dark:text-gray-400">
               <SanityPicture
-                class="mx-auto mb-4 h-72 w-48 rounded-full"
+                class="mx-auto mb-4 h-72 w-48 rounded-xl"
                 src={member.headshot}
                 sizes="(min-width:768px) 50vw, 100vw"
-                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-full' }}
+                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-xl' }}
               />
               <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 <a href="#">{member.name}</a>

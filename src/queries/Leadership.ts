@@ -1,6 +1,6 @@
-import groq from 'groq';
-import { makeDynamicDataAccess, type BaseQueryOptions } from './sanity';
 import type { SanityImageWithAssetStub } from '@sanity/image-url/lib/types/types';
+import groq from 'groq';
+import { makeDataAccess, type BaseQueryOptions } from './sanity';
 
 interface Leadership {
   name: string;
@@ -26,4 +26,4 @@ const QUERY = ({ picture }: BaseQueryOptions) => groq`{
   }
 }
 `;
-export const fetchByTeam = makeDynamicDataAccess<LeadershipTeam>(QUERY);
+export const fetchByTeam = makeDataAccess<LeadershipTeam>(QUERY);

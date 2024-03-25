@@ -25,7 +25,12 @@ const registrationPast = semester.dates.start < now;
       class="mb-4 rounded-lg bg-green-50 p-4 text-sm text-green-800 dark:bg-gray-800 dark:text-green-400"
       role="alert"
     >
-      <span class="font-medium">Registration is open!{ semester.early_registration_end > now && ` (Early registration discounts are available until ${semester.early_registration_end.toLocaleString(DateTime.DATE_MED)})`}</span>.
+      <span class="font-medium">
+        Registration is open!
+        {semester.early_registration_end > now &&
+          ` (Early registration discounts are available until ${semester.early_registration_end.toLocaleString(DateTime.DATE_MED)})`}
+      </span>
+      .
     </div>
   )
 }

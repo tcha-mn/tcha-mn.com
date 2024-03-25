@@ -22,7 +22,7 @@ const link = `/theatre/${season.slug}/${show.slug}`;
 <article class={`max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 ${show.hero ? 'md:grid-cols-2' : ''}`}>
   {
     (
-      <a class="relative block group" href={link ?? 'javascript:void(0)'}>
+      <a class="group relative block" href={link ?? 'javascript:void(0)'}>
         <div class="relative">
           {show.hero && (
             <SanityPicture

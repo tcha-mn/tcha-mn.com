@@ -23,14 +23,6 @@ const {
   bg = await Astro.slots.render('bg'),
 } = Astro.props as Props;
 const splitPoint = Math.ceil(items.length / 2);
-const rearrangedValues = items
-  .slice(0, splitPoint)
-  .map((item, index) => [
-    { ...item, index },
-    { ...items[splitPoint + index], index: splitPoint + index },
-  ])
-  .flat()
-  .filter((item) => item.value);
 ---
 
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl mx-auto ${classes?.container ?? ''}`} bg={bg}>

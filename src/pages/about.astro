@@ -1,4 +1,5 @@
 ---
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import ColumnSteps from '~/components/widgets/ColumnSteps.astro';
 import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
@@ -41,7 +42,7 @@ const values = await fetchAll();
     </Fragment>
   </Hero>
 
-  <ColumnSteps title="Our Values / Philosophy" items={values} columns={3} />
+  <ColumnSteps title="Our Values / Philosophy" items={values} columns={3} isDark />
 
   <!-- Features2 Widget ************** -->
 

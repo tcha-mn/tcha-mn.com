@@ -30,7 +30,7 @@ function formatDate(date: DateTime): string {
   {/* Hero Widget */}
   <Hero tagline={'Theatre Season: ' + seasonInfo.title}>
     <Fragment slot="image">
-      <SanityPicture src={showInfo.hero} class="object-cover w-full h-full" sizes="(max-width: 600px) 100vw" />
+      <SanityPicture src={showInfo.hero} class="h-full w-full object-cover" sizes="(max-width: 600px) 100vw" />
     </Fragment>
     <Fragment slot="title">{showInfo.title}</Fragment>
 
@@ -38,8 +38,8 @@ function formatDate(date: DateTime): string {
       {formatDate(showInfo.date_range.start)} - {formatDate(showInfo.date_range.end)}
     </Fragment>
   </Hero>
-  <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
-    <div class="flex flex-col gap-2 mt-2" set:html={toHTML(showInfo.description)} />
+  <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
+    <div class="mt-2 flex flex-col gap-2" set:html={toHTML(showInfo.description)} />
 
     {
       showInfo.gallery?.images?.length > 1 && (
@@ -54,12 +54,12 @@ function formatDate(date: DateTime): string {
           {/* Slider controls */}
           <button
             type="button"
-            class="absolute top-0 start-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            class="group absolute start-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
             data-carousel-prev
           >
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70">
               <svg
-                class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                class="h-4 w-4 text-white dark:text-gray-800 rtl:rotate-180"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -78,12 +78,12 @@ function formatDate(date: DateTime): string {
           </button>
           <button
             type="button"
-            class="absolute top-0 end-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none"
+            class="group absolute end-0 top-0 z-30 flex h-full cursor-pointer items-center justify-center px-4 focus:outline-none"
             data-carousel-next
           >
-            <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 dark:bg-gray-800/30 group-hover:bg-white/50 dark:group-hover:bg-gray-800/60 group-focus:ring-4 group-focus:ring-white dark:group-focus:ring-gray-800/70 group-focus:outline-none">
+            <span class="inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/30 group-hover:bg-white/50 group-focus:outline-none group-focus:ring-4 group-focus:ring-white dark:bg-gray-800/30 dark:group-hover:bg-gray-800/60 dark:group-focus:ring-gray-800/70">
               <svg
-                class="w-4 h-4 text-white dark:text-gray-800 rtl:rotate-180"
+                class="h-4 w-4 text-white dark:text-gray-800 rtl:rotate-180"
                 aria-hidden="true"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

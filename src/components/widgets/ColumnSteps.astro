@@ -34,7 +34,7 @@ const rearrangedValues = items
 ---
 
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-5xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
-  <div class="w-full lg:w-1/2 gap-8 md:gap-12">
+  <div class="w-full gap-8 md:gap-12 lg:w-1/2">
     <Headline
       title={title}
       subtitel={subtitle}
@@ -47,17 +47,17 @@ const rearrangedValues = items
     />
   </div>
   <div class="flex flex-wrap space-y-10 md:space-y-0">
-    <div class="md:w-1/2 px-4">
+    <div class="px-4 md:w-1/2">
       <ul class="space-y-10">
         {
           items.slice(0, splitPoint).map(({ value }, index) => (
             <li class="flex md:-mx-4">
-              <div class="pr-2 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4 flex items-start">
-                <span class="flex w-12 h-12 mx-auto items-center justify-center text-2xl font-bold rounded-full bg-blue-100 text-primary">
+              <div class="flex items-start pr-2 sm:pl-4 rtl:pl-4 rtl:pr-0 rtl:sm:pl-0 rtl:sm:pr-4">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-primary">
                   {index + 1}
                 </span>
               </div>
-              <div class="pl-4 rtl:pl-0 rtl:pr-4 flex items-start mt-1">
+              <div class="mt-1 flex items-start pl-4 rtl:pl-0 rtl:pr-4">
                 <p class="text-muted dark:text-gray-400" set:html={value} />
               </div>
             </li>
@@ -65,17 +65,17 @@ const rearrangedValues = items
         }
       </ul>
     </div>
-    <div class="md:w-1/2 pl-4">
+    <div class="pl-4 md:w-1/2">
       <ul class="space-y-10">
         {
           items.slice(splitPoint).map(({ value }, index) => (
             <li class="flex md:-mx-4">
-              <div class="pr-2 sm:pl-4 rtl:pr-0 rtl:pl-4 rtl:sm:pl-0 rtl:sm:pr-4 flex items-start">
-                <span class="flex w-12 h-12 mx-auto items-center justify-center text-2xl font-bold rounded-full bg-blue-100 text-primary">
+              <div class="flex items-start pr-2 sm:pl-4 rtl:pl-4 rtl:pr-0 rtl:sm:pl-0 rtl:sm:pr-4">
+                <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-2xl font-bold text-primary">
                   {index + splitPoint + 1}
                 </span>
               </div>
-              <div class="pl-4 rtl:pl-0 rtl:pr-4 flex items-start mt-1">
+              <div class="mt-1 flex items-start pl-4 rtl:pl-0 rtl:pr-4">
                 <p class="text-muted dark:text-gray-400" set:html={value} />
               </div>
             </li>

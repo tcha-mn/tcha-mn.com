@@ -22,19 +22,19 @@ const {
 <WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
   <Headline title={title} subtitle={subtitle} tagline={tagline} />
 
-  <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+  <div class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
     {
       testimonials &&
         testimonials.map(({ testimonial, name, initials, relationship, image }) => (
           <div class="flex h-auto">
-            <div class="flex flex-col p-4 md:p-6 rounded-md shadow-xl dark:shadow-none dark:border dark:border-slate-600">
+            <div class="flex flex-col rounded-md p-4 shadow-xl dark:border dark:border-slate-600 dark:shadow-none md:p-6">
               {testimonial && (
                 <blockquote class="flex-auto">
                   <p class="text-muted">"{testimonial}"</p>
                 </blockquote>
               )}
 
-              <hr class="border-slate-200 dark:border-slate-600 my-4" />
+              <hr class="my-4 border-slate-200 dark:border-slate-600" />
 
               <div class="flex items-center">
                 {image ? (
@@ -43,7 +43,7 @@ const {
                       <Fragment set:html={image} />
                     ) : (
                       <Image
-                        class="h-10 w-10 rounded-full border border-slate-200 dark:border-slate-600 min-w-full min-h-full"
+                        class="h-10 min-h-full w-10 min-w-full rounded-full border border-slate-200 dark:border-slate-600"
                         width={40}
                         height={40}
                         widths={[400, 768]}
@@ -53,12 +53,12 @@ const {
                     )}
                   </div>
                 ) : (
-                  <div class="relative inline-flex items-center justify-center w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600">
+                  <div class="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-gray-100 dark:bg-gray-600">
                     <span class="font-medium text-gray-600 dark:text-gray-300">{initials}</span>
                   </div>
                 )}
 
-                <div class="grow ml-3 rtl:ml-0 rtl:mr-3">
+                <div class="ml-3 grow rtl:ml-0 rtl:mr-3">
                   {name && <p class="text-base font-semibold">{name}</p>}
                   {relationship && <p class="text-xs text-muted">{relationship}</p>}
                 </div>
@@ -70,7 +70,7 @@ const {
   </div>
   {
     callToAction && (
-      <div class="flex justify-center mx-auto w-fit mt-8 md:mt-12 font-medium">
+      <div class="mx-auto mt-8 flex w-fit justify-center font-medium md:mt-12">
         <Button {...callToAction} />
       </div>
     )

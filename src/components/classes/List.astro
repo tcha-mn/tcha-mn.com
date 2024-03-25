@@ -6,16 +6,23 @@ import type { ClassType } from '~/queries/ClassType';
 
 export interface Props {
   classType?: ClassType;
-  debug?: boolean;
 }
 
-const { classType = '', debug = false } = Astro.props;
+const { classType = '' } = Astro.props;
 
 const semesters = await fetchAll({ classType });
-
-if (debug) {
-  console.log(semesters[0].semester);
-}
 ---
 
 {semesters.map(({ semester, classes }) => <SemesterWithClasses semester={semester} classes={classes} />)}
+<script>
+  document.addEventListener('astro:page-load', () => {
+    const hash = window.location.hash.substring(1);
+    if (hash) {
+      const el = document.getElementById(hash);
+      if (el) {
+        window.scrollTo(0, el.offsetTop - 100);
+        document.getElementById(hash + '-button')?.click();
+      }
+    }
+  });
+</script>

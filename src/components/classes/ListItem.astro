@@ -3,13 +3,13 @@ import { Avatar, Card } from 'flowbite-react';
 import listify from 'listify';
 import { DateTime } from 'luxon';
 
-import type { Class } from '~/queries/SemesterWithClasses';
+import type { ParsedClass } from '~/queries/Classes';
 import { SanityPicture, urlFor } from '~/queries/sanity';
 import { Icon } from 'astro-icon/components';
 import { toHTML } from '@portabletext/to-html';
 
 export interface Props {
-  classItem: Class;
+  classItem: ParsedClass;
 }
 
 const { classItem } = Astro.props;
@@ -17,8 +17,13 @@ const classStart = classItem.dates.start;
 const classEnd = classItem.dates.end;
 ---
 
-<article class="max-w-md mx-auto md:max-w-none">
-  <Card className="max-w-sm" imgAlt={classItem.title} imgSrc={urlFor(classItem.preview_image).url()}>
+<article class="mx-auto max-w-md md:max-w-none">
+  <Card
+    id={'class-' + classItem._id}
+    className="max-w-sm"
+    imgAlt={classItem.title}
+    imgSrc={urlFor(classItem.preview_image).url()}
+  >
     <div>
       <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
         {classItem.title}
@@ -36,9 +41,9 @@ const classEnd = classItem.dates.end;
             ))
         }
       </span>
-      <div class="mt-3 mb-0">
+      <div class="mb-0 mt-3">
         <span class="text-sm">
-          <Icon title="Class Times" name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+          <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
           <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
             >{classItem.classTimes.start} - {classItem.classTimes.end}</time
           >
@@ -46,12 +51,12 @@ const classEnd = classItem.dates.end;
       </div>
       {
         classItem.dates && (
-          <div class="mt-0.5 mb-0">
+          <div class="mb-0 mt-0.5">
             <span class="text-sm">
               <Icon
                 title="Schedule"
                 name="tabler:calendar"
-                class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
               />
               <span>
                 {classStart.hasSame(classEnd, 'day')
@@ -63,9 +68,9 @@ const classEnd = classItem.dates.end;
           </div>
         )
       }
-      <div class="mt-0.5 mb-0">
+      <div class="mb-0 mt-0.5">
         <span class="text-sm" title={'Ages ' + classItem.ages.min + '-' + classItem.ages.max}>
-          <Icon title="Grades" name="tabler:school" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+          <Icon title="Grades" name="tabler:school" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
           {classItem.grades.min} - {classItem.grades.max}
         </span>
       </div>
@@ -74,7 +79,7 @@ const classEnd = classItem.dates.end;
           <Icon
             title="Tuition Fee"
             name="tabler:currency-dollar"
-            class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+            class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
           />
           {classItem.price}
         </span>
@@ -83,7 +88,7 @@ const classEnd = classItem.dates.end;
         classItem.isOpenForRegistration && classItem.registrationLink && (
           <button
             type="button"
-            class="focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            class="mb-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
             onclick={`window.open('${classItem.registrationLink}', '_blank').focus()`}
           >
             Register
@@ -91,17 +96,18 @@ const classEnd = classItem.dates.end;
         )
       }
       <button
-        data-drawer-target={'class-' + classItem._id}
-        data-drawer-show={'class-' + classItem._id}
+        id={'class-' + classItem._id + '-button'}
+        data-drawer-target={'class-' + classItem._id + '-drawer'}
+        data-drawer-show={'class-' + classItem._id + '-drawer'}
         data-drawer-placement="right"
-        aria-controls={'class-' + classItem._id}
-        class="inline-flex gap-x-1 items-center mt-4 px-3 py-2 text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+        aria-controls={'class-' + classItem._id + '-drawer'}
+        class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-blue-700 px-3 py-2 text-center text-sm font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
       >
         Read more <Icon name="tabler:arrow-right" />
       </button>
       {
         classItem.isOpenForRegistration && (
-          <div class="text-sm text-muted italic">
+          <div class="text-sm italic text-muted">
             Registration closes {classItem.registration_close.toLocaleString(DateTime.DATE_MED)}
           </div>
         )
@@ -110,16 +116,16 @@ const classEnd = classItem.dates.end;
   </Card>
 
   <div
-    id={'class-' + classItem._id}
-    class="fixed top-24 right-0 bottom-0 w-full max-w-2xl z-40 p-3 pt-1 transition-transform translate-x-full"
+    id={'class-' + classItem._id + '-drawer'}
+    class="fixed bottom-0 right-0 top-24 z-40 w-full max-w-2xl translate-x-full p-3 pt-1 transition-transform"
     tabindex="-1"
     aria-labelledby="drawer-right-label"
   >
-    <div class="rounded-md p-4 h-full bg-white dark:bg-gray-800 overflow-y-auto">
-      <div class="flex justify-between items-center mb-3">
+    <div class="h-full overflow-y-auto rounded-md bg-white p-4 dark:bg-gray-800">
+      <div class="mb-3 flex items-center justify-between">
         <h3
           id={'class-' + classItem._id + '-label'}
-          class="inline-flex items-center mb-0 text-3xl font-semibold dark:text-white"
+          class="mb-0 inline-flex items-center text-3xl font-semibold dark:text-white"
         >
           {classItem.title}
         </h3>
@@ -127,7 +133,7 @@ const classEnd = classItem.dates.end;
           type="button"
           data-drawer-hide={'class-' + classItem._id}
           aria-controls={'class-' + classItem._id}
-          class="bg-gray-200 hover:bg-gray-300 text-gray-600 rounded-lg text-sm w-8 h-8 absoluteq top-2.5q end-2.5q inline-flex items-center justify-center dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-white"
+          class="absoluteq top-2.5q end-2.5q inline-flex h-8 w-8 items-center justify-center rounded-lg bg-gray-200 text-sm text-gray-600 hover:bg-gray-300 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600"
         >
           <Icon name="tabler:x" />
           <span class="sr-only">Close drawer</span>
@@ -137,7 +143,6 @@ const classEnd = classItem.dates.end;
         src={classItem.preview_image}
         sizes="(max-width: 600px) 80px"
         img={{ alt: classItem.title, class: 'h-auto max-w-full rounded-lg' }}
-        class="max-h-40"
         lqip={{ enabled: false }}
       />
       <div>
@@ -145,7 +150,7 @@ const classEnd = classItem.dates.end;
           classItem.isOpenForRegistration && classItem.registrationLink && (
             <button
               type="button"
-              class="w-full mt-4 focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+              class="mb-2 me-2 mt-4 w-full rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
               onclick={`window.open('${classItem.registrationLink}', '_blank').focus()`}
             >
               Register
@@ -153,7 +158,7 @@ const classEnd = classItem.dates.end;
           )
         }
       </div>
-      <div class="flex flex-wrap gap-x-4 mt-3 mb-2">
+      <div class="mb-2 mt-3 flex flex-wrap gap-x-4">
         {
           classItem.dates && (
             <div class="basis-full">
@@ -161,7 +166,7 @@ const classEnd = classItem.dates.end;
                 <Icon
                   title="Schedule"
                   name="tabler:calendar"
-                  class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+                  class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
                 />
                 <span>
                   {classStart.hasSame(classEnd, 'day')
@@ -175,7 +180,7 @@ const classEnd = classItem.dates.end;
         }
         <div>
           <span class="text-sm">
-            <Icon title="Class Times" name="tabler:clock" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+            <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
             <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
               >{classItem.classTimes.start} - {classItem.classTimes.end}</time
             >
@@ -183,7 +188,7 @@ const classEnd = classItem.dates.end;
         </div>
         <div>
           <span class="text-sm" title={'Ages ' + classItem.ages.min + '-' + classItem.ages.max}>
-            <Icon title="Grades" name="tabler:school" class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400" />
+            <Icon title="Grades" name="tabler:school" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
             {classItem.grades.min} - {classItem.grades.max}
           </span>
         </div>
@@ -192,7 +197,7 @@ const classEnd = classItem.dates.end;
             <Icon
               title="Tuition Fee"
               name="tabler:currency-dollar"
-              class="w-3.5 h-3.5 inline-block -mt-0.5 dark:text-gray-400"
+              class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
             />
             {classItem.price}
           </span>
@@ -201,7 +206,7 @@ const classEnd = classItem.dates.end;
       <div>{classItem.description}</div>
       <h4
         id={'class-' + classItem._id + '-instructor-heading'}
-        class="inline-flex items-center mt-4 mb-4 text-xl font-semibold dark:text-white"
+        class="mb-4 mt-4 inline-flex items-center text-xl font-semibold dark:text-white"
       >
         Instructor{classItem.instructors.length !== 1 ? 's' : ''}
       </h4>
@@ -215,9 +220,9 @@ const classEnd = classItem.dates.end;
                   sizes="(max-width: 600px) 80px"
                   img={{ alt: instructor.name, class: 'h-auto w-full rounded-lg bg-white' }}
                   lqip={{ enabled: false }}
-                  class="basis-40 grow-0 shrink-0"
+                  class="shrink-0 grow-0 basis-40"
                 />
-                <div class="basis-80 grow shrink">
+                <div class="shrink grow basis-80">
                   <h5 class="font-semibold">{instructor.name}</h5>
                   <div class="text-xs text-gray-500 dark:text-gray-400">{listify(instructor.class_types)}</div>
                   <div class="mt-2 flex flex-col gap-2 " set:html={toHTML(instructor.bio)} />

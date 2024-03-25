@@ -12,15 +12,15 @@ export const headerData = {
       links: [
         {
           text: 'Mission and Vision',
-          href: `${SITE.base}/about`,
+          href: `${SITE.base}/about/`,
         },
         {
           text: 'Leadership',
-          href: `${SITE.base}/leadership`,
+          href: `${SITE.base}/leadership/`,
         },
         {
           text: 'FAQs',
-          href: `${SITE.base}/faqs`,
+          href: `${SITE.base}/faqs/`,
         },
       ],
     },
@@ -30,28 +30,24 @@ export const headerData = {
       links: [
         {
           text: 'Registration',
-          href: `${SITE.base}/registration`,
+          href: `${SITE.base}/registration/`,
           dividerAfter: true,
         },
         {
           text: 'Choir',
-          href: `${SITE.base}/choir`,
+          href: `${SITE.base}/choir/`,
         },
         {
           text: 'Dance',
-          href: `${SITE.base}/dance`,
+          href: `${SITE.base}/dance/`,
         },
         {
           text: 'Drama',
-          href: `${SITE.base}/drama`,
+          href: `${SITE.base}/drama/`,
         },
         {
           text: 'Lessons',
-          href: `${SITE.base}/lessons`,
-        },
-        {
-          text: 'Juggling',
-          href: `${SITE.base}/juggling`,
+          href: `${SITE.base}/lessons/`,
         },
       ],
     },
@@ -62,13 +58,13 @@ export const headerData = {
         if (!s.isVisible) {
           return { text: `${s.title} Season (coming soon!)` };
         }
-        return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}` };
+        return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}/` };
       }),
     },
     {
       id: 'calendar',
       text: 'Events',
-      href: `${SITE.base}/events`,
+      href: `${SITE.base}/events/`,
     },
   ],
   actions: [
@@ -81,26 +77,26 @@ export const footerData = {
     {
       title: 'Info',
       links: [
-        { text: 'About Us', href: `${SITE.base}/about` },
-        { text: 'Contact Us', href: `${SITE.base}/contact` },
-        { text: 'FAQ', href: `${SITE.base}/faqs` },
+        { text: 'About Us', href: `${SITE.base}/about/` },
+        { text: 'Contact Us', href: `${SITE.base}/contact/` },
+        { text: 'FAQ', href: `${SITE.base}/faqs/` },
       ],
     },
     {
       title: 'Education',
       links: [
-        { text: 'Registration', href: `${SITE.base}/registration` },
-        { text: 'Choir', href: `${SITE.base}/choir` },
-        { text: 'Dance', href: `${SITE.base}/dance` },
-        { text: 'Drama', href: `${SITE.base}/drama` },
-        { text: 'Lessons', href: `${SITE.base}/lessons` },
+        { text: 'Registration', href: `${SITE.base}/registration/` },
+        { text: 'Choir', href: `${SITE.base}/choir/` },
+        { text: 'Dance', href: `${SITE.base}/dance/` },
+        { text: 'Drama', href: `${SITE.base}/drama/` },
+        { text: 'Lessons', href: `${SITE.base}/lessons/` },
       ],
     },
     {
       title: 'Events',
       links: [
-        { text: 'Theatre', href: '/theatre/2023-2024' },
-        { text: 'Calendar', href: '/events' },
+        { text: 'Theatre', href: '/theatre/2023-2024/' },
+        { text: 'Calendar', href: '/events/' },
       ],
     },
   ],

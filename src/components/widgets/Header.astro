@@ -51,7 +51,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 flex-none mx-auto w-full border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    'top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0 transition-[opacity] ease-in-out',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -59,13 +59,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   <div class="absolute inset-0"></div>
   <div
     class:list={[
-      'relative text-default py-3 px-3 lg:px-6 mx-auto w-full lg:flex lg:justify-between',
+      'relative mx-auto w-full px-3 py-3 text-default lg:flex lg:justify-between lg:px-6',
       {
         'max-w-7xl': !isFullWidth,
       },
     ]}
   >
-    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
+    <div class:list={[{ 'mr-auto rtl:ml-auto rtl:mr-0': position === 'right' }, 'flex justify-between']}>
       <a class="flex items-center" href={getHomePermalink()}>
         <Logo />
       </a>
@@ -74,11 +74,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </div>
     </div>
     <nav
-      class="items-center w-full lg:w-auto hidden lg:flex text-default overflow-y-auto overflow-x-hidden lg:overflow-y-visible lg:overflow-x-auto lg:mx-5"
+      class="hidden w-full items-center overflow-y-auto overflow-x-hidden text-default lg:mx-5 lg:flex lg:w-auto lg:overflow-x-auto lg:overflow-y-visible"
       aria-label="Main navigation"
     >
       <ul
-        class="flex flex-col lg:flex-row lg:self-center w-full lg:w-auto text-xl lg:text-[0.9375rem] tracking-[0.01rem] font-medium align-baseline"
+        class="flex w-full flex-col align-baseline text-xl font-medium tracking-[0.01rem] lg:w-auto lg:flex-row lg:self-center lg:text-[0.9375rem]"
       >
         {
           links.map(({ text, href, links: subLinks }, i) => (
@@ -89,7 +89,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                 ) : (
                   <a
                     class:list={[
-                      'hover:text-link dark:hover:text-white px-4 py-3 flex items-centers',
+                      'hover:text-link items-centers flex px-4 py-3 dark:hover:text-white',
                       { 'aw-link-active': href === currentPath },
                     ]}
                     href={href}
@@ -98,7 +98,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
                   </a>
                 )}
               </li>
-              {i + 1 < links.length && <li class="border-l my-auto h-4 border-gray-500 hidden lg:inline-block" />}
+              {i + 1 < links.length && <li class="my-auto hidden h-4 border-l border-gray-500 lg:inline-block" />}
             </>
           ))
         }
@@ -107,10 +107,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     <div
       class:list={[
         { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'hidden lg:self-center lg:flex items-center lg:mb-0 fixed w-full lg:w-auto lg:static justify-end left-0 rtl:left-auto rtl:right-0 bottom-0 p-3 lg:p-0',
+        'fixed bottom-0 left-0 hidden w-full items-center justify-end p-3 lg:static lg:mb-0 lg:flex lg:w-auto lg:self-center lg:p-0 rtl:left-auto rtl:right-0',
       ]}
     >
-      <div class="items-center flex justify-between w-full lg:w-auto">
+      <div class="flex w-full items-center justify-between lg:w-auto">
         <div class="flex">
           {showToggleTheme && <ToggleTheme iconClass="w-6 h-6 lg:w-5 lg:h-5 lg:inline-block" />}
         </div>
@@ -118,7 +118,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           actions?.length ? (
             <span class="ml-4 rtl:ml-0 rtl:mr-4">
               {actions.map((btnProps) => (
-                <Button {...btnProps} class="ml-2 py-2.5 px-5.5 lg:px-6 font-semibold shadow-none text-sm w-auto" />
+                <Button {...btnProps} class="px-5.5 ml-2 w-auto py-2.5 text-sm font-semibold shadow-none lg:px-6" />
               ))}
             </span>
           ) : (

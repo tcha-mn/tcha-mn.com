@@ -1,24 +1,101 @@
 ---
-// import { sanityClient } from 'sanity:client';
-// import { Badge } from 'flowbite-react';
-// import type { Semester } from '@schema/Semester';
-//
+import { DateTime } from 'luxon';
+import { classesOpenForRegistration } from '~/queries/Registration';
 import Layout from '../layouts/PageLayout.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import Headline from '~/components/ui/Headline.astro';
 
 const metadata = {
   title: 'Class Registration | TCHA',
 };
-//
-// const QUERY = `*[_type == "semester" && registration_open < now() && dates.start > now()] | order(registration_open) {
-//   name, registration_open, dates{start}, early_registration_end
-// }[0]
-// `;
-// const semester = await sanityClient.fetch<Semester>(QUERY);
-// const registrationOpen = new Date(semester.registration_open) < new Date();
+const openClasses = await classesOpenForRegistration();
 ---
 
 <Layout metadata={metadata}>
-  TBD
+  <WidgetWrapper containerClass="max-w-7xl mx-auto">
+    <Headline title="Register for Classes" />
+    {/*<section class="mx-auto max-w-7xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20"> */}
+    {
+      openClasses.length === 0 && (
+        <div
+          class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
+          role="alert"
+        >
+          <span class="font-medium">
+            There are not currently any classes open for registration. Please check back later!
+          </span>
+        </div>
+      )
+    }
+    {
+      openClasses.length > 0 && (
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
+          <table class="mx-0 w-full table-auto text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
+            <thead class="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+              <tr>
+                <th scope="col" class="px-4 py-3">
+                  Title
+                </th>
+                <th scope="col" class="px-4 py-3">
+                  Type
+                </th>
+                <th scope="col" class="px-4 py-3">
+                  Ages/Grades
+                </th>
+                <th scope="col" class="px-4 py-3">
+                  Time
+                </th>
+                <th scope="col" class="px-4 py-3">
+                  When
+                </th>
+                <th scope="col" class="px-4 py-3">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {openClasses.map((c) => (
+                <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                  <th scope="row" class="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                    {c.title}
+                  </th>
+                  <td class="px-4 py-3">{c.class_type}</td>
+                  <td class="px-4 py-3">
+                    {c.grades.min} - {c.grades.max}
+                  </td>
+                  <td class="px-4 py-3">
+                    {c.classTimes.start}-{c.classTimes.end}
+                  </td>
+                  <td class="px-4 py-3">
+                    {c.dates.toString()} ({c.semester})
+                  </td>
+                  <td class="flex px-4 py-4">
+                    <span title={ `Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}` }>
+                    <a
+                      type="button"
+                      class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-green-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                      href={c.registrationLink}
+                      target="_blank"
+                    >
+                      Register
+                    </a>
+                    </span>
+                    <a
+                      type="button"
+                      class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-blue-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                      href={c.moreInfoLink}
+                    >
+                      Learn More
+                    </a>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    }
+  </WidgetWrapper>
   {
     /*
   <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">

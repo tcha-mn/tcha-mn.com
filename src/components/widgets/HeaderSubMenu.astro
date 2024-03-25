@@ -14,7 +14,7 @@ const { text, links, currentPath } = Astro.props;
   >
     {
       links.map(({ text: subtext, href, dividerAfter = false }) => (
-        <li class:list={{ 'border-b border-gray-200': dividerAfter }}>
+        <li class:list={{ 'border-b border-gray-200 dark:border-gray-700': dividerAfter }}>
           <a
             class:list={[
               'hover:text-link whitespace-no-wrap block px-5 py-2 first:rounded-t last:rounded-b dark:hover:bg-gray-700 dark:hover:text-white lg:hover:bg-gray-100',

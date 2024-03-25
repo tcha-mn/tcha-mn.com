@@ -18,7 +18,7 @@ const openClasses = await classesOpenForRegistration();
     {
       openClasses.length === 0 && (
         <div
-          class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
+          class="mb-4 rounded-lg bg-blue-50 p-4 text-center text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
           role="alert"
         >
           <span class="font-medium">
@@ -36,19 +36,16 @@ const openClasses = await classesOpenForRegistration();
                 <th scope="col" class="px-4 py-3">
                   Title
                 </th>
-                <th scope="col" class="px-4 py-3">
-                  Type
-                </th>
-                <th scope="col" class="px-4 py-3">
+                <th scope="col" class="px-4 py-3 text-center">
                   Ages/Grades
                 </th>
-                <th scope="col" class="px-4 py-3">
+                <th scope="col" class="px-4 py-3 text-center">
                   Time
                 </th>
-                <th scope="col" class="px-4 py-3">
+                <th scope="col" class="px-4 py-3 text-center">
                   When
                 </th>
-                <th scope="col" class="px-4 py-3">
+                <th scope="col" class="px-4 py-3 text-center">
                   Actions
                 </th>
               </tr>
@@ -58,27 +55,28 @@ const openClasses = await classesOpenForRegistration();
                 <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
                   <th scope="row" class="px-4 py-3 font-medium text-gray-900 dark:text-white">
                     {c.title}
+                    <br />
+                    <span class="ml-4 text-gray-500">{c.class_type}</span>
                   </th>
-                  <td class="px-4 py-3">{c.class_type}</td>
-                  <td class="px-4 py-3">
+                  <td class="px-4 py-3 text-center">
                     {c.grades.min} - {c.grades.max}
                   </td>
-                  <td class="px-4 py-3">
+                  <td class="px-4 py-3 text-center">
                     {c.classTimes.start}-{c.classTimes.end}
                   </td>
-                  <td class="px-4 py-3">
+                  <td class="px-4 py-3 text-center">
                     {c.dates.toString()} ({c.semester})
                   </td>
-                  <td class="flex px-4 py-4">
-                    <span title={ `Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}` }>
-                    <a
-                      type="button"
-                      class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-green-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                      href={c.registrationLink}
-                      target="_blank"
-                    >
-                      Register
-                    </a>
+                  <td class="px-4 py-4 text-center">
+                    <span title={`Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}`}>
+                      <a
+                        type="button"
+                        class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-green-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                        href={c.registrationLink}
+                        target="_blank"
+                      >
+                        Register
+                      </a>
                     </span>
                     <a
                       type="button"

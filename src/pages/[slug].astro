@@ -1,0 +1,48 @@
+---
+import { toHTML } from '@portabletext/to-html';
+import Hero from '~/components/widgets/Hero.astro';
+import Layout from '~/layouts/PageLayout.astro';
+import { fetchAll, type Page } from '~/queries/Pages.ts';
+import { urlFor } from '~/queries/sanity';
+
+export async function getStaticPaths() {
+  const pagesData: Page[] = await fetchAll();
+
+  let pages = pagesData.map((page) => {
+    return {
+      params: { slug: page.slug.current },
+      props: { page },
+    };
+  });
+
+  return [
+    ...pages,
+    { params: { slug: 'hello-world' } },
+    { params: { slug: 'my-favorite-things' } },
+    { params: { slug: 'summertime' } },
+  ];
+}
+
+const fallback_description =
+  'TCHA offers several choir classes each semester for a variety of ages ranging from Kindergarten through 12th grade.';
+
+const { slug } = Astro.params;
+const { page } = Astro.props;
+---
+
+<Layout>
+  <Hero
+    tagline=""
+    image={{
+      src: urlFor(page.hero).url(),
+      alt: 'Choir class setting',
+    }}
+  >
+    <Fragment slot="title">{page.heading ?? slug}</Fragment>
+
+    <Fragment slot="subtitle">
+      {page.subheading ?? fallback_description}
+    </Fragment>
+  </Hero>
+  <div class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20" set:html={toHTML(page.body)} />
+</Layout>

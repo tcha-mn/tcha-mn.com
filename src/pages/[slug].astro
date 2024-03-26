@@ -4,6 +4,7 @@ import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import { fetchAll, type Page } from '~/queries/Pages.ts';
 import { urlFor } from '~/queries/sanity';
+import Blocks from '~/utils/blocks'
 
 export async function getStaticPaths() {
   const pagesData: Page[] = await fetchAll();
@@ -42,5 +43,7 @@ const hero = page.hero != null ? urlFor(page.hero).url() : "";
       {page.subheading ?? fallback_description}
     </Fragment>
   </Hero>
-  <div class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20" set:html={toHTML(page.body)} />
+  <div class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20" >
+    <Blocks value={page.body} />
+  </div>
 </Layout>

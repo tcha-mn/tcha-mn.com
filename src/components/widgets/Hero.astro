@@ -29,7 +29,7 @@ const {
   <div class="relative mx-auto max-w-7xl px-4 sm:px-6">
     <div class="pointer-events-none pt-0 md:pt-[76px]"></div>
     <div class="py-12 md:py-20">
-      <div class="mx-auto max-w-5xl pb-10 text-center md:pb-16">
+      <div class="mx-auto max-w-5xl text-center">
         {
           tagline && (
             <p
@@ -66,27 +66,25 @@ const {
         </div>
         {content && <Fragment set:html={content} />}
       </div>
-      <div>
-        {
-          image && (
-            <div class="relative m-auto max-w-5xl">
-              {typeof image === 'string' ? (
-                <Fragment set:html={image} />
-              ) : (
-                <Image
-                  class="mx-auto w-full rounded-md"
-                  widths={[400, 768, 1024, 2040]}
-                  sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
-                  loading="eager"
-                  width={1024}
-                  height={576}
-                  {...image}
-                />
-              )}
-            </div>
-          )
-        }
-      </div>
+      {
+        image && image.src && (
+          <div class="relative m-auto max-w-5xl pt-10 md:pt-16">
+            {typeof image === 'string' ? (
+              <Fragment set:html={image} />
+            ) : (
+              <Image
+                class="mx-auto w-full rounded-md"
+                widths={[400, 768, 1024, 2040]}
+                sizes="(max-width: 767px) 400px, (max-width: 1023px) 768px, (max-width: 2039px) 1024px, 2040px"
+                loading="eager"
+                width={1024}
+                height={576}
+                {...image}
+              />
+            )}
+          </div>
+        )
+      }
     </div>
   </div>
 </section>

@@ -12,7 +12,7 @@ export interface Page {
   subheading: string;
   hero: string;
   body: PortableTextBlock[];
-  meta_tite: string;
+  meta_title: string;
   meta_description: string;
   allow_indexing: boolean;
 }

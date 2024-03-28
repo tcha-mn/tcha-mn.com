@@ -10,7 +10,10 @@ export interface Page {
   };
   heading: string;
   subheading: string;
-  hero: string;
+  hero: {
+    image: string;
+    alt: string;
+  };
   body: PortableTextBlock[];
   meta_title: string;
   meta_description: string;
@@ -25,7 +28,10 @@ const PAGE_QUERY = ({ picture }: BaseQueryOptions) => `${QUERY_BASE} {
   slug,
   heading,
   subheading,
-  ${picture('hero')},
+  "hero": {
+    ${picture('hero.image', { as: 'image' })},
+    "alt": hero.alt
+  },
   body,
   meta_title,
   meta_description,

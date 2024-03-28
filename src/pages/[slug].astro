@@ -1,5 +1,4 @@
 ---
-import { toHTML } from '@portabletext/to-html';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import { fetchAll, type Page } from '~/queries/Pages.ts';
@@ -17,13 +16,8 @@ export async function getStaticPaths() {
     };
   });
 
-  return [
-    ...pages,
-  ];
+  return pages;
 }
-
-const fallback_description =
-  'TCHA offers several choir classes each semester for a variety of ages ranging from Kindergarten through 12th grade.';
 
 const { slug } = Astro.params;
 const { page } = Astro.props;
@@ -33,13 +27,11 @@ const metadata: MetaDataType = {
   description: page.meta_description,
   robots: {
     index: page.allow_indexing,
-    follow: page.allow_indexing
-  }
-  //robots: !page.allow_indexing
+    follow: page.allow_indexing,
+  },
+};
 
-}
-
-const hero = page.hero != null ? urlFor(page.hero).url() : "";
+const hero = page.hero.image != null ? urlFor(page.hero.image).url() : '';
 ---
 
 <Layout metadata={metadata}>
@@ -47,16 +39,18 @@ const hero = page.hero != null ? urlFor(page.hero).url() : "";
     tagline=""
     image={{
       src: hero,
-      alt: 'Choir class setting',
+      alt: page.hero.alt ?? page.name,
     }}
   >
     <Fragment slot="title">{page.heading ?? slug}</Fragment>
 
-    <Fragment slot="subtitle">
-      {page.subheading ?? fallback_description}
-    </Fragment>
+    {page.subheading && <Fragment slot="subtitle">{page.subheading}</Fragment>}
   </Hero>
-  {page.body && <div class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20" >
-    <Blocks value={page.body} />
-  </div>}
+  {
+    page.body && (
+      <div class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
+        <Blocks value={page.body} />
+      </div>
+    )
+  }
 </Layout>

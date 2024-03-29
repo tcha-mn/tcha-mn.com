@@ -20,9 +20,9 @@ export interface Page {
   allow_indexing: boolean;
 }
 
-const QUERY_BASE = `*[_type == "page"]`;
+const QUERY_BASE = ``;
 
-const PAGE_QUERY = ({ picture }: BaseQueryOptions) => `${QUERY_BASE} {
+const PAGE_QUERY = ({ picture }: BaseQueryOptions) => `*[_type == "page"] {
   _id,
   name,
   slug,
@@ -40,8 +40,10 @@ const PAGE_QUERY = ({ picture }: BaseQueryOptions) => `${QUERY_BASE} {
 
 export const fetchAll = makeDataAccess<Page[]>(PAGE_QUERY);
 
-const PATHS_QUERY = `${QUERY_BASE} {
-  slug
+const MENU_QUERY = `*[_type=="page" && menu_dropdown!=null] {
+  name,
+  slug,
+  menu_dropdown
 }`;
 
-export const fetchAllPaths = makeDataAccess<string[]>(PATHS_QUERY);
+export const fetchMenuPages = makeDataAccess<string[]>(MENU_QUERY);

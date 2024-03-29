@@ -1,8 +1,22 @@
 import { SITE } from '~/utils/config.ts';
 
-import { fetchAll } from '~/queries/TheatreSeasons';
+import { fetchAll as fetchAllSeasons } from '~/queries/TheatreSeasons';
+import { fetchMenuPages } from '~/queries/Pages';
 
-const seasons = await fetchAll();
+const seasons = await fetchAllSeasons();
+const pages = await fetchMenuPages();
+
+const getPageMenuItems = (menu) => {
+  let menuItems = pages
+    .filter((page) => page.menu_dropdown == menu)
+    .map((page) => {
+      return {
+        text: page.name,
+        href: `${SITE.base}/${page.slug.current}/`,
+      };
+    });
+  return menuItems;
+};
 
 export const headerData = {
   links: [
@@ -22,6 +36,7 @@ export const headerData = {
           text: 'FAQs',
           href: `${SITE.base}/faqs/`,
         },
+        ...getPageMenuItems('About'),
       ],
     },
     {
@@ -49,17 +64,21 @@ export const headerData = {
           text: 'Lessons',
           href: `${SITE.base}/lessons/`,
         },
+        ...getPageMenuItems('Classes'),
       ],
     },
     {
       id: 'theatre',
       text: 'Theatre',
-      links: seasons.map((s) => {
-        if (!s.isVisible) {
-          return { text: `${s.title} Season (coming soon!)` };
-        }
-        return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}/` };
-      }),
+      links: [
+        ...seasons.map((s) => {
+          if (!s.isVisible) {
+            return { text: `${s.title} Season (coming soon!)` };
+          }
+          return { text: `${s.title} Season`, href: `${SITE.base}/theatre/${s.title}/` };
+        }),
+        ...getPageMenuItems('Theatre'),
+      ],
     },
     {
       id: 'calendar',

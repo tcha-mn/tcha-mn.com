@@ -20,7 +20,7 @@
     "@astrolib/analytics": "^0.5.0",
     "@astrolib/seo": "^1.0.0-beta.5",
     "@ericz1803/react-google-calendar": "^4.3.2",
-    "@fontsource-variable/inter": "^5.0.17",
+    "@fontsource-variable/josefin-sans": "^5.0.20",
     "@fullcalendar/core": "^6.1.11",
     "@fullcalendar/daygrid": "^6.1.11",
     "@fullcalendar/google-calendar": "^6.1.11",

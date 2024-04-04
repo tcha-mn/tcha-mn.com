@@ -16,7 +16,7 @@ const metadata = {
 };
 const testimonials = await fetchAllTestimonials();
 const registrationIsOpen = await isRegistrationOpen();
-const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/' }];
+const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/', variant: 'secondary' }];
 if (registrationIsOpen) {
   heroActions.unshift({
     variant: 'primary',
@@ -28,9 +28,7 @@ if (registrationIsOpen) {
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
-  <Hero actions={heroActions} image={{ src: '~/assets/images/hero.jpg', alt: 'TCHA Hero Image' }}>
+  <Hero actions={heroActions} image={{ src: '~/assets/images/brightstar-hero.jpg', alt: 'TCHA Hero Image' }} animate>
     <Fragment slot="title">Twin Cities Homeschoolers <br /> for the Arts</Fragment>
 
     <Fragment slot="subtitle">
@@ -41,45 +39,63 @@ if (registrationIsOpen) {
     </Fragment>
   </Hero>
 
-  <!-- Note Widget ******************* -->
-
-  <Note />
-
-  <!-- Features Widget *************** -->
-
   <Features
     id="features"
-    tagline=""
     title="Education and Performance Opportunities"
-    subtitle="We offer a variety of classes in choir, dance, and drama as well as private lessons in several instruments including voice, guitar, and violin. We’re excited to help your student grow and develop their skills in the performing arts!"
+    subtitle="We offer a variety of classes in choir, dance, and drama as well as private lessons in several instruments including voice, guitar, and piano. We’re excited to help your student grow and develop their skills in the performing arts!"
     items={[
       {
         title: 'Choir',
         description:
           'Large and small choral ensembles for students K-12 with multiple performances throughout the school year.',
         icon: 'tabler:music',
+        callToAction: {
+          href: '/choir/',
+          text: 'Learn more',
+          icon: 'tabler:arrow-right',
+        },
       },
       {
         title: 'Dance',
         description: 'Tap, jazz and ballet',
         icon: 'tabler:flip-flops',
+        callToAction: {
+          href: '/dance/',
+          text: 'Learn more',
+          icon: 'tabler:arrow-right',
+        },
       },
       {
         title: 'Drama',
         description:
           'Weekly classes focused on different aspects of theatre including acting, improv, and technical theatre arts.',
         icon: 'tabler:masks-theater',
+        callToAction: {
+          href: '/drama/',
+          text: 'Learn more',
+          icon: 'tabler:arrow-right',
+        },
       },
       {
         title: 'Lessons',
         description: 'Vocal and instrumental instructors are available for private lessons.',
         icon: 'tabler:book',
+        callToAction: {
+          href: '/lessons/',
+          text: 'Learn more',
+          icon: 'tabler:arrow-right',
+        },
       },
       {
         title: 'Theatre',
         description:
           'Performance opportunities for a variety of age ranges including musical theatre and classic plays',
         icon: 'tabler:theater',
+        callToAction: {
+          href: '/theatre/2023-2024/',
+          text: 'Learn more',
+          icon: 'tabler:arrow-right',
+        },
       },
     ]}
   />

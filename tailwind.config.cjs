@@ -1,11 +1,6 @@
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 module.exports = {
-  content: [
-    './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
-    './node_modules/flowbite/**/*.js',
-    'node_modules/flowbite-react/lib/esm/**/*.js',
-  ],
   theme: {
     extend: {
       colors: {
@@ -22,6 +17,16 @@ module.exports = {
       },
     },
   },
-  plugins: [require('@tailwindcss/typography'), require('flowbite/plugin')],
+  plugins: [require('@tailwindcss/typography'), require('flowbite/plugin'), require('taos/plugin')],
   darkMode: 'class',
+  safelist: ['!duration-[0ms]', '!delay-[0ms]', 'html.js :where([class*="taos:"]:not(.taos-init))'],
+  content: {
+    relative: true,
+    transform: (content) => content.replace(/taos:/g, ''),
+    files: [
+      './src/**/*.{astro,html,js,jsx,md,mdx,svelte,ts,tsx,vue}',
+      './node_modules/flowbite/**/*.js',
+      'node_modules/flowbite-react/lib/esm/**/*.js',
+    ],
+  },
 };

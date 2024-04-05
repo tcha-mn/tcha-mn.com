@@ -16,7 +16,7 @@ function getFormattedDate(d: DateTime): string {
   return d.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
 }
 
-const link = `/theatre/${season.slug}/${show.slug}`;
+const link = `/theatre/${season.slug}/${show.slug}/`;
 ---
 
 <article class={`max-w-md mx-auto md:max-w-none grid gap-6 md:gap-8 ${show.hero ? 'md:grid-cols-2' : ''}`}>

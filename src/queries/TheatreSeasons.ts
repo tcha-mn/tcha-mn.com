@@ -36,7 +36,7 @@ const SEASON_LIST = `*[${VISIBLE_THEATRE_SEASONS}] | order(date_visible desc) { 
 const SINGLE_SEASON = ({ season }: QueryOptions) =>
   `*[${VISIBLE_THEATRE_SEASONS} && slug.current == "${season}"] | order(date_visible desc) { ${THEATER_SEASON_FIELDS} }[0]`;
 
-const SEASON_SHOW_SLUGS = `*[${VISIBLE_THEATRE_SEASONS}] | order(date_visible desc)
+const SEASON_SHOW_SLUGS = `*[${VISIBLE_THEATRE_SEASONS} && date_visible < now()] | order(date_visible desc)
     { "slug": slug.current, "shows": *[_type == "show" && references(^._id)].slug.current }`;
 
 const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,

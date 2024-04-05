@@ -1,9 +1,12 @@
 ---
+import { Image } from 'astro:assets';
+import Hero from '~/components/widgets/Hero.astro';
 import { DateTime } from 'luxon';
 import { classesOpenForRegistration } from '~/queries/Registration';
 import Layout from '../layouts/PageLayout.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-import Headline from '~/components/ui/Headline.astro';
+import Ternary from '~/components/Ternary.astro';
+import hero from '~/assets/images/registration-hero.jpg';
 
 const metadata = {
   title: 'Class Registration | TCHA',
@@ -12,11 +15,21 @@ const openClasses = await classesOpenForRegistration();
 ---
 
 <Layout metadata={metadata}>
+  <WidgetWrapper isDark>
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <Image src={hero} alt="Director instruction" class="h-full w-full object-cover object-[50%_15%]" />
+      </div>
+    </Fragment>
+    <Hero backdropBlur="md" title="Register for Classes">
+      <Fragment slot="content">
+        <p class="mb-3">In the table below</p>
+      </Fragment>
+    </Hero>
+  </WidgetWrapper>
   <WidgetWrapper containerClass="max-w-7xl mx-auto">
-    <Headline title="Register for Classes" />
-    {/*<section class="mx-auto max-w-7xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20"> */}
-    {
-      openClasses.length === 0 && (
+    <Ternary condition={openClasses.length > 0}>
+      <Fragment slot="false">
         <div
           class="mb-4 rounded-lg bg-blue-50 p-4 text-center text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
           role="alert"
@@ -25,103 +38,63 @@ const openClasses = await classesOpenForRegistration();
             There are not currently any classes open for registration. Please check back later!
           </span>
         </div>
-      )
-    }
-    {
-      openClasses.length > 0 && (
+      </Fragment>
+      <Fragment slot="true">
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="mx-0 w-full table-auto text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
             <thead class="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
               <tr>
-                <th scope="col" class="px-4 py-3">
-                  Title
-                </th>
-                <th scope="col" class="px-4 py-3 text-center">
-                  Ages/Grades
-                </th>
-                <th scope="col" class="px-4 py-3 text-center">
-                  Time
-                </th>
-                <th scope="col" class="px-4 py-3 text-center">
-                  When
-                </th>
-                <th scope="col" class="px-4 py-3 text-center">
-                  Actions
-                </th>
+                <th scope="col" class="px-4 py-3"> Title </th>
+                <th scope="col" class="px-4 py-3 text-center"> Ages/Grades </th>
+                <th scope="col" class="px-4 py-3 text-center"> Time </th>
+                <th scope="col" class="px-4 py-3 text-center"> When </th>
+                <th scope="col" class="px-4 py-3 text-center"> Actions </th>
               </tr>
             </thead>
             <tbody>
-              {openClasses.map((c) => (
-                <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                  <th scope="row" class="px-4 py-3 font-medium text-gray-900 dark:text-white">
-                    {c.title}
-                    <br />
-                    <span class="ml-4 text-gray-500">{c.class_type}</span>
-                  </th>
-                  <td class="px-4 py-3 text-center">
-                    {c.grades.min} - {c.grades.max}
-                  </td>
-                  <td class="px-4 py-3 text-center">
-                    {c.classTimes.start}-{c.classTimes.end}
-                  </td>
-                  <td class="px-4 py-3 text-center">
-                    {c.dates.toString()} ({c.semester})
-                  </td>
-                  <td class="px-4 py-4 text-center">
-                    <span title={`Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}`}>
+              {
+                openClasses.map((c) => (
+                  <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
+                    <th scope="row" class="px-4 py-3 font-medium text-gray-900 dark:text-white">
+                      {c.title}
+                      <br />
+                      <span class="ml-4 text-gray-500">{c.class_type}</span>
+                    </th>
+                    <td class="px-4 py-3 text-center">
+                      {c.grades.min} - {c.grades.max}
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      {c.classTimes.start}-{c.classTimes.end}
+                    </td>
+                    <td class="px-4 py-3 text-center">
+                      {c.dates.toString()} ({c.semester})
+                    </td>
+                    <td class="px-4 py-4 text-center">
+                      <span title={`Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}`}>
+                        <a
+                          type="button"
+                          class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-green-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+                          href={c.registrationLink}
+                          target="_blank"
+                        >
+                          Register
+                        </a>
+                      </span>
                       <a
                         type="button"
-                        class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-green-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-                        href={c.registrationLink}
-                        target="_blank"
+                        class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-blue-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                        href={c.moreInfoLink}
                       >
-                        Register
+                        Learn More
                       </a>
-                    </span>
-                    <a
-                      type="button"
-                      class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-blue-700 px-3 py-2 text-center text-xs font-medium text-white hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                      href={c.moreInfoLink}
-                    >
-                      Learn More
-                    </a>
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))
+              }
             </tbody>
           </table>
         </div>
-      )
-    }
+      </Fragment>
+    </Ternary>
   </WidgetWrapper>
-  {
-    /*
-  <section class="px-6 sm:px-6 pb-12 sm:pb-16 lg:pb-20 mx-auto max-w-4xl">
-    { registrationOpen && (<>
-      <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading md:text-3xl mb-12">
-        Class registration for {semester.name} is currently open!
-      </h3>
-      <div id="galore-embed-wrapper">
-        <script type="text/javascript">
-          (function (d, s, id) {
-            if (d.getElementById(id)) {
-              return;
-            }
-            var js = d.createElement(s);
-            js.id = id;
-            js.src = 'https://getgalore.com/embed.js';
-            js.setAttribute('data-src', 'https://www.care.com/connect/tcha/embed?widget_id=88&logo=false&per_page=20');
-            d.getElementById('galore-embed-wrapper').appendChild(js);
-          })(document, 'script', 'load-galore-embed');
-        </script>
-      </div>
-    </>)}
-    { !registrationOpen && (
-      <h3 class="font-bold leading-tighter tracking-tighter font-heading text-heading md:text-3xl mb-12">
-      Class registration is not currently open. Check back soon for class availability for next semester!
-      </h3>
-    )}
-  </section>
-*/
-  }
 </Layout>

@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import { Icon } from 'astro-icon/components';
 
 import { fetchAll } from '~/queries/PrivateInstructor';
@@ -6,6 +8,8 @@ import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
 import SanityPicture from 'astro-sanity-picture';
 import { toHTML } from '@portabletext/to-html';
+
+import hero from '~/assets/images/private-lessons-banner.webp';
 
 const metadata = {
   title: 'Private Lessons | TCHA',
@@ -17,20 +21,19 @@ const instructors = await fetchAll({});
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero
-    tagline="Classes"
-    image={{
-      src: '~/assets/images/private-lessons-banner.webp',
-      alt: 'Private piano lesson',
-    }}
-  >
-    <Fragment slot="title">Private Lessons</Fragment>
-
-    <Fragment slot="subtitle">
-      TCHA has partnered with a number of private music instructors as resources for our community to develop skills in
-      various instruments.
+  <WidgetWrapper isDark>
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <Image src={hero} alt="Empty chair" class="h-full w-full object-cover" />
+      </div>
     </Fragment>
-  </Hero>
+    <Hero tagline="Classes" title="Private Lessons" backdropBlur="sm">
+      <Fragment slot="subtitle">
+        TCHA has partnered with a number of private music instructors as resources for our community to develop skills
+        in various instruments.
+      </Fragment>
+    </Hero>
+  </WidgetWrapper>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
     <h3 class="leading-tighter text-heading mb-12 font-heading text-xl font-bold tracking-tighter md:text-3xl">
       Instructors

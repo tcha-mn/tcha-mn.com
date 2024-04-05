@@ -1,0 +1,9 @@
+---
+interface Props {
+  condition: boolean;
+}
+const { condition } = Astro.props;
+const content = condition ? Astro.slots.render('true') : Astro.slots.render('false');
+---
+
+<Fragment set:html={content} />

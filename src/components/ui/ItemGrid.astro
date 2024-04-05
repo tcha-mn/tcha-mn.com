@@ -3,6 +3,7 @@ import { twMerge } from 'tailwind-merge';
 import type { ItemGrid } from '~/types';
 import Button from './Button.astro';
 import { Icon } from 'astro-icon/components';
+import MaybeLink from './MaybeLink.astro';
 
 const { items = [], columns, defaultIcon = '', classes = {} } = Astro.props as ItemGrid;
 
@@ -32,8 +33,8 @@ const {
         containerClass
       )}
     >
-      {items.map(({ title, description, icon, callToAction, classes: itemClasses = {} }) => (
-        <div>
+      {items.map(({ title, description, icon, implicitAction, callToAction, classes: itemClasses = {} }) => (
+        <MaybeLink href={implicitAction}>
           <div class={twMerge('flex max-w-md flex-row', panelClass, itemClasses?.panel)}>
             <div class="flex justify-center">
               {(icon || defaultIcon) && (
@@ -58,7 +59,7 @@ const {
               )}
             </div>
           </div>
-        </div>
+        </MaybeLink>
       ))}
     </div>
   )

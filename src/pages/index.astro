@@ -1,14 +1,17 @@
 ---
+import { Image } from 'astro:assets';
 import Layout from '~/layouts/PageLayout.astro';
 
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import Features from '~/components/widgets/Features.astro';
 import Hero from '~/components/widgets/Hero.astro';
-import Note from '~/components/widgets/Note.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import { fetchAll as fetchAllTestimonials } from '~/queries/Testimonials';
 import type { CallToAction as HeroCallToAction } from '~/types';
 import { isRegistrationOpen } from '~/queries/Registration';
+
+import hero from '~/assets/images/brightstar-hero.jpg';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 
 const metadata = {
   title: 'Twin Cities Homeschoolers for the Arts',
@@ -16,7 +19,7 @@ const metadata = {
 };
 const testimonials = await fetchAllTestimonials();
 const registrationIsOpen = await isRegistrationOpen();
-const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/', variant: 'secondary' }];
+const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/', variant: 'primary' }];
 if (registrationIsOpen) {
   heroActions.unshift({
     variant: 'primary',
@@ -28,16 +31,23 @@ if (registrationIsOpen) {
 ---
 
 <Layout metadata={metadata}>
-  <Hero actions={heroActions} image={{ src: '~/assets/images/brightstar-hero.jpg', alt: 'TCHA Hero Image' }} animate>
-    <Fragment slot="title">Twin Cities Homeschoolers <br /> for the Arts</Fragment>
-
-    <Fragment slot="subtitle">
-      <span class="hidden sm:inline">
-        <span class="font-semibold">TCHA</span> exists to provide performing arts classes and opportunities, viewed through
-        a redemptive lens, to home educated students in the Minneapolis/St. Paul area.
-      </span>
+  <WidgetWrapper isDark>
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <Image src={hero} alt="Brightstar" class="h-full w-full object-cover object-[50%_15%]" />
+      </div>
     </Fragment>
-  </Hero>
+    <Hero actions={heroActions} backdropBlur="sm">
+      <Fragment slot="title">Twin Cities Homeschoolers <br /> for the Arts</Fragment>
+
+      <Fragment slot="subtitle">
+        <span class="hidden sm:inline">
+          <span class="font-semibold">TCHA</span> exists to provide performing arts classes and opportunities, viewed through
+          a redemptive lens, to home educated students in the Minneapolis/St. Paul area.
+        </span>
+      </Fragment>
+    </Hero>
+  </WidgetWrapper>
 
   <Features
     id="features"
@@ -49,53 +59,33 @@ if (registrationIsOpen) {
         description:
           'Large and small choral ensembles for students K-12 with multiple performances throughout the school year.',
         icon: 'tabler:music',
-        callToAction: {
-          href: '/choir/',
-          text: 'Learn more',
-          icon: 'tabler:arrow-right',
-        },
+        implicitAction: '/choir/',
       },
       {
         title: 'Dance',
         description: 'Tap, jazz and ballet',
         icon: 'tabler:flip-flops',
-        callToAction: {
-          href: '/dance/',
-          text: 'Learn more',
-          icon: 'tabler:arrow-right',
-        },
+        implicitAction: '/dance/',
       },
       {
         title: 'Drama',
         description:
           'Weekly classes focused on different aspects of theatre including acting, improv, and technical theatre arts.',
         icon: 'tabler:masks-theater',
-        callToAction: {
-          href: '/drama/',
-          text: 'Learn more',
-          icon: 'tabler:arrow-right',
-        },
+        implicitAction: '/drama/',
       },
       {
         title: 'Lessons',
         description: 'Vocal and instrumental instructors are available for private lessons.',
         icon: 'tabler:book',
-        callToAction: {
-          href: '/lessons/',
-          text: 'Learn more',
-          icon: 'tabler:arrow-right',
-        },
+        implicitAction: '/lessons/',
       },
       {
         title: 'Theatre',
         description:
           'Performance opportunities for a variety of age ranges including musical theatre and classic plays',
         icon: 'tabler:theater',
-        callToAction: {
-          href: '/theatre/2023-2024/',
-          text: 'Learn more',
-          icon: 'tabler:arrow-right',
-        },
+        implicitAction: '/theatre/2023-2024/',
       },
     ]}
   />

@@ -1,0 +1,12 @@
+---
+interface Props {
+  href?: string;
+}
+
+const props = Astro.props;
+const WrapperTag = props.href ? 'a' : 'div';
+---
+
+<WrapperTag {...props}>
+  <slot />
+</WrapperTag>

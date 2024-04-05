@@ -1,7 +1,11 @@
 ---
+import { Image } from 'astro:assets';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
 import List from '../components/classes/List.astro';
+
+import hero from '~/assets/images/drama-hero.jpg';
 
 const metadata = {
   title: 'Drama Classes | TCHA',
@@ -11,20 +15,19 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero
-    tagline="Classes"
-    image={{
-      src: '~/assets/images/drama-banner.webp',
-      alt: 'Hero Image',
-    }}
-  >
-    <Fragment slot="title">Drama</Fragment>
-
-    <Fragment slot="subtitle">
-      TCHA offers several drama classes each semester for a variety of ages ranging from Kindergarten through 12th
-      grade.
+  <WidgetWrapper isDark>
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <Image src={hero} alt="Spotlight" class="h-full w-full object-cover object-[50%_25%]" />
+      </div>
     </Fragment>
-  </Hero>
+    <Hero tagline="Classes" title="Drama" backdropBlur="sm">
+      <Fragment slot="subtitle">
+        TCHA offers several drama classes each semester for a variety of ages ranging from Kindergarten through 12th
+        grade.
+      </Fragment>
+    </Hero>
+  </WidgetWrapper>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
     <List classType="Drama" />
   </section>

@@ -1,9 +1,14 @@
 ---
 import { fetchAll, type FAQ } from '~/queries/FAQ';
 import { toHTML } from '@portabletext/to-html';
+import { Image } from 'astro:assets';
+import Hero from '~/components/widgets/Hero.astro';
 
 import Layout from '~/layouts/PageLayout.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+
+import hero from '~/assets/images/faq-hero.jpg';
 
 const Categories = {
   general: 'General Questions',
@@ -23,9 +28,23 @@ const faqs = await fetchAll();
 ---
 
 <Layout metadata={metadata}>
+  <WidgetWrapper isDark>
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <Image src={hero} alt="Empty chair" class="h-full w-full object-cover" />
+      </div>
+    </Fragment>
+    <Hero backdropBlur="md" title="Frequently Asked Questions">
+      <Fragment slot="content">
+        <p class="mb-3">
+          Feel free to reach out to <a class="underline" href="mailto:director@tcha-mn.com">director@tcha-mn.com</a> with
+          any questions not answered here.
+        </p>
+      </Fragment>
+    </Hero>
+  </WidgetWrapper>
   <FAQs
-    title="Frequently Asked Questions"
-    subtitle={Categories.general}
+    title={Categories.general}
     classes={{ container: 'max-w-6xl' }}
     columns={3}
     items={faqs.filter(filterFAQ('general')).map((faq) => ({
@@ -34,7 +53,7 @@ const faqs = await fetchAll();
     }))}
   />
   <FAQs
-    subtitle={Categories.policies}
+    title={Categories.policies}
     classes={{ container: 'max-w-6xl' }}
     columns={3}
     items={faqs.filter(filterFAQ('policies')).map((faq) => ({
@@ -43,7 +62,7 @@ const faqs = await fetchAll();
     }))}
   />
   <FAQs
-    subtitle={Categories['classes-registration']}
+    title={Categories['classes-registration']}
     classes={{ container: 'max-w-6xl' }}
     columns={3}
     items={faqs.filter(filterFAQ('classes-registration')).map((faq) => ({

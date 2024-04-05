@@ -134,6 +134,7 @@ export interface Item {
   icon?: string;
   classes?: Record<string, string>;
   callToAction?: CallToAction;
+  implicitAction?: string;
   image?: Image;
 }
 

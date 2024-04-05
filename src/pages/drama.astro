@@ -4,8 +4,9 @@ import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
 import List from '../components/classes/List.astro';
+import { findLocalImage } from '~/utils/images';
 
-import hero from '~/assets/images/drama-hero.jpg';
+const hero = await findLocalImage('~/assets/images/drama-hero.jpg');
 
 const metadata = {
   title: 'Drama Classes | TCHA',

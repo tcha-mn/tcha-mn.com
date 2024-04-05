@@ -20,8 +20,6 @@ export interface Page {
   allow_indexing: boolean;
 }
 
-const QUERY_BASE = ``;
-
 const PAGE_QUERY = ({ picture }: BaseQueryOptions) => `*[_type == "page"] {
   _id,
   name,

@@ -5,8 +5,10 @@ import Features2 from '~/components/widgets/Features2.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import { fetchAll } from '~/queries/Values';
-import aboutHero from '~/assets/images/about-hero.jpg';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import { findLocalImage } from '~/utils/images';
+
+const hero = await findLocalImage('~/assets/images/about-hero.jpg');
 
 const metadata = {
   title: 'About us',
@@ -21,7 +23,7 @@ const values = await fetchAll();
   <WidgetWrapper isDark>
     <Fragment slot="bg">
       <div class="absolute inset-0">
-        <Image src={aboutHero} alt="Theatre seats" class="h-full w-full object-cover object-[50%_75%]" />
+        <Image src={hero} alt="Theatre seats" class="h-full w-full object-cover object-[50%_75%]" />
       </div>
     </Fragment>
     <Hero tagline="About us" backdropBlur="md">

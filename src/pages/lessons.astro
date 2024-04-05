@@ -8,8 +8,9 @@ import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
 import SanityPicture from 'astro-sanity-picture';
 import { toHTML } from '@portabletext/to-html';
+import { findLocalImage } from '~/utils/images';
 
-import hero from '~/assets/images/private-lessons-banner.webp';
+const hero = await findLocalImage('~/assets/images/private-lessons-banner.webp');
 
 const metadata = {
   title: 'Private Lessons | TCHA',
@@ -34,7 +35,7 @@ const instructors = await fetchAll({});
       </Fragment>
     </Hero>
   </WidgetWrapper>
-  <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
+  <section class="mx-auto my-8 max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
     <h3 class="leading-tighter text-heading mb-12 font-heading text-xl font-bold tracking-tighter md:text-3xl">
       Instructors
     </h3>

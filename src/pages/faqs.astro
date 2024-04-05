@@ -7,8 +7,9 @@ import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
 import FAQs from '~/components/widgets/FAQs.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import { findLocalImage } from '~/utils/images';
 
-import hero from '~/assets/images/faq-hero.jpg';
+const hero = await findLocalImage('~/assets/images/faq-hero.jpg');
 
 const Categories = {
   general: 'General Questions',

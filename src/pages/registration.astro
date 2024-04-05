@@ -1,12 +1,14 @@
 ---
-import { Image } from 'astro:assets';
+import { Picture } from 'astro:assets';
 import Hero from '~/components/widgets/Hero.astro';
 import { DateTime } from 'luxon';
 import { classesOpenForRegistration } from '~/queries/Registration';
 import Layout from '../layouts/PageLayout.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Ternary from '~/components/Ternary.astro';
-import hero from '~/assets/images/registration-hero.jpg';
+import { findLocalImage } from '~/utils/images';
+
+const hero = await findLocalImage('~/assets/images/registration-hero.jpg');
 
 const metadata = {
   title: 'Class Registration | TCHA',
@@ -18,12 +20,12 @@ const openClasses = await classesOpenForRegistration();
   <WidgetWrapper isDark>
     <Fragment slot="bg">
       <div class="absolute inset-0">
-        <Image src={hero} alt="Director instruction" class="h-full w-full object-cover object-[50%_15%]" />
+        <Picture src={hero} alt="Director instruction" class="h-full w-full object-cover object-[50%_15%]" />
       </div>
     </Fragment>
     <Hero backdropBlur="md" title="Register for Classes">
       <Fragment slot="content">
-        <p class="mb-3">In the table below</p>
+        <p class="mb-3">The table below</p>
       </Fragment>
     </Hero>
   </WidgetWrapper>

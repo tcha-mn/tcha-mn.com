@@ -1,19 +1,32 @@
 ---
+import { Image } from 'astro:assets';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import HeroText from '~/components/widgets/HeroText.astro';
+import Hero from '~/components/widgets/Hero.astro';
+import { findLocalImage } from '~/utils/images';
+
+const hero = await findLocalImage('~/assets/images/contact-hero.jpg');
 
 const metadata = {
-  title: 'Contact',
+  title: 'Contact | TCHA',
 };
 ---
 
 <Layout metadata={metadata}>
   <!-- HeroText Widget ******************* -->
 
-  <HeroText tagline="Contact Us" title="How can we help?" />
+  <WidgetWrapper isDark>
+    <Fragment slot="bg">
+      <div class="absolute inset-0">
+        <Image src={hero} alt="Empty chair" class="h-full w-full object-cover" />
+      </div>
+    </Fragment>
+    <Hero tagline="Contact Us" title="How can we help?" backdropBlur="sm">
+      </Hero>
+  </WidgetWrapper>
 
   <section
-    class="mx-auto mb-4 flex w-full max-w-2xl flex-col rounded-lg border border-gray-200 bg-white p-4 shadow backdrop-blur dark:border-gray-700 dark:bg-slate-900 sm:p-6 lg:p-8"
+    class="mx-auto my-10 flex w-full max-w-2xl flex-col rounded-lg border border-gray-200 bg-white p-4 shadow backdrop-blur dark:border-gray-700 dark:bg-slate-900 sm:p-6 lg:p-8"
   >
     <!-- dark mode form -->
     <iframe

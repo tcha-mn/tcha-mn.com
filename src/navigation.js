@@ -36,6 +36,10 @@ export const headerData = {
           text: 'FAQs',
           href: `${SITE.base}/faqs/`,
         },
+        {
+          text: 'Contact Us',
+          href: `${SITE.base}/contact/`,
+        },
         ...getPageMenuItems('About'),
       ],
     },

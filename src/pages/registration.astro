@@ -1,5 +1,5 @@
 ---
-import { Picture } from 'astro:assets';
+import { Image } from 'astro:assets';
 import Hero from '~/components/widgets/Hero.astro';
 import { DateTime } from 'luxon';
 import { classesOpenForRegistration } from '~/queries/Registration';
@@ -20,12 +20,12 @@ const openClasses = await classesOpenForRegistration();
   <WidgetWrapper isDark>
     <Fragment slot="bg">
       <div class="absolute inset-0">
-        <Picture src={hero} alt="Director instruction" class="h-full w-full object-cover object-[50%_15%]" />
+        <Image src={hero} alt="Director instruction" class="h-full w-full object-cover object-[50%_15%]" />
       </div>
     </Fragment>
     <Hero backdropBlur="md" title="Register for Classes">
       <Fragment slot="content">
-        <p class="mb-3">The table below</p>
+        <p class="mb-3">The table below lists all classes currently open for registration.</p>
       </Fragment>
     </Hero>
   </WidgetWrapper>

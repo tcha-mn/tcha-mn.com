@@ -46,5 +46,7 @@ export function makeDynamicDataAccess<Result, Options extends BaseQueryOptions, 
   };
 }
 
+export const now = process.env.PREVIEW_NOW ? `'${process.env.PREVIEW_NOW}'` : 'now()';
+
 export type { SanityImageSource };
 export { SanityPicture };

@@ -1,6 +1,7 @@
 import { parseDate, DateTime } from '~/utils/dates';
 import {
   makeDataAccess,
+  now,
   type BaseQueryOptions,
   type SanityImageSource,
   type PortableTextBlock,
@@ -13,12 +14,12 @@ interface TheatreSeasonRaw {
   description: string;
   preview_date: string;
   date_visible: string;
+  isVisible: boolean;
 }
 
 export interface TheatreSeason extends Omit<TheatreSeasonRaw, 'preview_date' | 'date_visible'> {
   preview_date: DateTime;
   date_visible: DateTime;
-  isVisible: boolean;
 }
 
 export interface TheatreSeasonSlugs {
@@ -29,14 +30,14 @@ interface QueryOptions extends BaseQueryOptions {
   season: string;
 }
 
-const VISIBLE_THEATRE_SEASONS = `_type == "season" && (preview_date < now() || date_visible < now())`;
-const THEATER_SEASON_FIELDS = 'title, "slug": slug.current, description, preview_date, date_visible';
+const VISIBLE_THEATRE_SEASONS = `_type == "season" && (preview_date < ${now} || date_visible < ${now})`;
+const THEATER_SEASON_FIELDS = `title, "slug": slug.current, description, preview_date, date_visible, "isVisible": date_visible < ${now}`;
 
 const SEASON_LIST = `*[${VISIBLE_THEATRE_SEASONS}] | order(date_visible desc) { ${THEATER_SEASON_FIELDS} }`;
 const SINGLE_SEASON = ({ season }: QueryOptions) =>
   `*[${VISIBLE_THEATRE_SEASONS} && slug.current == "${season}"] | order(date_visible desc) { ${THEATER_SEASON_FIELDS} }[0]`;
 
-const SEASON_SHOW_SLUGS = `*[${VISIBLE_THEATRE_SEASONS} && date_visible < now()] | order(date_visible desc)
+const SEASON_SHOW_SLUGS = `*[${VISIBLE_THEATRE_SEASONS} && date_visible < ${now}] | order(date_visible desc)
     { "slug": slug.current, "shows": *[_type == "show" && references(^._id)].slug.current }`;
 
 const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
@@ -77,7 +78,6 @@ function inflateSeasonDates(season: TheatreSeasonRaw): TheatreSeason {
     ...season,
     preview_date: parseDate(season.preview_date),
     date_visible,
-    isVisible: date_visible < DateTime.now(),
   };
 }
 

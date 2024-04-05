@@ -1,5 +1,7 @@
 ---
+import { toHTML } from '@portabletext/to-html';
 import { fetchSlugs, fetchSeasonInfo } from '~/queries/TheatreSeasons';
+import SanityPicture from 'astro-sanity-picture';
 import Hero from '../../components/widgets/Hero.astro';
 import Layout from '../../layouts/PageLayout.astro';
 import ShowList from '~/components/theatre/List.astro';
@@ -23,23 +25,16 @@ const metadata = {
 <Layout metadata={metadata}>
   <!-- Hero Widget ******************* -->
 
-  <Hero tagline="Theatre Season">
+  <Hero tagline="Theatre Season" title={seasonInfo.title} subtitle={toHTML(seasonInfo.description)}>
     {
-      /*
+    seasonInfo.hero && (
     <Fragment slot="image">
       <SanityPicture
         src={seasonInfo.hero}
-        sizes="(max-width: 600px) 80px"
-        img={{ alt: seasonInfo.title, class: 'h-auto max-w-full' }}
+        img={{ alt: seasonInfo.title}}
       />
-    </Fragment>
-      */
+    </Fragment>)
     }
-    <Fragment slot="title">{seasonInfo.title}</Fragment>
-
-    <Fragment slot="subtitle">
-      {seasonInfo.description || '[This season needs a description]'}
-    </Fragment>
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
     <ShowList season={seasonInfo} shows={shows} />

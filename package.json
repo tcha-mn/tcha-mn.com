@@ -27,6 +27,7 @@
     "@fullcalendar/google-calendar": "^6.1.11",
     "@fullcalendar/list": "^6.1.11",
     "@portabletext/to-html": "^2.0.8",
+    "@rollup/rollup-darwin-x64": "^4.14.0",
     "@sanity/astro": "^3.0.0",
     "@sanity/client": "^6.15.6",
     "@sanity/image-url": "^1.0.2",

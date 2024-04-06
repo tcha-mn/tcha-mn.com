@@ -22,8 +22,8 @@ metadata:
     site_name: Twin Cities Homeschoolers for the Arts
     images:
       - url: '~/assets/images/default.png'
-        width: 1200
-        height: 700
+        width: 1183
+        height: 921
     type: website
   twitter:
     handle: '@onwidget'

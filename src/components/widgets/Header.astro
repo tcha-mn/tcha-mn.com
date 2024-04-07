@@ -51,11 +51,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0 transition-[opacity] ease-in-out',
+    'dark:bg-darkMode top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0 bg-primary',
   ]}
-  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
-  {...id ? { id } : {}}
 >
+  <!-- {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}} -->
   <div class="absolute inset-0"></div>
   <div
     class:list={[
@@ -83,13 +83,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         {
           links.map(({ text, href, links: subLinks }, i) => (
             <>
-              <li class={subLinks?.length ? 'dropdown' : ''}>
+              <li class:list={[subLinks?.length ? 'dropdown' : '']}>
                 {subLinks?.length ? (
                   <HeaderSubMenu text={text} links={subLinks} currentPath={currentPath} />
                 ) : (
                   <a
                     class:list={[
-                      'hover:text-link items-centers flex px-4 py-3 dark:hover:text-white',
+                      'hover:text-link items-centers flex px-4 py-3 text-white',
                       { 'aw-link-active': href === currentPath },
                     ]}
                     href={href}
@@ -118,7 +118,10 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
           actions?.length ? (
             <span class="ml-4 rtl:ml-0 rtl:mr-4">
               {actions.map((btnProps) => (
-                <Button {...btnProps} class="px-5.5 ml-2 w-auto py-2.5 text-sm font-semibold shadow-none lg:px-6" />
+                <Button
+                  {...btnProps}
+                  class="px-5.5 ml-2 w-auto py-2.5 text-sm font-semibold text-white shadow-none lg:px-6"
+                />
               ))}
             </span>
           ) : (

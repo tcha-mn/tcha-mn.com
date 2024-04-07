@@ -1,12 +1,9 @@
 ---
-import faviconSvg from '~/assets/favicons/favicon.svg';
-import faviconSvgDark from '~/assets/favicons/favicon-dark.svg';
+import logoLandscape from '~/assets/images/TCHA-Logo-Landscape-SVG.svg?raw';
 ---
 
 <span
   class="ml-2 flex items-center self-center whitespace-nowrap font-bold text-gray-900 dark:text-white md:text-2xl xl:text-3xl"
 >
-  <img class="mr-2 h-11 dark:hidden md:h-16 xl:h-11" src={faviconSvg.src} alt="TCHA Logo" />
-  <img class="mr-2 hidden h-11 dark:inline md:h-16 xl:h-11" src={faviconSvgDark.src} alt="TCHA Logo" />
-  Twin Cities <br class="inline-block xl:hidden" />Homeschoolers for the Arts
+  <div class="h-auto w-40" title="TCHA Logo" set:html={logoLandscape} />
 </span>

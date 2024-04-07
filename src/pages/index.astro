@@ -1,5 +1,5 @@
 ---
-import type { ImageMetadata } from 'astro';
+// import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Layout from '~/layouts/PageLayout.astro';
 
@@ -25,11 +25,12 @@ const registrationIsOpen = await isRegistrationOpen();
 const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/', variant: 'primary' }];
 if (registrationIsOpen) {
   heroActions.unshift({
-    variant: 'primary',
+    variant: 'secondary',
     text: 'Register for Classes',
     href: '/registration/',
     icon: 'tabler:checkbox',
   });
+  heroActions[1].variant = 'accent';
 }
 ---
 
@@ -54,6 +55,7 @@ if (registrationIsOpen) {
 
   <Features
     id="features"
+    classes={{ headline: { title: 'text-accent dark:text-white text-3xl md:text-4xl' } }}
     title="Education and Performance Opportunities"
     subtitle="We offer a variety of classes in choir, dance, and drama as well as private lessons in several instruments including voice, guitar, and piano. We’re excited to help your student grow and develop their skills in the performing arts!"
     items={[
@@ -107,7 +109,7 @@ if (registrationIsOpen) {
   <CallToAction
     actions={[
       {
-        variant: 'primary',
+        variant: 'secondary',
         text: 'Donate',
         href: 'https://www.paypal.com/donate/?hosted_button_id=6PSJWMWAEXSC2',
         target: '_blank',

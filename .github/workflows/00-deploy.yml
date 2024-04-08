@@ -39,6 +39,7 @@ jobs:
   promote:
     if: github.repository == 'tcha-mn/preview.tcha-mn.com'
     needs: deploy
+    runs-on: ubuntu-latest
     steps:
       - name: Push to live site
         env:

@@ -1,6 +1,7 @@
 ---
 import Item from './ListItem.astro';
-import type { Class, Semester } from '~/queries/SemesterWithClasses';
+import type { ParsedClass as Class } from '~/queries/Classes';
+import type { Semester } from '~/queries/Semester';
 import SemesterInfo from './SemesterInfo.astro';
 
 export interface Props {

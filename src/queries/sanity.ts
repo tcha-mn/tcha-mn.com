@@ -36,7 +36,11 @@ export function makeDataAccess<Result, PreProcessedResult = never>(
     queryAndProcess(typeof query === 'function' ? query({ picture }) : query, preprocessor);
 }
 
-export function makeDynamicDataAccess<Result, Options extends BaseQueryOptions, PreProcessedResult = never>(
+export function makeDynamicDataAccess<
+  Result,
+  Options extends BaseQueryOptions = BaseQueryOptions,
+  PreProcessedResult = never,
+>(
   query: (options: Options) => string,
   preprocessor?: (result: PreProcessedResult) => Result
 ): (options: Omit<Options, 'picture'>) => Promise<Result> {

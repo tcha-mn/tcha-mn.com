@@ -27,13 +27,11 @@ const metadata = {
 
   <Hero tagline="Theatre Season" title={seasonInfo.title} subtitle={toHTML(seasonInfo.description)}>
     {
-    seasonInfo.hero && (
-    <Fragment slot="image">
-      <SanityPicture
-        src={seasonInfo.hero}
-        img={{ alt: seasonInfo.title}}
-      />
-    </Fragment>)
+      seasonInfo.hero && (
+        <Fragment slot="image">
+          <SanityPicture src={seasonInfo.hero} img={{ alt: seasonInfo.title }} />
+        </Fragment>
+      )
     }
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">

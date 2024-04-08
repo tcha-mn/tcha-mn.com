@@ -11,7 +11,7 @@ import {
 interface TheatreSeasonRaw {
   title: string;
   slug: string;
-  description: string;
+  description: PortableTextBlock[];
   preview_date: string;
   date_visible: string;
   isVisible: boolean;

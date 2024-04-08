@@ -35,6 +35,7 @@ export interface Props {
 }
 
 const {
+  id = 'header',
   links = [],
   actions = [],
   isSticky = false,
@@ -52,9 +53,9 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     { sticky: isSticky, relative: !isSticky, dark: isDark },
     'top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0 bg-primary dark:bg-darkMode',
   ]}
+  {...isSticky ? { 'data-aw-sticky-header': true } : {}}
+  {...id ? { id } : {}}
 >
-  <!-- {...isSticky ? { 'data-aw-sticky-header': true } : {}}
-  {...id ? { id } : {}} -->
   <div class="absolute inset-0"></div>
   <div
     class:list={[
@@ -65,7 +66,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     ]}
   >
     <div class:list={[{ 'mr-auto rtl:ml-auto rtl:mr-0': position === 'right' }, 'flex justify-between']}>
-      <a class="flex items-center" href={getHomePermalink()}>
+      <a class="flex items-center" href={getHomePermalink()} aria-label="TCHA Logo">
         <Logo />
       </a>
       <div class="flex items-center lg:hidden">

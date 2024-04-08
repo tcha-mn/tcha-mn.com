@@ -10,7 +10,7 @@ const { text, links, currentPath } = Astro.props;
     <Icon name="tabler:chevron-down" class="ml-0.5 hidden h-3.5 w-3.5 lg:inline rtl:ml-0 rtl:mr-0.5" />
   </button>
   <ul
-    class="dropdown-menu dark:lg:bg-dark rounded border border-gray-200 px-4 font-medium drop-shadow-xl dark:border-gray-700 lg:absolute lg:hidden lg:min-w-[200px] lg:bg-white/90 lg:pl-0 lg:backdrop-blur-md"
+    class="dropdown-menu dark:lg:bg-dark rounded border border-gray-200 px-4 font-medium drop-shadow-xl dark:border-gray-700 lg:absolute lg:hidden lg:min-w-[200px] lg:bg-white/90 lg:p-0 lg:backdrop-blur-md"
   >
     {
       links.map(({ text: subtext, href, dividerAfter = false }) => (

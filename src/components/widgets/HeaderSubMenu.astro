@@ -17,7 +17,7 @@ const { text, links, currentPath } = Astro.props;
         <li class:list={{ 'border-b border-gray-200 dark:border-gray-700': dividerAfter }}>
           <a
             class:list={[
-              'hover:text-link whitespace-no-wrap block px-5 py-2 text-white first:rounded-t last:rounded-b dark:hover:bg-gray-700 dark:hover:text-white lg:text-gray-950 lg:hover:bg-gray-100',
+              'hover:text-link whitespace-no-wrap block px-5 py-2 text-white first:rounded-t last:rounded-b dark:hover:bg-gray-700 dark:hover:text-white lg:text-gray-950 lg:hover:bg-gray-100 lg:dark:text-white',
               { 'aw-link-active': href === currentPath },
             ]}
             href={href}

@@ -11,7 +11,7 @@ export interface Props {
   content?: string;
   actions?: string | CallToAction[];
   image?: string | any; // TODO: find HTMLElementProps
-  backdropBlur?: string;
+  backdropOverlay?: string;
   animate?: boolean;
 }
 
@@ -23,7 +23,7 @@ const {
   content = await Astro.slots.render('content'),
   actions = await Astro.slots.render('actions'),
   image = await Astro.slots.render('image'),
-  backdropBlur,
+  backdropOverlay,
   animate = false,
 } = Astro.props;
 ---
@@ -32,7 +32,7 @@ const {
   <div class="pointer-events-none absolute inset-0" aria-hidden="true"></div>
   <div class="relative mx-auto max-w-7xl xl:py-24">
     <div class="pointer-events-none pt-0 md:pt-[76px]"></div>
-    <div class:list={['py-12', 'md:py-20', { 'rounded-xl bg-black/30 backdrop-blur-sm': backdropBlur }]}>
+    <div class:list={['py-12', 'md:py-20', { 'rounded-xl bg-black/30': backdropOverlay }]}>
       <div class="mx-auto max-w-5xl text-center">
         {
           tagline && (

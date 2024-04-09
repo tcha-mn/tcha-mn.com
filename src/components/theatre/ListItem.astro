@@ -19,6 +19,10 @@ function getFormattedDate(d: DateTime): string {
   return d.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
 }
 
+function getFormattedDateTime(d: DateTime): string {
+  return d.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY);
+}
+
 const link = `/theatre/${season.slug}/${show.slug}/`;
 ---
 
@@ -78,14 +82,6 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
               >
                 Get Audition Info
               </button>
-              <p class="text-sm text-gray-500">
-                (Auditions close on{' '}
-                <Icon name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
-                <time datetime={String(show.participation.deadline)} class="inline-block">
-                  {getFormattedDate(show.participation.deadline)}
-                </time>
-                )
-              </p>
             </>
           )
         }
@@ -97,7 +93,7 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
                 <ul>
                   {event.dates.map((d) => (
                     <li>
-                      <time datetime={String(d)}>{getFormattedDate(d)}</time>
+                      <time datetime={String(d)}>{getFormattedDateTime(d)}</time>
                     </li>
                   ))}
                 </ul>

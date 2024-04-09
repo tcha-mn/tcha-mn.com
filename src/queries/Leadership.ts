@@ -1,12 +1,11 @@
-import type { SanityImageWithAssetStub } from '@sanity/image-url/lib/types/types';
 import groq from 'groq';
-import { makeDataAccess, type BaseQueryOptions } from './sanity';
+import { makeDataAccess, type BaseQueryOptions, type SanityImageObject } from './sanity';
 
 interface Leadership {
   name: string;
   role: string;
   team: string;
-  headshot: SanityImageWithAssetStub;
+  headshot: SanityImageObject;
 }
 export interface LeadershipTeam {
   board: Leadership[];

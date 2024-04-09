@@ -1,5 +1,5 @@
 import imageUrlBuilder from '@sanity/image-url';
-import type { SanityImageSource } from '@sanity/image-url/lib/types/types';
+import type { SanityImageObject } from '@sanity/image-url/lib/types/types';
 import SanityPicture, { picture, setSanityPictureDefaults } from 'astro-sanity-picture';
 import { sanityClient } from 'sanity:client';
 export type { PortableTextBlock } from '@portabletext/types';
@@ -13,7 +13,7 @@ setSanityPictureDefaults({ imageUrlBuilder: builder });
 export interface BaseQueryOptions {
   picture: typeof picture;
 }
-export const urlFor = (source: SanityImageSource) => {
+export const urlFor = (source: SanityImageObject) => {
   return builder.image(source);
 };
 
@@ -52,5 +52,5 @@ export function makeDynamicDataAccess<
 
 export const now = process.env.PREVIEW_NOW ? `'${process.env.PREVIEW_NOW}'` : 'now()';
 
-export type { SanityImageSource };
+export type { SanityImageObject };
 export { SanityPicture };

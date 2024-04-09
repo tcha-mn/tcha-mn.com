@@ -1,7 +1,8 @@
 ---
 import { toHTML } from '@portabletext/to-html';
 import { fetchSlugs, fetchSeasonInfo } from '~/queries/TheatreSeasons';
-import SanityPicture from 'astro-sanity-picture';
+import { getRelatedEvents } from '~/queries/Events';
+import { SanityPicture } from '~/queries/sanity';
 import Hero from '../../components/widgets/Hero.astro';
 import Layout from '../../layouts/PageLayout.astro';
 import ShowList from '~/components/theatre/List.astro';
@@ -17,24 +18,25 @@ export interface Props {
 const { season } = Astro.params;
 
 const { season: seasonInfo, shows } = await fetchSeasonInfo({ season });
+const showEvents = Object.fromEntries(
+  await Promise.all(shows.map((s) => getRelatedEvents({ show: s.slug }).then((ev) => [s.slug, ev[0]])))
+);
 const metadata = {
   title: `${seasonInfo.title} | TCHA`,
 };
 ---
 
 <Layout metadata={metadata}>
-  <!-- Hero Widget ******************* -->
-
   <Hero tagline="Theatre Season" title={seasonInfo.title} subtitle={toHTML(seasonInfo.description)}>
     {
       seasonInfo.hero && (
         <Fragment slot="image">
-          <SanityPicture src={seasonInfo.hero} img={{ alt: seasonInfo.title }} />
+          <SanityPicture src={seasonInfo.hero} img={{ alt: seasonInfo.title }} sizes="(max-width 2000w) 320w" />
         </Fragment>
       )
     }
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
-    <ShowList season={seasonInfo} shows={shows} />
+    <ShowList season={seasonInfo} shows={shows} events={showEvents} />
   </section>
 </Layout>

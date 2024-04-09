@@ -1,16 +1,19 @@
 ---
 import { Icon } from 'astro-icon/components';
 import type { Show, TheatreSeason } from '~/queries/TheatreSeasons';
+import type { Event } from '~/queries/Events';
 
 import { SanityPicture } from '~/queries/sanity';
 import { DateTime } from 'luxon';
+import { toHTML } from '@portabletext/to-html';
 
 export interface Props {
   season: TheatreSeason;
   show: Show;
+  event: Event;
 }
 
-const { season, show } = Astro.props;
+const { event, season, show } = Astro.props;
 
 function getFormattedDate(d: DateTime): string {
   return d.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
@@ -32,7 +35,6 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
                 alt: show.title,
                 class: 'h-auto max-w-full bg-gray-400 dark:bg-slate-700 rounded shadow-lg',
               }}
-              lqip={{ enabled: false }}
             />
           )}
         </div>
@@ -53,7 +55,7 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
             )
           }
         </h2>
-        <span class="text-sm">
+        <p class="text-sm">
           <Icon name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
           <time datetime={String(show.date_range.start)} class="inline-block"
             >{getFormattedDate(show.date_range.start)}</time
@@ -62,7 +64,58 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
           <time datetime={String(show.date_range.end)} class="inline-block"
             >{getFormattedDate(show.date_range.end)}</time
           >
-        </span>
+        </p>
+        <p class="my-2" set:html={toHTML(show.description)} />
+        {
+          show.participation_is_open && show.participation && (
+            <>
+              <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Auditions</h3>
+              <p class="my-2" set:html={toHTML(show.participation.details)} />
+              <button
+                type="button"
+                class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none"
+                onclick={`window.open('${show.participation.registration_link}', '_blank').focus()`}
+              >
+                Get Audition Info
+              </button>
+              <p class="text-sm text-gray-500">
+                (Auditions close on{' '}
+                <Icon name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
+                <time datetime={String(show.participation.deadline)} class="inline-block">
+                  {getFormattedDate(show.participation.deadline)}
+                </time>
+                )
+              </p>
+            </>
+          )
+        }
+        {
+          event?.dates?.length > 0 && (
+            <>
+              <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Performances</h3>
+              <p class="my-2">
+                <ul>
+                  {event.dates.map((d) => (
+                    <li>
+                      <time datetime={String(d)}>{getFormattedDate(d)}</time>
+                    </li>
+                  ))}
+                </ul>
+              </p>
+            </>
+          )
+        }
+        {
+          event?.ticket_link && (
+            <button
+              type="button"
+              class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none"
+              onclick={`window.open('${event.ticket_link}', '_blank').focus()`}
+            >
+              Get Tickets
+            </button>
+          )
+        }
       </div>
     </header>
   </div>

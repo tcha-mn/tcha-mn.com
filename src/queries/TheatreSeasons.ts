@@ -3,7 +3,7 @@ import {
   makeDataAccess,
   now,
   type BaseQueryOptions,
-  type SanityImageSource,
+  type SanityImageObject,
   type PortableTextBlock,
   makeDynamicDataAccess,
 } from './sanity';
@@ -51,7 +51,9 @@ const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
       name,
       "bio": coalesce(class_type_bio[class_type == "theatre"][0].bio, bio),
       ${picture('headshot')}
-    }
+    },
+    "participation_is_open": participation.deadline > now(),
+    participation
 `;
 const SEASON_INFO = ({ season, picture }: QueryOptions) => `
 *[${VISIBLE_THEATRE_SEASONS} && title == "${season}"] {
@@ -85,7 +87,7 @@ interface ShowRaw {
   _id: string;
   title: string;
   slug: string;
-  hero: SanityImageSource;
+  hero: SanityImageObject;
   description: PortableTextBlock[];
   date_range: {
     start: string;
@@ -95,21 +97,32 @@ interface ShowRaw {
     _id: string;
     name: string;
     bio: string;
-    headshot: SanityImageSource;
+    headshot: SanityImageObject;
   }[];
+  participation_is_open: boolean;
+  participation?: {
+    deadline: string;
+    registration_link: string;
+    details: PortableTextBlock[];
+  }
 }
-export interface Show extends Omit<ShowRaw, 'date_range'> {
+export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
   gallery: {
-    images: SanityImageSource[];
+    images: SanityImageObject[];
   };
   date_range: {
     start: DateTime;
     end: DateTime;
   };
+  participation?: {
+    deadline: DateTime;
+    registration_link: string;
+    details: PortableTextBlock[];
+  }
 }
 
 interface SeasonInfoRaw {
-  season: TheatreSeasonRaw & { hero: SanityImageSource };
+  season: TheatreSeasonRaw & { hero: SanityImageObject };
   shows: ShowRaw[];
 }
 
@@ -125,16 +138,22 @@ function processSeasonInfo(info: SeasonInfoRaw) {
 
 interface ShowRawDetailed extends ShowRaw {
   gallery: {
-    images: SanityImageSource[];
+    images: SanityImageObject[];
   };
 }
 
 function processShowInfo(show: ShowRawDetailed): Show {
+  const participationDeadline = show.participation_is_open && show.participation ? parseDate(show.participation.deadline) : DateTime.now();
   return {
     ...show,
     date_range: {
       start: parseDate(show.date_range.start),
       end: parseDate(show.date_range.end),
+    },
+    participation: show.participation && {
+      deadline: participationDeadline,
+      registration_link: show.participation.registration_link,
+      details: show.participation.details,
     },
   };
 }

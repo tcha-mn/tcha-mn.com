@@ -88,7 +88,7 @@ const classEnd = classItem.dates.end;
         classItem.isOpenForRegistration && classItem.registrationLink && (
           <button
             type="button"
-            class="mb-2 me-2 rounded-lg bg-green-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-green-800 focus:outline-none focus:ring-4 focus:ring-green-300 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
+            class="btn-secondary mt-4 inline-flex items-center gap-x-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none focus:ring-4"
             onclick={`window.open('${classItem.registrationLink}', '_blank').focus()`}
           >
             Register

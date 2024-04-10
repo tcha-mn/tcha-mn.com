@@ -3,6 +3,8 @@ import { fetchAll } from '~/queries/SemesterWithClasses.ts';
 
 import SemesterWithClasses from './SemesterWithClasses.astro';
 import type { ClassType } from '~/queries/ClassType';
+//import { getRelatedEvents } from '~/queries/Events';
+//import { toHTML } from '@portabletext/to-html';
 
 export interface Props {
   classType?: ClassType;
@@ -11,8 +13,28 @@ export interface Props {
 const { classType = '' } = Astro.props;
 
 const semesters = await fetchAll({ classType });
+//const events = await getRelatedEvents({ classType });
 ---
 
+{
+  /*
+  events.length > 0 && (
+    <div class="mt-16 xl:mt-24">
+      <h3 class="leading-tighter text-heading mb-12 font-heading text-xl font-bold tracking-tighter md:text-3xl">
+        Upcoming Events
+      </h3>
+      <ul class="flex flex-wrap justify-between">
+        {events.map((event) => (
+          <li>
+            <h4 class="text-lg font-bold">{event.title}</h4>
+            <p set:html={toHTML(event.description as any)} />
+          </li>
+        ))}
+      </ul>
+    </div>
+  )
+*/
+}
 {semesters.map(({ semester, classes }) => <SemesterWithClasses semester={semester} classes={classes} />)}
 <script>
   document.addEventListener('astro:page-load', () => {

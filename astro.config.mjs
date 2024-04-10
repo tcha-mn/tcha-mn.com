@@ -1,5 +1,5 @@
-import path from 'path';
-import { fileURLToPath } from 'url';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 import { defineConfig, squooshImageService } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
@@ -59,6 +59,12 @@ export default defineConfig({
     spotlightjs(),
     react(),
   ],
+  redirects: {
+    '/theatre/': '/theatre/2023-2024/',
+    '/event/les-mis-play/': '/theatre/2023-2024/',
+    '/event/annie-jr/': '/theatre/2023-2024/',
+    '/about/': '/theatre/2023-2024/',
+  },
   image: {
     service: squooshImageService(),
     domains: ['cdn.sanity.io'],

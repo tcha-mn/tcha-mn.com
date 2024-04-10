@@ -93,6 +93,7 @@ export function parseRawClass({
 
   const now = DateTime.now();
   const isRecurring = !start.hasSame(end, 'day');
+  const isDaily = dates.day_of_week === undefined;
   return {
     ...c,
     isOpenForRegistration: registrationOpen < now && registrationClose > now,
@@ -110,7 +111,7 @@ export function parseRawClass({
       isRecurring,
       toString() {
         return isRecurring
-          ? `Weekly on ${dates.day_of_week} from ${start.toLocaleString(DateTime.DATE_MED)} to ${end.toLocaleString(DateTime.DATE_MED)}`
+          ? `${isDaily ? 'Daily' : `Weekly on ${dates.day_of_week}`} from ${start.toLocaleString(DateTime.DATE_MED)} to ${end.toLocaleString(DateTime.DATE_MED)}`
           : start.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
       },
     },

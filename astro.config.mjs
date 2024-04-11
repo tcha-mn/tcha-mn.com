@@ -63,7 +63,6 @@ export default defineConfig({
     '/theatre/': '/theatre/2023-2024/',
     '/event/les-mis-play/': '/theatre/2023-2024/',
     '/event/annie-jr/': '/theatre/2023-2024/',
-    '/about/': '/theatre/2023-2024/',
   },
   image: {
     service: squooshImageService(),

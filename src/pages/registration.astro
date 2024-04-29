@@ -75,7 +75,7 @@ const openClasses = await classesOpenForRegistration();
                       <span title={`Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}`}>
                         <a
                           type="button"
-                          class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none"
+                          class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
                           href={c.registrationLink}
                           target="_blank"
                         >
@@ -84,7 +84,7 @@ const openClasses = await classesOpenForRegistration();
                       </span>
                       <a
                         type="button"
-                        class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-accent px-3 py-2 text-center text-xs font-medium text-white hover:bg-darkMode focus:bg-darkMode focus:outline-none"
+                        class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-accent px-3 py-2 text-center text-xs font-medium text-white hover:bg-darkMode focus:bg-darkMode focus:outline-none dark:hover:bg-primary"
                         href={c.moreInfoLink}
                       >
                         Learn More

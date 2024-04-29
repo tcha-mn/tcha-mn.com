@@ -77,7 +77,7 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
               <p class="my-2" set:html={toHTML(show.participation.details)} />
               <button
                 type="button"
-                class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none"
+                class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-primary px-3 py-2 text-center text-xs font-medium text-white hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:bg-secondary dark:text-primary hover:dark:bg-primary hover:dark:text-white focus:dark:bg-primary"
                 onclick={`window.open('${show.participation.registration_link}', '_blank').focus()`}
               >
                 Audition Information
@@ -103,13 +103,13 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
         }
         {
           event?.ticket_link && (
-            <button
-              type="button"
-              class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none"
-              onclick={`window.open('${event.ticket_link}', '_blank').focus()`}
+            <a
+              class="btn-secondary"
+              class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
+              href={event.ticket_link}
             >
               Get Tickets
-            </button>
+            </a>
           )
         }
       </div>

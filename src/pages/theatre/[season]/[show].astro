@@ -1,11 +1,16 @@
 ---
 import { toHTML } from '@portabletext/to-html';
+import { Icon } from 'astro-icon/components';
 import SanityPicture from 'astro-sanity-picture';
 import { DateTime } from 'luxon';
 
 import Hero from '~/components/widgets/Hero.astro';
+import Button from '~/components/ui/Button.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import { fetchSlugs, fetchShowInfo, fetchOne } from '~/queries/TheatreSeasons';
+import Headline from '~/components/ui/Headline.astro';
+import { getRelatedEvents } from '~/queries/Events';
+import { fetchOne, fetchShowInfo, fetchSlugs } from '~/queries/TheatreSeasons';
+
 export async function getStaticPaths() {
   const seasons = await fetchSlugs();
   const paths = seasons.flatMap((season) => season.shows.map((show) => ({ params: { season: season.slug, show } })));
@@ -18,11 +23,15 @@ export interface Props {
 const { season, show } = Astro.params;
 const showInfo = await fetchShowInfo({ slug: show });
 const seasonInfo = await fetchOne({ season });
+const events = await getRelatedEvents({ show });
 const metadata = {
   title: `${showInfo.title} | ${seasonInfo.title} | TCHA`,
 };
 function formatDate(date: DateTime): string {
   return date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
+}
+function formatDateTime(d: DateTime): string {
+  return d.toLocaleString(DateTime.DATETIME_MED_WITH_WEEKDAY);
 }
 ---
 
@@ -37,10 +46,38 @@ function formatDate(date: DateTime): string {
     <Fragment slot="subtitle">
       {formatDate(showInfo.date_range.start)} - {formatDate(showInfo.date_range.end)}
     </Fragment>
+    {
+      events.length > 0 && events[0].ticket_link && (
+        <Fragment slot="content">
+          <a
+            class="btn-secondary"
+            class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
+            href={events[0].ticket_link}
+          >
+            Get Tickets
+          </a>
+        </Fragment>
+      )
+    }
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
-    <div class="mt-2 flex flex-col gap-2" set:html={toHTML(showInfo.description)} />
-
+    <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Synopsis</h3>
+    <p class="my-2" set:html={toHTML(showInfo.description)} />
+    {
+      showInfo.participation_is_open && showInfo.participation && (
+        <>
+          <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Auditions</h3>
+          <p class="my-2" set:html={toHTML(showInfo.participation.details)} />
+          <button
+            type="button"
+            class="mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none"
+            onclick={`window.open('${showInfo.participation.registration_link}', '_blank').focus()`}
+          >
+            Audition Information
+          </button>
+        </>
+      )
+    }
     {
       showInfo.gallery?.images?.length > 1 && (
         <div id="gallery" class="relative w-full" data-carousel="slide">

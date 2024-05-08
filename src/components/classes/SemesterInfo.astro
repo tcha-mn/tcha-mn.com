@@ -1,7 +1,9 @@
 ---
 import { DateTime } from 'luxon';
+import { Icon } from 'astro-icon/components';
 
 import type { Semester } from '~/queries/Semester';
+import BlockScheduleDownload from '~/components/widgets/BlockScheduleDownload.astro';
 
 export interface Props {
   semester: Semester;
@@ -30,16 +32,20 @@ const registrationPast = semester.dates.start < now;
         {semester.early_registration_end > now &&
           ` (Early registration discounts are available until ${semester.early_registration_end.toLocaleString(DateTime.DATE_MED)})`}
       </span>
-      .
+      <BlockScheduleDownload link={semester.block_schedule_pdf} />
     </div>
   )
 }
 {
   registrationOpenFuture && (
-    <div class="mb-4 rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400" role="alert">
+    <div
+      class="mb-4 flex justify-between rounded-lg bg-blue-50 p-4 text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
+      role="alert"
+    >
       <span class="font-medium">
-        Registration will open on {semester.registration_open.toLocaleString(DateTime.DATE_FULL)}
+        Registration will open on {semester.registration_open.toLocaleString(DateTime.DATE_FULL)}.
       </span>
+      <BlockScheduleDownload link={semester.block_schedule_pdf} />
     </div>
   )
 }
@@ -61,7 +67,7 @@ const registrationPast = semester.dates.start < now;
   > in Apple Valley on {semester.dates.day_of_week}s from {semester.dates.start.toLocaleString(DateTime.DATE_MED)} to {
     semester.dates.end.toLocaleString(DateTime.DATE_MED)
   }{
-    semester.dates.breaks.length > 0 &&
-      ` with the exception of the following dates: ${semester.dates.breaks.map((d) => d.toLocaleString(DateTime.DATE_MED)).join('; ')}`
-  }.
+    semester.dates.breaks.length > 1 &&
+      ` except for the following dates: ${semester.dates.breaks.map((d) => d.toLocaleString(DateTime.DATE_MED)).join('; ')}`
+  }{semester.dates.breaks.length === 1 && ` except for ${semester.dates.breaks[0].toLocaleString(DateTime.DATE_MED)}`}.
 </p>

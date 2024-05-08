@@ -1,4 +1,4 @@
-import { makeDynamicDataAccess, type BaseQueryOptions } from './sanity';
+import { makeDynamicDataAccess, type BaseQueryOptions, now } from './sanity';
 import { CLASS_QUERY_FRAGMENT, parseRawClassArray, type ParsedClass, type RawClass } from './Classes';
 import { SEMESTER_QUERY_FRAGMENT, parseSemester, type Semester } from './Semester';
 
@@ -21,16 +21,17 @@ interface QueryOptions extends BaseQueryOptions {
 const QUERY = ({ classType, registration, picture }: QueryOptions) => `
 *[
   _type == "semester" &&
-  registration_open < now() &&
-  dates.end > now()
-  ${registration === 'open' ? '&& dates.start < now()' : ''}
+  coalesce(date_visible, registration_open) < ${now} &&
+  dates.end > ${now}
+  ${registration === 'open' ? `&& dates.start < ${now}` : ''}
 ] | order(registration_open) {
   "semester": ${SEMESTER_QUERY_FRAGMENT},
   "classes": *[
     _type == "class"
     ${classType ? ' && class_type == "' + classType + '"' : ''} &&
     references(^._id) &&
-    coalesce(dates, ^.dates).end > now()
+    coalesce(dates, ^.dates).end > ${now} &&
+    coalesce(is_cancelled, false) == false
   ] | order(age_minimum, age_maximum) ${CLASS_QUERY_FRAGMENT({ picture, includeInstructors: true })}
 }`;
 

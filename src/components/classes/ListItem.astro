@@ -13,8 +13,6 @@ export interface Props {
 }
 
 const { classItem } = Astro.props;
-const classStart = classItem.dates.start;
-const classEnd = classItem.dates.end;
 ---
 
 <article class="mx-auto max-w-md md:max-w-none">
@@ -41,14 +39,18 @@ const classEnd = classItem.dates.end;
             ))
         }
       </span>
-      <div class="mb-0 mt-3">
-        <span class="text-sm">
-          <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
-          <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
-            >{classItem.classTimes.start} - {classItem.classTimes.end}</time
-          >
-        </span>
-      </div>
+      {
+        classItem.classTimes?.start && (
+          <div class="mb-0 mt-3">
+            <span class="text-sm">
+              <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
+              <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
+                >{classItem.classTimes.start} - {classItem.classTimes.end}</time
+              >
+            </span>
+          </div>
+        )
+      }
       {
         classItem.dates && (
           <div class="mb-0 mt-0.5">
@@ -56,13 +58,10 @@ const classEnd = classItem.dates.end;
               <Icon
                 title="Schedule"
                 name="tabler:calendar"
-                class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
+                class="dark:textspan-gray-400 -mt-0.5 inline-block h-3.5 w-3.5"
               />
               <span>
-                {classStart.hasSame(classEnd, 'day')
-                  ? classStart?.toLocaleString(DateTime.DATE_MED)
-                  : `Weekly on ${classItem.dates.day_of_week}s, ${classStart?.toLocaleString(DateTime.DATE_MED)} -
-                ${classEnd?.toLocaleString(DateTime.DATE_MED)}`}
+{classItem.dates}
               </span>
             </span>
           </div>
@@ -81,18 +80,21 @@ const classEnd = classItem.dates.end;
             name="tabler:currency-dollar"
             class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
           />
-          {classItem.price}
+          <span class:list={{ 'text-gray-500 line-through dark:text-gray-400': classItem.isEarlyRegistration }}
+            >{classItem.price}</span
+          >
+          {classItem.isEarlyRegistration && <>{classItem.price - 10}</>}
         </span>
       </div>
       {
         classItem.isOpenForRegistration && classItem.registrationLink && (
-          <button
-            type="button"
+          <a
             class="btn-secondary mt-4 inline-flex items-center gap-x-1 rounded-lg px-3 py-2 text-center text-sm font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none focus:ring-4"
-            onclick={`window.open('${classItem.registrationLink}', '_blank').focus()`}
+            href={classItem.registrationLink}
+            target="_blank"
           >
             Register
-          </button>
+          </a>
         )
       }
       <button
@@ -106,9 +108,16 @@ const classEnd = classItem.dates.end;
         Read more <Icon name="tabler:arrow-right" />
       </button>
       {
-        classItem.isOpenForRegistration && (
+        (classItem.isEarlyRegistration || classItem.isOpenForRegistration) && (
           <div class="text-sm italic text-muted">
-            Registration closes {classItem.registration_close.toLocaleString(DateTime.DATE_MED)}
+            {classItem.isOpenForRegistration && (
+              <>Registration closes {classItem.registration_close.toLocaleString(DateTime.DATE_MED)}</>
+            )}
+            {classItem.isEarlyRegistration && (
+              <>
+                Early registration discount expires {classItem.early_registration_end.toLocaleString(DateTime.DATE_MED)}
+              </>
+            )}
           </div>
         )
       }
@@ -169,23 +178,24 @@ const classEnd = classItem.dates.end;
                   class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
                 />
                 <span>
-                  {classStart.hasSame(classEnd, 'day')
-                    ? classStart?.toLocaleString(DateTime.DATE_MED)
-                    : `Weekly on ${classItem.dates.day_of_week}s, ${classStart?.toLocaleString(DateTime.DATE_MED)} -
-                  ${classEnd?.toLocaleString(DateTime.DATE_MED)}`}
+                  {classItem.dates}
                 </span>
               </span>
             </div>
           )
         }
-        <div>
-          <span class="text-sm">
-            <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
-            <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
-              >{classItem.classTimes.start} - {classItem.classTimes.end}</time
-            >
-          </span>
-        </div>
+        {
+          classItem.classTimes?.start && (
+            <div>
+              <span class="text-sm">
+                <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
+                <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
+                  >{classItem.classTimes.start} - {classItem.classTimes.end}</time
+                >
+              </span>
+            </div>
+          )
+        }
         <div>
           <span class="text-sm" title={'Ages ' + classItem.ages.min + '-' + classItem.ages.max}>
             <Icon title="Grades" name="tabler:school" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />

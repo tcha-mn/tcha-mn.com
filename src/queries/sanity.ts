@@ -4,6 +4,7 @@ import SanityPicture, { picture, setSanityPictureDefaults } from 'astro-sanity-p
 import { sanityClient } from 'sanity:client';
 export type { PortableTextBlock } from '@portabletext/types';
 import debug from 'debug';
+import { DateTime } from 'luxon';
 
 const logger = debug('site:sanity');
 
@@ -51,6 +52,7 @@ export function makeDynamicDataAccess<
 }
 
 export const now = process.env.PREVIEW_NOW ? `'${process.env.PREVIEW_NOW}'` : 'now()';
+export const nowDateTime = process.env.PREVIEW_NOW ? DateTime.fromISO(process.env.PREVIEW_NOW) : DateTime.now();
 
 export type { SanityImageObject };
 export { SanityPicture };

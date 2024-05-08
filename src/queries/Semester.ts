@@ -12,9 +12,10 @@ export interface RawSemester {
   };
   registration_open: string;
   early_registration_end: string;
+  block_schedule_pdf?: string;
 }
 
-export interface Semester {
+export interface Semester extends Pick<RawSemester, 'name' | 'block_schedule_pdf'> {
   name: string;
   isPopup: boolean;
   dates: {
@@ -32,7 +33,8 @@ export const SEMESTER_QUERY_FRAGMENT = `{
   name,
   dates,
   registration_open,
-  early_registration_end
+  early_registration_end,
+  "block_schedule_pdf": block_schedule.asset->url,
 }`;
 
 export function parseSemester(raw: RawSemester): Semester {
@@ -47,6 +49,7 @@ export function parseSemester(raw: RawSemester): Semester {
     },
     registration_open: parseDate(raw.registration_open),
     early_registration_end: parseDate(raw.early_registration_end),
+    block_schedule_pdf: raw.block_schedule_pdf,
   };
 }
 

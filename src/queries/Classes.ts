@@ -1,4 +1,4 @@
-import type { BaseQueryOptions } from './sanity';
+import { type BaseQueryOptions, nowDateTime as now } from './sanity';
 import { INSTRUCTOR_QUERY_FRAGMENT, type Instructor } from './Instructor';
 import type { ClassType } from './ClassType';
 import { DateTime } from 'luxon';
@@ -29,17 +29,35 @@ export interface RawClass {
   classTimes: { _type: string; start: string; end: string };
   registration_open: string;
   registration_close: string;
-  dates: { day_of_week: string; start: string; end: string; breaks?: string[] };
+  no_early_registration_discount: boolean;
+  is_cancelled: boolean;
+  early_registration_end?: string;
+  dates: {
+    frequency: 'once' | 'daily' | 'weekly' | 'monthly';
+    day_of_week?: string;
+    day_of_month?: string;
+    start: string;
+    end: string;
+    breaks?: string[];
+  };
   connect_class_id?: number;
   registration_link?: string;
 }
 export interface ParsedClass
-  extends Omit<RawClass, 'dates' | 'registration_open' | 'registration_close' | 'registration_link'> {
+  extends Omit<
+    RawClass,
+    'dates' | 'registration_open' | 'registration_close' | 'registration_link' | 'early_registration_end'
+  > {
   isOpenForRegistration: boolean;
+  isEarlyRegistration: boolean;
   registration_open: DateTime;
   registration_close: DateTime;
+  early_registration_end?: DateTime;
+  is_cancelled: boolean;
   dates: {
-    day_of_week: string;
+    frequency: 'once' | 'daily' | 'weekly' | 'monthly';
+    day_of_week?: string;
+    day_of_month?: string;
     start: DateTime;
     end: DateTime;
     breaks?: DateTime[];
@@ -65,6 +83,9 @@ export const CLASS_QUERY_FRAGMENT = ({ picture, includeInstructors = false }: Qu
     registration_link,
     connect_class_id,
     "dates": coalesce(dates, semester->.dates),
+    no_early_registration_discount,
+    is_cancelled,
+    "early_registration_end": semester->.early_registration_end,
     ${includeInstructors ? instructorFragment : ''}
     "classTimes": class_times,
     "grades": {
@@ -84,19 +105,23 @@ export function parseRawClass({
   dates,
   registration_open,
   registration_close,
+  early_registration_end,
   ...c
 }: RawClass): ParsedClass {
   const start = parseDate(dates.start);
   const end = parseDate(dates.end);
   const registrationOpen = parseDate(registration_open);
   const registrationClose = parseDate(registration_close);
+  const earlyRegistrationEnd = early_registration_end ? parseDate(early_registration_end) : DateTime.now();
 
-  const now = DateTime.now();
-  const isRecurring = !start.hasSame(end, 'day');
-  const isDaily = dates.day_of_week === undefined;
+  const frequency = dates.frequency || (start.hasSame(end, 'day') ? 'once' : dates.day_of_month ? 'monthly' : 'weekly');
+  const isRecurring = frequency !== 'once';
+  const isDaily = frequency === 'daily';
   return {
     ...c,
     isOpenForRegistration: registrationOpen < now && registrationClose > now,
+    isEarlyRegistration: !c.no_early_registration_discount && earlyRegistrationEnd > now,
+    early_registration_end: earlyRegistrationEnd,
     registration_open: registrationOpen,
     registration_close: registrationClose,
     moreInfoLink: `/${c.class_type.toLowerCase()}/#class-${c._id}`,
@@ -110,9 +135,17 @@ export function parseRawClass({
       breaks: dates.breaks?.map(parseDate),
       isRecurring,
       toString() {
-        return isRecurring
-          ? `${isDaily ? 'Daily' : `Weekly on ${dates.day_of_week}`} from ${start.toLocaleString(DateTime.DATE_MED)} to ${end.toLocaleString(DateTime.DATE_MED)}`
-          : start.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
+        const parts: string[] = [];
+        if (isRecurring) {
+          parts.push(`${frequency.charAt(0).toUpperCase() + frequency.slice(1)}`);
+          if (!isDaily) {
+            parts.push(`on ${frequency === 'weekly' ? dates.day_of_week + 's' : `the ${dates.day_of_month}`}`);
+          }
+          parts.push(`from ${start.toLocaleString(DateTime.DATE_MED)} to ${end.toLocaleString(DateTime.DATE_MED)}`);
+          return parts.join(' ');
+        } else {
+          return start.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
+        }
       },
     },
   };

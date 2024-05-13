@@ -35,7 +35,7 @@ export interface RawClass {
   dates: {
     frequency: 'once' | 'daily' | 'weekly' | 'monthly';
     day_of_week?: string;
-    day_of_month?: string;
+    custom_recurring?: string;
     start: string;
     end: string;
     breaks?: string[];
@@ -114,9 +114,9 @@ export function parseRawClass({
   const registrationClose = parseDate(registration_close);
   const earlyRegistrationEnd = early_registration_end ? parseDate(early_registration_end) : DateTime.now();
 
-  const frequency = dates.frequency || (start.hasSame(end, 'day') ? 'once' : dates.day_of_month ? 'monthly' : 'weekly');
+  const frequency =
+    dates.frequency || (start.hasSame(end, 'day') ? 'once' : dates.custom_recurring ? 'custom' : 'weekly');
   const isRecurring = frequency !== 'once';
-  const isDaily = frequency === 'daily';
   return {
     ...c,
     isOpenForRegistration: registrationOpen < now && registrationClose > now,
@@ -135,14 +135,8 @@ export function parseRawClass({
       breaks: dates.breaks?.map(parseDate),
       isRecurring,
       toString() {
-        const parts: string[] = [];
         if (isRecurring) {
-          parts.push(`${frequency.charAt(0).toUpperCase() + frequency.slice(1)}`);
-          if (!isDaily) {
-            parts.push(`on ${frequency === 'weekly' ? dates.day_of_week + 's' : `the ${dates.day_of_month}`}`);
-          }
-          parts.push(`from ${start.toLocaleString(DateTime.DATE_MED)} to ${end.toLocaleString(DateTime.DATE_MED)}`);
-          return parts.join(' ');
+          return `${dates.custom_recurring || `Weekly on ${dates.day_of_week + 's'}`} from ${start.toLocaleString(DateTime.DATE_MED)} to ${end.toLocaleString(DateTime.DATE_MED)}`;
         } else {
           return start.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
         }

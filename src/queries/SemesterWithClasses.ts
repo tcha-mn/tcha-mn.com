@@ -30,8 +30,7 @@ const QUERY = ({ classType, registration, picture }: QueryOptions) => `
     _type == "class"
     ${classType ? ' && class_type == "' + classType + '"' : ''} &&
     references(^._id) &&
-    coalesce(dates, ^.dates).end > ${now} &&
-    coalesce(is_cancelled, false) == false
+    coalesce(dates, ^.dates).end > ${now}
   ] | order(age_minimum, age_maximum) ${CLASS_QUERY_FRAGMENT({ picture, includeInstructors: true })}
 }`;
 

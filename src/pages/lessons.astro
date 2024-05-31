@@ -66,7 +66,7 @@ const instructors = await fetchAll({});
                         name="tabler:school"
                         class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
                       />
-                      {lessons.instrument}
+                      {lessons.instrument} {lessons.in_home && '(In-Home)'}
                     </span>
                   </div>
                   {lessons.email && (

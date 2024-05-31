@@ -7,6 +7,7 @@ export interface PrivateInstructor extends Instructor {
     email?: string;
     website?: string;
     phone?: string;
+    in_home?: boolean;
   };
 }
 

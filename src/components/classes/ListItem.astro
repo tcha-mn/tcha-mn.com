@@ -209,7 +209,10 @@ const { classItem } = Astro.props;
               name="tabler:currency-dollar"
               class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400"
             />
-            {classItem.price}
+            <span class:list={{ 'text-gray-500 line-through dark:text-gray-400': classItem.isEarlyRegistration }}
+              >{classItem.price}</span
+            >
+            {classItem.isEarlyRegistration && <>{classItem.price - 10}</>}
           </span>
         </div>
       </div>

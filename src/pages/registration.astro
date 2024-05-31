@@ -68,7 +68,7 @@ const openClasses = await classesOpenForRegistration();
                       {c.grades.min} - {c.grades.max}
                     </td>
                     <td class="px-4 py-3 text-center">
-                      {c.classTimes.start}-{c.classTimes.end}
+                      {c.classTimes?.start}-{c.classTimes?.end}
                     </td>
                     <td class="px-4 py-3 text-center">
                       {c.dates.toString()} ({c.semester})

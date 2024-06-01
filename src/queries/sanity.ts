@@ -51,8 +51,9 @@ export function makeDynamicDataAccess<
   };
 }
 
-export const now = process.env.PREVIEW_NOW ? `'${process.env.PREVIEW_NOW}'` : 'now()';
-export const nowDateTime = process.env.PREVIEW_NOW ? DateTime.fromISO(process.env.PREVIEW_NOW) : DateTime.now();
+const previewNow = process.env.PREVIEW_NOW?.match(/\d{4}-\d{2}-\d{2}/) ? process.env.PREVIEW_NOW : undefined;
+export const now = previewNow || 'now()';
+export const nowDateTime = previewNow ? DateTime.fromISO(previewNow) : DateTime.now();
 
 export type { SanityImageObject };
 export { SanityPicture };

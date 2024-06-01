@@ -10,7 +10,7 @@ const OPEN_CLASS_RESTRICTION_FRAGMENT = `*[
 const isRegistrationOpenQuery = `count(${OPEN_CLASS_RESTRICTION_FRAGMENT}) > 0`;
 
 const classesOpenForRegistrationQuery = (options: BaseQueryOptions) => `
-${OPEN_CLASS_RESTRICTION_FRAGMENT} | order(coalesce(registration_close, coalesce(dates.start, semester->.dates.start)) asc, class_times.start)
+${OPEN_CLASS_RESTRICTION_FRAGMENT} | order(coalesce(registration_close, coalesce(dates.start, semester->.dates.start)) asc, class_type, age_minimum, class_times.start)
   ${CLASS_QUERY_FRAGMENT(options)}
 `;
 

@@ -52,7 +52,7 @@ export function makeDynamicDataAccess<
 }
 
 const previewNow = process.env.PREVIEW_NOW?.match(/\d{4}-\d{2}-\d{2}/) ? process.env.PREVIEW_NOW : undefined;
-export const now = previewNow || 'now()';
+export const now = `'${previewNow} 00:00:01'` || 'now()';
 export const nowDateTime = previewNow ? DateTime.fromISO(previewNow) : DateTime.now();
 
 export type { SanityImageObject };

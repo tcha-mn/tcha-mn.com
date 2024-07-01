@@ -14,7 +14,9 @@ on:
 
   schedule:
     - cron: "8 6 * * *"
-
+  repository_dispatch:
+    types:
+      - webhook
 # Allow this job to clone the repo and create a page deployment
 permissions:
   contents: read

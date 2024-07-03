@@ -46,7 +46,7 @@ jobs:
         uses: actions/deploy-pages@v4
 
   promote:
-    if: github.repository == 'tcha-mn/preview.tcha-mn.com'
+    if: github.repository == 'tcha-mn/preview.tcha-mn.com' && github.event_name != 'repository_dispatch'
     needs: deploy
     runs-on: ubuntu-latest
     steps:

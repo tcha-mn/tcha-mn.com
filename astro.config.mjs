@@ -60,9 +60,10 @@ export default defineConfig({
     react(),
   ],
   redirects: {
-    '/theatre/': '/theatre/2023-2024/',
-    '/event/les-mis-play/': '/theatre/2023-2024/',
+    '/cinderella': '/theatre/2024-2025/2024-cinderella/',
     '/event/annie-jr/': '/theatre/2023-2024/',
+    '/event/les-mis-play/': '/theatre/2023-2024/',
+    '/theatre/': '/theatre/2024-2025/',
   },
   image: {
     service: squooshImageService(),

@@ -29,7 +29,7 @@ const openClasses = await classesOpenForRegistration();
       </Fragment>
     </Hero>
   </WidgetWrapper>
-  <WidgetWrapper containerClass="max-w-7xl mx-auto">
+  <WidgetWrapper containerClass="max-w-7xl mx-auto lg:py-8 md:py-8 py-8">
     <Ternary condition={openClasses.length > 0}>
       <Fragment slot="false">
         <div
@@ -44,6 +44,19 @@ const openClasses = await classesOpenForRegistration();
         </div>
       </Fragment>
       <Fragment slot="true">
+        <p class="mb-3 text-left font-bold">Please take note of the following registration policies:</p>
+        <ul class="mb-12 w-full list-disc text-left">
+          <li>There is a 20% non-refundable deposit required at the time of registration.</li>
+          <li>
+            Choir registration deadline is two weeks before the start of classes to allow the directors to choose and
+            order enough copies of music. For those who register after this deadline, there will be a $20 late fee.
+          </li>
+          <li>
+            If a class is dropped before the second week of classes, a full refund, minus the 20% non-refundable
+            deposit, will be given.
+          </li>
+          <li>If a class is dropped after the second week of class, no refund will be given.</li>
+        </ul>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
           <table class="mx-0 w-full table-auto text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
             <thead class="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">

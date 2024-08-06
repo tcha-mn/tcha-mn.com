@@ -1,0 +1,46 @@
+---
+import type { Brands as Props } from '~/types';
+
+import Image from '~/components/common/Image.astro';
+import Headline from '~/components/ui/Headline.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import { urlFor } from '~/queries/sanity';
+
+const {
+  title = '',
+  subtitle = '',
+  tagline = '',
+  images = [],
+  id,
+  isDark = false,
+  classes = {},
+  bg = await Astro.slots.render('bg'),
+} = Astro.props;
+---
+
+<WidgetWrapper id={id} isDark={isDark} containerClass={`max-w-6xl mx-auto ${classes?.container ?? ''}`} bg={bg}>
+  <Headline title={title} subtitle={subtitle} tagline={tagline} />
+
+  <div class="flex flex-wrap justify-center gap-x-6 sm:gap-x-12 lg:gap-x-24">
+    {
+      images &&
+        images.map(
+          (image) =>
+            image.img && (
+              <div class="col-span-1 my-2 flex justify-center rounded-md px-3 py-1 dark:bg-gray-200 lg:my-4">
+                <a href={image.url} target="_blank" rel="noopener noreferrer">
+                  <Image
+                    src={urlFor(image.img).url()}
+                    alt={image.alt || ''}
+                    class="max-h-fit"
+                    width={280}
+                    height={90}
+                    layout="fixed"
+                  />
+                </a>
+              </div>
+            )
+        )
+    }
+  </div>
+</WidgetWrapper>

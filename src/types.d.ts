@@ -1,6 +1,7 @@
 import type { AstroComponentFactory } from 'astro/runtime/server/index.js';
 import type { HTMLAttributes, ImageMetadata } from 'astro/types';
 import type { Testimonial } from '~/queries/Testimonials';
+import type { SanityImageObject } from './queries/sanity';
 
 export interface Post {
   /** A unique ID number that identifies a post. */
@@ -227,8 +228,7 @@ export interface Testimonials extends Headline, Widget {
 }
 
 export interface Brands extends Headline, Widget {
-  icons?: Array<string>;
-  images?: Array<Image>;
+  images?: Array<{ img: SanityImageObject; alt?: string; url?: string }>;
 }
 
 export interface Features extends Headline, Widget {

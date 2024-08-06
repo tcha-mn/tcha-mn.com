@@ -3,16 +3,19 @@
 import { Image } from 'astro:assets';
 import Layout from '~/layouts/PageLayout.astro';
 
+import Brands from '~/components/widgets/Brands.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
 import Features from '~/components/widgets/Features.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Testimonials from '~/components/widgets/Testimonials.astro';
 import { fetchAll as fetchAllTestimonials } from '~/queries/Testimonials';
+import { fetchActive as fetchActiveSponsors } from '~/queries/Sponsors';
 import type { CallToAction as HeroCallToAction } from '~/types';
 import { isRegistrationOpen } from '~/queries/Registration';
 import { findLocalImage } from '~/utils/images';
 
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import { urlFor } from '~/queries/sanity';
 
 const hero = await findLocalImage('~/assets/images/brightstar-hero.jpg');
 
@@ -20,6 +23,7 @@ const metadata = {
   title: 'Twin Cities Homeschoolers for the Arts',
   ignoreTitleTemplate: true,
 };
+const sponsors = await fetchActiveSponsors();
 const testimonials = await fetchAllTestimonials();
 const registrationIsOpen = await isRegistrationOpen();
 const heroActions: HeroCallToAction[] = [{ text: 'Learn more', href: '/about/', variant: 'primary' }];
@@ -124,4 +128,10 @@ if (registrationIsOpen) {
       performing arts.
     </Fragment>
   </CallToAction>
+
+  <Brands
+    title="Sponsors"
+    subtitle="These businesses and individuals have significantly supported our mission to provide performing arts education and opportunities to home-educated students."
+    images={sponsors.map((s) => ({ img: s.logo, alt: s.name, url: s.url }))}
+  />
 </Layout>

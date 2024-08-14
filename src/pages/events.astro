@@ -16,7 +16,8 @@ const metadata = {
     import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
     const $modalEl = document.getElementById('eventModal');
-    const modal = new Modal($modalEl, {}, { id: 'eventModal', override: true });
+    const eventModal = new Modal($modalEl, {}, { id: 'eventModal', override: true });
+    Object.assign(window, { eventModal });
 
     const initCalendar = () => {
       var calendarEl = document.getElementById('calendar')!;
@@ -38,9 +39,13 @@ const metadata = {
           document.getElementById('eventModal-subtitle')!.innerText = info.event.allDay
             ? 'All Day'
             : `${dayjs(info.event.start).format('h:mm a')} - ${dayjs(info.event.end).format('h:mm a')}`;
+          document.getElementById('eventModal-location-wrapper')!.hidden = !info.event.extendedProps.location;
           document.getElementById('eventModal-location')!.innerHTML =
             `${info.event.extendedProps.location}<br />(<a target="_blank" href="https://maps.google.com/?q=${info.event.extendedProps.location}">see map</a>)`;
-          modal.show();
+
+          document.getElementById('eventModal-description-wrapper')!.hidden = !info.event.extendedProps.description;
+          document.getElementById('eventModal-description')!.innerText = info.event.extendedProps.description;
+          eventModal.show();
         },
       });
       calendar.render();
@@ -65,7 +70,7 @@ const metadata = {
             <button
               type="button"
               class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-              onclick="modal.hide()"
+              onclick="window.eventModal?.hide()"
             >
               <svg
                 class="h-3 w-3"
@@ -89,13 +94,11 @@ const metadata = {
           </div>
           <!-- Modal body -->
           <div class="space-y-6 p-6">
-            <!--
-            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            <p id="eventModal-description-wrapper" class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               <b>Description:</b>
               <span id="eventModal-description"></span>
             </p>
-            -->
-            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
+            <p id="eventModal-location-wrapper" class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
               <b>Location:</b>
               <span id="eventModal-location"></span>
             </p>

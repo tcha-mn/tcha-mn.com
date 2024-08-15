@@ -7,6 +7,7 @@ import Layout from '../layouts/PageLayout.astro';
 import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Ternary from '~/components/Ternary.astro';
 import { findLocalImage } from '~/utils/images';
+import { Icon } from 'astro-icon/components';
 
 const hero = await findLocalImage('~/assets/images/registration-hero.jpg');
 
@@ -23,7 +24,19 @@ const openClasses = await classesOpenForRegistration();
         <Image src={hero} alt="Director instruction" class="h-full w-full object-cover object-[50%_15%]" />
       </div>
     </Fragment>
-    <Hero backdropOverlay="md" title="Register for Classes">
+    <Hero
+      actions={[
+        {
+          text: '2024-25 Class Policies and Information',
+          href: 'https://docs.google.com/document/d/1uyqx2_iXhoAzuZlWm3EDpfqt3n5rYyvVRdxnGetxbus/edit?usp=sharing',
+          variant: 'primary',
+          target: '_blank',
+          icon: 'tabler:external-link',
+        },
+      ]}
+      backdropOverlay="md"
+      title="Register for Classes"
+    >
       <Fragment slot="content">
         <p class="mb-3">The table below lists all classes currently open for registration.</p>
       </Fragment>
@@ -44,8 +57,8 @@ const openClasses = await classesOpenForRegistration();
         </div>
       </Fragment>
       <Fragment slot="true">
-        <p class="mb-3 text-left font-bold">Please take note of the following registration policies:</p>
-        <ul class="mb-12 w-full list-disc text-left">
+        <h3 class="mb-3 text-left text-xl font-bold">Registration Policies</h3>
+        <ul class="mb-3 w-full list-disc text-left">
           <li>There is a 20% non-refundable deposit required at the time of registration.</li>
           <li>
             Choir registration deadline is two weeks before the start of classes to allow the directors to choose and

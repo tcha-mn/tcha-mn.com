@@ -2,6 +2,7 @@
 // import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
 import Layout from '~/layouts/PageLayout.astro';
+import { fetchAll as fetchAllSeasons } from '~/queries/TheatreSeasons';
 
 import Brands from '~/components/widgets/Brands.astro';
 import CallToAction from '~/components/widgets/CallToAction.astro';
@@ -35,6 +36,7 @@ if (registrationIsOpen) {
   });
   heroActions[1].variant = 'accent';
 }
+const seasons = await fetchAllSeasons();
 ---
 
 <Layout metadata={metadata}>
@@ -93,7 +95,7 @@ if (registrationIsOpen) {
         description:
           'Performance opportunities for a variety of age ranges including musical theatre and classic plays',
         icon: 'tabler:theater',
-        implicitAction: '/theatre/2023-2024/',
+        implicitAction: '/theatre/',
       },
     ]}
   />

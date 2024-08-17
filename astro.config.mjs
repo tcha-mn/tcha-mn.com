@@ -5,12 +5,13 @@ import sitemap from '@astrojs/sitemap';
 import tailwind from '@astrojs/tailwind';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
-import tasks from './src/utils/tasks';
+import tasks from './src/utils/tasks.mjs';
 import { ANALYTICS, SITE, SANITY } from './src/utils/config.ts';
 import sanityIntegration from '@sanity/astro';
-import sentry from '@sentry/astro';
-import spotlightjs from '@spotlightjs/astro';
 import react from '@astrojs/react';
+
+const CURRENT_THEATRE_SEASON = '2024-2025';
+
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) =>
   ANALYTICS.vendors.googleAnalytics.id && ANALYTICS.vendors.googleAnalytics.partytown
@@ -55,15 +56,13 @@ export default defineConfig({
     ),
     tasks(),
     sanityIntegration(SANITY),
-    sentry(),
-    spotlightjs(),
     react(),
   ],
   redirects: {
     '/cinderella': '/theatre/2024-2025/2024-cinderella/',
     '/event/annie-jr/': '/theatre/2023-2024/',
     '/event/les-mis-play/': '/theatre/2023-2024/',
-    '/theatre/': '/theatre/2024-2025/',
+    '/theatre/': `/theatre/${CURRENT_THEATRE_SEASON}/`,
   },
   image: {
     service: squooshImageService(),

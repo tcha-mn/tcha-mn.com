@@ -40,6 +40,10 @@ export const headerData = {
           text: 'Contact Us',
           href: `${SITE.base}/contact/`,
         },
+        {
+          text: 'Merch',
+          href: 'https://www.care.com/connect/tcha/?category=products',
+        },
         ...getPageMenuItems('About'),
       ],
     },
@@ -101,8 +105,9 @@ export const footerData = {
       title: 'Info',
       links: [
         { text: 'About Us', href: `${SITE.base}/about/` },
-        { text: 'Contact Us', href: `${SITE.base}/contact/` },
         { text: 'FAQ', href: `${SITE.base}/faqs/` },
+        { text: 'Contact Us', href: `${SITE.base}/contact/` },
+        { text: 'Merch', href: 'https://www.care.com/connect/tcha/?category=products' },
       ],
     },
     {

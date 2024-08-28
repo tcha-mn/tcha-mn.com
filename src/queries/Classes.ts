@@ -119,7 +119,7 @@ export function parseRawClass({
   const isRecurring = frequency !== 'once';
   return {
     ...c,
-    isOpenForRegistration: registrationOpen < now && registrationClose > now,
+    isOpenForRegistration: registrationOpen < now && registrationClose >= now.startOf('day'),
     isEarlyRegistration: !c.no_early_registration_discount && earlyRegistrationEnd > now,
     early_registration_end: earlyRegistrationEnd,
     registration_open: registrationOpen,

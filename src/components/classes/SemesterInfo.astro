@@ -13,8 +13,8 @@ const { semester } = Astro.props;
 const now = DateTime.now();
 
 const registrationOpenFuture = semester.registration_open > now;
-const registrationOpen = semester.registration_open < now && semester.dates.start > now;
-const registrationPast = semester.dates.start < now;
+const registrationOpen = semester.registration_open < now && semester.dates.start >= now.startOf('day');
+const registrationPast = semester.dates.start < now.startOf('day');
 ---
 
 <h2 class="leading-tighter text-heading mb-12 font-heading text-3xl font-bold tracking-tighter md:text-4xl">
@@ -55,6 +55,7 @@ const registrationPast = semester.dates.start < now;
       <span class="font-medium">
         Registration is no longer open. Please check back later for any upcoming semesters.
       </span>
+      <BlockScheduleDownload link={semester.block_schedule_pdf} />
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import { type BaseQueryOptions, nowDateTime as now } from './sanity';
+import { type BaseQueryOptions, nowDateTime as now, type PortableTextBlock } from './sanity';
 import { INSTRUCTOR_QUERY_FRAGMENT, type Instructor } from './Instructor';
 import type { ClassType } from './ClassType';
 import { DateTime } from 'luxon';
@@ -12,7 +12,7 @@ export interface RawClass {
   _id: string;
   semester: string;
   title: string;
-  description: string;
+  description: PortableTextBlock[];
   class_type: ClassType;
   ages: { min: number; max: number };
   grades: { min: string; max: string };

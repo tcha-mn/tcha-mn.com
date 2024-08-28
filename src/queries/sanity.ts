@@ -52,8 +52,10 @@ export function makeDynamicDataAccess<
 }
 
 const previewNow = process.env.PREVIEW_NOW?.match(/\d{4}-\d{2}-\d{2}/) ? process.env.PREVIEW_NOW : undefined;
-export const now = previewNow ? `'${previewNow} 00:00:01'` : 'now()';
-export const nowDateTime = previewNow ? DateTime.fromISO(`${previewNow}T00:00:01`) : DateTime.now();
+export const nowDateTime = previewNow
+  ? DateTime.fromISO(`${previewNow}T00:00:01`, { zone: 'America/Chicago' })
+  : DateTime.now();
+export const now = `dateTime("${nowDateTime.toISO()}")`;
 
 export type { SanityImageObject };
 export { SanityPicture };

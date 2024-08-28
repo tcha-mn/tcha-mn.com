@@ -115,7 +115,7 @@ const { classItem } = Astro.props;
             )}
             {classItem.isEarlyRegistration && (
               <>
-                Early registration discount expires {classItem.early_registration_end.toLocaleString(DateTime.DATE_MED)}
+                Early registration discount expires {classItem.early_registration_end!.toLocaleString(DateTime.DATE_MED)}
               </>
             )}
           </div>

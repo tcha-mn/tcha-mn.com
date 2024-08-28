@@ -21,16 +21,16 @@ interface QueryOptions extends BaseQueryOptions {
 const QUERY = ({ classType, registration, picture }: QueryOptions) => `
 *[
   _type == "semester" &&
-  coalesce(date_visible, registration_open) < ${now} &&
-  dates.end > ${now}
-  ${registration === 'open' ? `&& dates.start < ${now}` : ''}
+  dateTime(coalesce(date_visible, registration_open) + "T00:00:00-06:00") < ${now} &&
+  dateTime(dates.end + "T00:00:00-06:00") > ${now}
+  ${registration === 'open' ? `&& dateTime(dates.start + "T00:00:00-06:00") < ${now}` : ''}
 ] | order(registration_open) {
   "semester": ${SEMESTER_QUERY_FRAGMENT},
   "classes": *[
     _type == "class"
     ${classType ? ' && class_type == "' + classType + '"' : ''} &&
     references(^._id) &&
-    coalesce(dates, ^.dates).end > ${now}
+    dateTime(coalesce(dates, ^.dates).end + "T00:00:00-06:00") > ${now}
   ] | order(age_minimum, age_maximum) ${CLASS_QUERY_FRAGMENT({ picture, includeInstructors: true })}
 }`;
 

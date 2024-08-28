@@ -43,7 +43,7 @@ const EVENT_FIELDS = ({ picture }: BaseQueryOptions) => `
 `;
 const RELATED_EVENTS_QUERY = ({ classType, show, picture }: RelatedQueryOpts) => `
 *[_type=="event"
-  && publish_date < ${now}
+  && dateTime(publish_date + "T00:00:00-06:00") < ${now}
   ${classType ? `&& "class" in related_entities[]->_type && "${classType}" in related_entities[]->class_type` : ''}
   ${show ? `&& "show" in related_entities[]->_type && "${show}" in related_entities[]->slug.current` : ''}
   && count(dates[@ > now()]) > 0] { ${EVENT_FIELDS({ picture })} }

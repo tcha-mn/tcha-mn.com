@@ -30,14 +30,14 @@ interface QueryOptions extends BaseQueryOptions {
   season: string;
 }
 
-const VISIBLE_THEATRE_SEASONS = `_type == "season" && (preview_date < ${now} || date_visible < ${now})`;
-const THEATER_SEASON_FIELDS = `title, "slug": slug.current, description, preview_date, date_visible, "isVisible": date_visible < ${now}`;
+const VISIBLE_THEATRE_SEASONS = `_type == "season" && (dateTime(preview_date + "T00:00:00-06:00") < ${now} || dateTime(date_visible + "T00:00:00-06:00") < ${now})`;
+const THEATER_SEASON_FIELDS = `title, "slug": slug.current, description, preview_date, date_visible, "isVisible": dateTime(date_visible + "T00:00:00-06:00") < ${now}`;
 
 const SEASON_LIST = `*[${VISIBLE_THEATRE_SEASONS}] | order(date_visible desc) { ${THEATER_SEASON_FIELDS} }`;
 const SINGLE_SEASON = ({ season }: QueryOptions) =>
   `*[${VISIBLE_THEATRE_SEASONS} && slug.current == "${season}"] | order(date_visible desc) { ${THEATER_SEASON_FIELDS} }[0]`;
 
-const SEASON_SHOW_SLUGS = `*[${VISIBLE_THEATRE_SEASONS} && date_visible < ${now}] | order(date_visible desc)
+const SEASON_SHOW_SLUGS = `*[${VISIBLE_THEATRE_SEASONS} && dateTime(date_visible + "T00:00:00-06:00") < ${now}] | order(date_visible desc)
     { "slug": slug.current, "shows": *[_type == "show" && references(^._id)].slug.current }`;
 
 const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
@@ -104,7 +104,7 @@ interface ShowRaw {
     deadline: string;
     registration_link: string;
     details: PortableTextBlock[];
-  }
+  };
 }
 export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
   gallery: {
@@ -118,7 +118,7 @@ export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
     deadline: DateTime;
     registration_link: string;
     details: PortableTextBlock[];
-  }
+  };
 }
 
 interface SeasonInfoRaw {
@@ -143,7 +143,8 @@ interface ShowRawDetailed extends ShowRaw {
 }
 
 function processShowInfo(show: ShowRawDetailed): Show {
-  const participationDeadline = show.participation_is_open && show.participation ? parseDate(show.participation.deadline) : DateTime.now();
+  const participationDeadline =
+    show.participation_is_open && show.participation ? parseDate(show.participation.deadline) : DateTime.now();
   return {
     ...show,
     date_range: {

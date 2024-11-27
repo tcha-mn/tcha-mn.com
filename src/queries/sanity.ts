@@ -6,7 +6,8 @@ export type { PortableTextBlock } from '@portabletext/types';
 import debug from 'debug';
 import { DateTime } from 'luxon';
 
-const logger = debug('site:sanity');
+const queryLogger = debug('site:sanity:query');
+const resultsLogger = debug('site:sanity:results');
 
 const builder = imageUrlBuilder(sanityClient);
 setSanityPictureDefaults({ imageUrlBuilder: builder });
@@ -22,10 +23,10 @@ async function queryAndProcess<Result, PreProcessedResult>(
   query: string,
   preprocessor?: (result: PreProcessedResult) => Result
 ): Promise<Result> {
-  logger('Query: %s', query);
+  queryLogger('Query: %s', query);
   const result = await sanityClient.fetch(query);
   const processedResults = preprocessor ? preprocessor(result as PreProcessedResult) : (result as Result);
-  logger('Results: %j', processedResults);
+  resultsLogger('Results: %j', processedResults);
   return processedResults;
 }
 
@@ -55,7 +56,9 @@ const previewNow = process.env.PREVIEW_NOW?.match(/\d{4}-\d{2}-\d{2}/) ? process
 export const nowDateTime = previewNow
   ? DateTime.fromISO(`${previewNow}T00:00:01`, { zone: 'America/Chicago' })
   : DateTime.now();
-export const now = `dateTime("${nowDateTime.toISO()}")`;
+export const now = `dateTime("${nowDateTime.toUTC().toISO()}")`;
+
+export const groqDateTimeFromDate = (fragment: string) => `dateTime(${fragment} + "T00:00:00Z")`;
 
 export type { SanityImageObject };
 export { SanityPicture };

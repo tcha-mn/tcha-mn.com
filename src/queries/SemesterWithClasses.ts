@@ -1,4 +1,4 @@
-import { makeDynamicDataAccess, type BaseQueryOptions, now } from './sanity';
+import { makeDynamicDataAccess, type BaseQueryOptions, now, groqDateTimeFromDate } from './sanity';
 import { CLASS_QUERY_FRAGMENT, parseRawClassArray, type ParsedClass, type RawClass } from './Classes';
 import { SEMESTER_QUERY_FRAGMENT, parseSemester, type Semester } from './Semester';
 
@@ -21,16 +21,16 @@ interface QueryOptions extends BaseQueryOptions {
 const QUERY = ({ classType, registration, picture }: QueryOptions) => `
 *[
   _type == "semester" &&
-  dateTime(coalesce(date_visible, registration_open) + "T00:00:00-06:00") < ${now} &&
-  dateTime(dates.end + "T00:00:00-06:00") > ${now}
-  ${registration === 'open' ? `&& dateTime(dates.start + "T00:00:00-06:00") < ${now}` : ''}
-] | order(registration_open) {
+  ${groqDateTimeFromDate('coalesce(date_visible, registration_open)')} < ${now} &&
+  ${groqDateTimeFromDate('dates.end')} > ${now}
+  ${registration === 'open' ? `&& ${groqDateTimeFromDate('dates.start')} < ${now}` : ''}
+] | order(select(${groqDateTimeFromDate('dates.start')} < ${now} => 1, 0), registration_open) {
   "semester": ${SEMESTER_QUERY_FRAGMENT},
   "classes": *[
     _type == "class"
     ${classType ? ' && class_type == "' + classType + '"' : ''} &&
     references(^._id) &&
-    dateTime(coalesce(dates, ^.dates).end + "T00:00:00-06:00") > ${now}
+    ${groqDateTimeFromDate('coalesce(dates, ^.dates).end')} > ${now}
   ] | order(age_minimum, age_maximum) ${CLASS_QUERY_FRAGMENT({ picture, includeInstructors: true })}
 }`;
 

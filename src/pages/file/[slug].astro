@@ -1,0 +1,25 @@
+---
+import { fetchAll, type StaticFile } from '~/queries/StaticFile.ts';
+
+export async function getStaticPaths() {
+  const files = await fetchAll();
+  const paths = files.map((file) => ({ params: { slug: file.slug }, props: { file } }));
+  return paths;
+}
+
+export interface Props {
+  file: StaticFile;
+}
+const { slug } = Astro.params;
+const { file } = Astro.props;
+---
+
+<html>
+  <head>
+    <title set:text={`Downloading ${slug}`} />
+    <meta http-equiv="refresh" content={`0;url=${file.url}?dl=${slug}`} />
+  </head>
+  <body>
+    <p>Redirecting to <a href={`${file.url}?dl=${slug}`}>{slug}</a></p>
+  </body>
+</html>

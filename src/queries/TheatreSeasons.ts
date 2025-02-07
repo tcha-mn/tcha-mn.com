@@ -1,3 +1,4 @@
+import type { StandardImageAsset } from '../queries/sanity';
 import { parseDate, DateTime } from '../utils/dates';
 import {
   makeDataAccess,
@@ -87,7 +88,7 @@ interface ShowRaw {
   _id: string;
   title: string;
   slug: string;
-  hero: SanityImageObject;
+  hero: StandardImageAsset;
   description: PortableTextBlock[];
   date_range: {
     start: string;
@@ -105,10 +106,13 @@ interface ShowRaw {
     registration_link: string;
     details: PortableTextBlock[];
   };
+  gallery: {
+    images: StandardImageAsset[];
+  };
 }
 export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
   gallery: {
-    images: SanityImageObject[];
+    images: StandardImageAsset[];
   };
   date_range: {
     start: DateTime;
@@ -122,7 +126,7 @@ export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
 }
 
 interface SeasonInfoRaw {
-  season: TheatreSeasonRaw & { hero: SanityImageObject };
+  season: TheatreSeasonRaw & { hero: StandardImageAsset };
   shows: ShowRaw[];
 }
 
@@ -136,13 +140,7 @@ function processSeasonInfo(info: SeasonInfoRaw) {
   };
 }
 
-interface ShowRawDetailed extends ShowRaw {
-  gallery: {
-    images: SanityImageObject[];
-  };
-}
-
-function processShowInfo(show: ShowRawDetailed): Show {
+function processShowInfo(show: ShowRaw): Show {
   const participationDeadline =
     show.participation_is_open && show.participation ? parseDate(show.participation.deadline) : DateTime.now();
   return {

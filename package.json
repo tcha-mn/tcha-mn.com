@@ -46,9 +46,11 @@
     "listify": "^1.0.3",
     "lodash.merge": "^4.6.2",
     "luxon": "^3.5.0",
+    "photoswipe": "^5.4.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "sanity": "^3.74.1",
+    "sanity-image": "^1.0.0",
     "sharp-ico": "^0.1.5",
     "typescript-esbuild": "^0.4.4",
     "unpic": "^3.18.0"

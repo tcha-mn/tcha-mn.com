@@ -6,6 +6,32 @@ export type { PortableTextBlock } from '@portabletext/types';
 import debug from 'debug';
 import { DateTime } from 'luxon';
 
+export interface StandardImageAsset {
+  asset: {
+    _id: string;
+    metadata: {
+      lqip: string;
+      dimensions: {
+        width: number;
+        height: number;
+      };
+    };
+  };
+  alt?: string;
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+  hotspot?: {
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  };
+}
+
 const queryLogger = debug('site:sanity:query');
 const resultsLogger = debug('site:sanity:results');
 

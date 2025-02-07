@@ -2,10 +2,10 @@
 import { toHTML } from '@portabletext/to-html';
 import { fetchSlugs, fetchSeasonInfo } from '../../queries/TheatreSeasons';
 import { getRelatedEvents } from '../../queries/Events';
-import { SanityPicture } from '../../queries/sanity';
 import Hero from '../../components/widgets/Hero.astro';
 import Layout from '../../layouts/PageLayout.astro';
 import ShowList from '../../components/theatre/List.astro';
+import SanityImage from '../../components/common/SanityImage.astro';
 
 export async function getStaticPaths() {
   const seasons = await fetchSlugs();
@@ -31,7 +31,7 @@ const metadata = {
     {
       seasonInfo.hero && (
         <Fragment slot="image">
-          <SanityPicture src={seasonInfo.hero} img={{ alt: seasonInfo.title }} sizes="(max-width 2000w) 320w" />
+          <SanityImage image={seasonInfo.hero} alt={seasonInfo.title} />
         </Fragment>
       )
     }

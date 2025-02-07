@@ -3,10 +3,11 @@ import { Avatar, Card } from 'flowbite-react';
 import listify from 'listify';
 import { DateTime } from 'luxon';
 
-import type { ParsedClass } from '~/queries/Classes';
-import { SanityPicture, urlFor } from '~/queries/sanity';
+import type { ParsedClass } from '../../queries/Classes';
+import { urlFor } from '../../queries/sanity';
 import { Icon } from 'astro-icon/components';
 import { toHTML } from '@portabletext/to-html';
+import SanityImage from '../common/SanityImage.astro';
 
 export interface Props {
   classItem: ParsedClass;
@@ -148,12 +149,7 @@ const { classItem } = Astro.props;
           <span class="sr-only">Close drawer</span>
         </button>
       </div>
-      <SanityPicture
-        src={classItem.preview_image}
-        sizes="(max-width: 600px) 80px"
-        img={{ alt: classItem.title, class: 'h-auto max-w-full rounded-lg' }}
-        lqip={{ enabled: false }}
-      />
+      <SanityImage image={classItem.preview_image} />
       <div>
         {
           classItem.isOpenForRegistration && classItem.registrationLink && (
@@ -228,12 +224,10 @@ const { classItem } = Astro.props;
           classItem.instructors != null &&
             classItem.instructors.map((instructor) => (
               <>
-                <SanityPicture
-                  src={instructor.headshot}
-                  sizes="(max-width: 600px) 80px"
-                  img={{ alt: instructor.name, class: 'h-auto w-full rounded-lg bg-white' }}
-                  lqip={{ enabled: false }}
-                  class="shrink-0 grow-0 basis-40"
+                <SanityImage
+                  image={instructor.headshot}
+                  alt={instructor.name}
+                  className="shrink-0 grow-0 basis-40"
                 />
                 <div class="shrink grow basis-80">
                   <h5 class="font-semibold">{instructor.name}</h5>

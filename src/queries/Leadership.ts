@@ -1,11 +1,12 @@
 import groq from 'groq';
-import { makeDataAccess, type BaseQueryOptions, type SanityImageObject } from './sanity';
+import { makeDataAccess, type BaseQueryOptions } from './sanity';
+import type { StandardImageAsset } from '../types';
 
 interface Leadership {
   name: string;
   role: string;
   team: string;
-  headshot: SanityImageObject;
+  headshot: StandardImageAsset;
 }
 export interface LeadershipTeam {
   board: Leadership[];
@@ -14,11 +15,6 @@ export interface LeadershipTeam {
 
 const QUERY = ({ picture }: BaseQueryOptions) => groq`{
   "board": *[_type == "leadership" && team == "Board"] | order(name) {
-    name,
-    role,
-    ${picture('headshot')}
-  },
-  "theatre_artistic_directors": *[_type == "leadership" && team == "Theatre Artistic Directors"] | order(name) {
     name,
     role,
     ${picture('headshot')}

@@ -1,6 +1,31 @@
 import type { HTMLAttributes } from 'astro/types';
 import type { Testimonial } from './queries/Testimonials';
-import type { SanityImageObject } from './queries/sanity';
+
+export interface StandardImageAsset {
+  asset: {
+    _id: string;
+    metadata: {
+      lqip: string;
+      dimensions: {
+        width: number;
+        height: number;
+      };
+    };
+  };
+  alt?: string;
+  crop?: {
+    top: number;
+    bottom: number;
+    left: number;
+    right: number;
+  };
+  hotspot?: {
+    width: number;
+    height: number;
+    x: number;
+    y: number;
+  };
+}
 
 export interface MetaData {
   title?: string;
@@ -181,10 +206,6 @@ export interface Pricing extends Headline, Widget {
 export interface Testimonials extends Headline, Widget {
   testimonials?: Testimonial[];
   callToAction?: CallToAction;
-}
-
-export interface Brands extends Headline, Widget {
-  images?: Array<{ img: SanityImageObject; alt?: string; url?: string }>;
 }
 
 export interface Features extends Headline, Widget {

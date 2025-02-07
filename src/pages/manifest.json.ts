@@ -1,7 +1,8 @@
 import type { APIRoute } from 'astro';
 import { getImage } from 'astro:assets';
 import favicon from '~/assets/favicons/favicon.png';
-import { METADATA } from '~/utils/config';
+import { METADATA } from '../utils/config';
+import type { WebAppManifest } from 'web-app-manifest';
 
 const faviconPngSizes = [192, 256, 512];
 
@@ -22,14 +23,15 @@ export const GET: APIRoute = async () => {
     })
   );
 
-  const manifest = {
-    name: METADATA.title,
+  const manifest: WebAppManifest = {
     description: METADATA.description,
-    start_url: './',
+    name: METADATA.title?.default,
+    short_name: 'TCHA',
+    start_url: '/',
     display: 'standalone',
     id: '?homescreen=1',
     icons,
   };
 
-  return new Response(JSON.stringify(manifest), { headers: { 'Content-Type': 'application/json' } });
+  return new Response(JSON.stringify(manifest), { headers: { 'Content-Type': 'application/manifest+json' } });
 };

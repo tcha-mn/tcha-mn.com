@@ -1,13 +1,6 @@
-import type { StandardImageAsset } from '../queries/sanity';
+import type { StandardImageAsset } from '../types';
 import { parseDate, DateTime } from '../utils/dates';
-import {
-  makeDataAccess,
-  now,
-  type BaseQueryOptions,
-  type SanityImageObject,
-  type PortableTextBlock,
-  makeDynamicDataAccess,
-} from './sanity';
+import { makeDataAccess, now, type BaseQueryOptions, type PortableTextBlock, makeDynamicDataAccess } from './sanity';
 
 interface TheatreSeasonRaw {
   title: string;
@@ -98,7 +91,7 @@ interface ShowRaw {
     _id: string;
     name: string;
     bio: string;
-    headshot: SanityImageObject;
+    headshot: StandardImageAsset;
   }[];
   participation_is_open: boolean;
   participation?: {

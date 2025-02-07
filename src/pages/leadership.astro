@@ -1,7 +1,7 @@
 ---
+import SanityImage from '../components/common/SanityImage.astro';
 import Layout from '../layouts/PageLayout.astro';
-import { fetchByTeam } from '~/queries/Leadership';
-import { SanityPicture } from '~/queries/sanity';
+import { fetchByTeam } from '../queries/Leadership';
 
 const metadata = {
   title: 'Leadership | TCHA',
@@ -23,11 +23,13 @@ const { board } = await fetchByTeam();
         {
           board.map((member) => (
             <div class="text-center text-gray-500 dark:text-gray-400">
-              <SanityPicture
-                class="mx-auto mb-4 h-72 w-48 rounded-xl"
-                src={member.headshot}
-                sizes="(min-width:768px) 50vw, 100vw"
-                img={{ alt: member.name, class: 'mx-auto w-48 h-72 rounded-xl' }}
+              <SanityImage
+                className="mx-auto mb-4 w-48 rounded-xl"
+                image={member.headshot}
+                alt={member.name}
+                mode="cover"
+                height={300}
+                width={192}
               />
               <h3 class="mb-1 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
                 <a href="#">{member.name}</a>

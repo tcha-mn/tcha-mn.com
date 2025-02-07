@@ -1,11 +1,23 @@
 ---
-import type { Brands as Props } from '~/types';
+import Headline from '../ui/Headline.astro';
+import WidgetWrapper from '../ui/WidgetWrapper.astro';
+import type { StandardImageAsset } from '../../types';
+import SanityImage from '../common/SanityImage.astro';
 
-import Image from '~/components/common/Image.astro';
-import Headline from '~/components/ui/Headline.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-import { urlFor } from '~/queries/sanity';
-
+export interface Props {
+  title?: string;
+  subtitle?: string;
+  tagline?: string;
+  images?: {
+    img: StandardImageAsset;
+    url: string;
+    alt?: string;
+  }[];
+  id: string;
+  isDark?: boolean;
+  classes: Record<string, unknown>;
+  bg?: string;
+}
 const {
   title = '',
   subtitle = '',
@@ -29,13 +41,13 @@ const {
             image.img && (
               <div class="col-span-1 my-2 flex justify-center rounded-md px-3 py-1 dark:bg-gray-200 lg:my-4">
                 <a href={image.url} target="_blank" rel="noopener noreferrer">
-                  <Image
-                    src={urlFor(image.img).url()}
+                  <SanityImage
+                    image={image.img}
                     alt={image.alt || ''}
-                    class="max-h-fit"
+                    className="max-h-fit"
                     width={280}
                     height={90}
-                    layout="fixed"
+                    style={{ width: '280px' }}
                   />
                 </a>
               </div>

@@ -1,21 +1,16 @@
-import {
-  groqDateTimeFromDate,
-  makeDynamicDataAccess,
-  type BaseQueryOptions,
-  type PortableTextBlock,
-  type SanityImageObject,
-} from './sanity';
+import { groqDateTimeFromDate, makeDynamicDataAccess, type BaseQueryOptions, type PortableTextBlock } from './sanity';
 import type { DateTime } from 'luxon';
 import { now } from './sanity';
-import { parseDate } from '~/utils/dates';
+import { parseDate } from '../utils/dates';
+import type { StandardImageAsset } from '../types';
 
 interface EventRaw {
   dates: string[];
   publish_date: string;
   ticket_link: string | null;
   description: null | PortableTextBlock[];
-  thumbnail: SanityImageObject;
-  hero: SanityImageObject;
+  thumbnail: StandardImageAsset;
+  hero: StandardImageAsset;
   announcement: {
     headline: string;
     description: string;

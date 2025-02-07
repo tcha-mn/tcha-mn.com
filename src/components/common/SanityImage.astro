@@ -1,7 +1,7 @@
 ---
 import { SanityImage as NpmSanityImage, type WrapperProps } from 'sanity-image';
 import { SANITY } from '../../utils/config';
-import { StandardImageAsset } from '../../queries/sanity';
+import type { StandardImageAsset } from '../../types';
 
 export interface Props extends Omit<WrapperProps<'img'>, 'id' | 'preview'> {
   image: StandardImageAsset;
@@ -9,7 +9,13 @@ export interface Props extends Omit<WrapperProps<'img'>, 'id' | 'preview'> {
 }
 
 const { image, preview = true, ...props } = Astro.props;
-if (!image) throw new Error(JSON.stringify(Astro.params));
+const { style = {} } = props;
+const styleString = Object.entries(style)
+  .map(([key, value]) => {
+    const kebabKey = key.replace(/([A-Z])/g, '-$1').toLowerCase(); // Convert camelCase to kebab-case
+    return `${kebabKey}: ${value};`;
+  })
+  .join(' ');
 ---
 
 <NpmSanityImage
@@ -22,24 +28,27 @@ if (!image) throw new Error(JSON.stringify(Astro.params));
   hotspot={image.hotspot}
   crop={image.crop}
   preview={preview ? image.asset.metadata.lqip : undefined}
+  data-onloadstyle={styleString}
 />
 
 <script>
-  function swapImagePreview(img: Element) {
-    img.removeAttribute('style');
+  function swapImagePreview(src: Element | Event) {
+    let img = src instanceof Event ? (src.target as HTMLImageElement) : src;
+    img.setAttribute('style', img.getAttribute('data-onLoadStyle'));
+    img.removeAttribute('data-onLoadStyle');
     img.removeAttribute('data-loading');
     const lqip = img.previousElementSibling as HTMLImageElement;
     if (lqip.tagName === 'IMG' && lqip.hasAttribute('data-lqip')) {
-      img.remove();
       lqip.replaceWith(img);
     }
+    img.removeEventListener('load', swapImagePreview);
   }
   document.addEventListener('astro:page-load', () => {
     document.querySelectorAll<HTMLImageElement>('img[data-loading]').forEach((img) => {
-      if ((img as any).complete) {
+      if (img.complete) {
         swapImagePreview(img);
       } else {
-        img.addEventListener('load', () => swapImagePreview(img));
+        img.addEventListener('load', swapImagePreview);
       }
     });
   });

@@ -1,14 +1,14 @@
 ---
 import { Image } from 'astro:assets';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
 import { Icon } from 'astro-icon/components';
 
-import { fetchAll } from '~/queries/PrivateInstructor';
+import { fetchAll } from '../queries/PrivateInstructor';
 import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
-import SanityPicture from 'astro-sanity-picture';
 import { toHTML } from '@portabletext/to-html';
-import { findLocalImage } from '~/utils/images';
+import { findLocalImage } from '../utils/images';
+import SanityImage from '../components/common/SanityImage.astro';
 
 const hero = await findLocalImage('~/assets/images/private-lessons-banner.webp');
 
@@ -46,12 +46,7 @@ const instructors = await fetchAll({});
             <article class="mx-auto max-w-md md:max-w-none">
               <div class="mb-4 flex flex-wrap gap-6">
                 <div class="grow basis-full sm:basis-4/12">
-                  <SanityPicture
-                    src={instructor.headshot}
-                    sizes="(max-width: 600px) 400px, 600px"
-                    widths={[400, 600]}
-                    img={{ alt: instructor.name }}
-                  />
+                  <SanityImage image={instructor.headshot} alt={instructor.name} mode="cover" />
                 </div>
                 <div class="mt-2 grow basis-7/12">
                   <header>

@@ -1,10 +1,11 @@
 import type { PortableTextBlock } from '@portabletext/types';
-import type { BaseQueryOptions, SanityImageObject } from './sanity';
+import type { BaseQueryOptions } from './sanity';
+import type { StandardImageAsset } from '../types';
 
 export interface Instructor {
   _id: string;
   name: string;
-  headshot: SanityImageObject;
+  headshot: StandardImageAsset;
   class_types: string[];
   bio: PortableTextBlock[];
 }

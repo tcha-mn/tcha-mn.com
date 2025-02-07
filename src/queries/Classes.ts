@@ -2,7 +2,8 @@ import { type BaseQueryOptions, nowDateTime as now, type PortableTextBlock } fro
 import { INSTRUCTOR_QUERY_FRAGMENT, type Instructor } from './Instructor';
 import type { ClassType } from './ClassType';
 import { DateTime } from 'luxon';
-import { parseDate } from '~/utils/dates';
+import { parseDate } from '../utils/dates';
+import type { StandardImageAsset } from '../types';
 
 export interface QueryOptions extends BaseQueryOptions {
   includeInstructors?: boolean;
@@ -18,13 +19,7 @@ export interface RawClass {
   grades: { min: string; max: string };
   spots: number;
   price: number;
-  preview_image: {
-    _type: string;
-    alt: string;
-    asset: {
-      _ref: string;
-    };
-  };
+  preview_image: StandardImageAsset;
   instructors: Instructor[];
   classTimes: { _type: string; start: string; end: string };
   registration_open: string;
@@ -62,8 +57,8 @@ export interface ParsedClass
     end: DateTime;
     breaks?: DateTime[];
     isRecurring: boolean;
-    toString(): string;
   };
+  toString(): string;
   moreInfoLink: string;
   registrationLink?: string;
 }
@@ -77,7 +72,6 @@ export const CLASS_QUERY_FRAGMENT = ({ picture, includeInstructors = false }: Qu
     price,
     "semester": semester->name,
     ${picture('preview_image')},
-    "alt": preview_image.asset->.alt,
     "registration_open": coalesce(registration_open, semester->.registration_open),
     "registration_close": coalesce(registration_close, coalesce(dates.start, semester->.dates.start)),
     registration_link,

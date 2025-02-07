@@ -1,21 +1,19 @@
 ---
-// import type { ImageMetadata } from 'astro';
 import { Image } from 'astro:assets';
-import Layout from '~/layouts/PageLayout.astro';
-import { fetchAll as fetchAllSeasons } from '~/queries/TheatreSeasons';
+import Layout from '../layouts/PageLayout.astro';
 
-import Brands from '~/components/widgets/Brands.astro';
-import CallToAction from '~/components/widgets/CallToAction.astro';
-import Features from '~/components/widgets/Features.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Testimonials from '~/components/widgets/Testimonials.astro';
-import { fetchAll as fetchAllTestimonials } from '~/queries/Testimonials';
-import { fetchActive as fetchActiveSponsors } from '~/queries/Sponsors';
-import type { CallToAction as HeroCallToAction } from '~/types';
-import { isRegistrationOpen } from '~/queries/Registration';
-import { findLocalImage } from '~/utils/images';
+import Brands from '../components/widgets/Brands.astro';
+import CallToAction from '../components/widgets/CallToAction.astro';
+import Features from '../components/widgets/Features.astro';
+import Hero from '../components/widgets/Hero.astro';
+import Testimonials from '../components/widgets/Testimonials.astro';
+import { fetchAll as fetchAllTestimonials } from '../queries/Testimonials';
+import { fetchActive as fetchActiveSponsors } from '../queries/Sponsors';
+import type { CallToAction as HeroCallToAction } from '../types';
+import { isRegistrationOpen } from '../queries/Registration';
+import { findLocalImage } from '../utils/images';
 
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
 
 const hero = await findLocalImage('~/assets/images/brightstar-hero.jpg');
 
@@ -36,7 +34,6 @@ if (registrationIsOpen) {
   });
   heroActions[1].variant = 'accent';
 }
-const seasons = await fetchAllSeasons();
 ---
 
 <Layout metadata={metadata}>

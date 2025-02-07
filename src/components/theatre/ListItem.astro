@@ -3,9 +3,9 @@ import { Icon } from 'astro-icon/components';
 import type { Show, TheatreSeason } from '../../queries/TheatreSeasons';
 import type { Event } from '../../queries/Events';
 
-import { SanityPicture } from '../../queries/sanity';
 import { DateTime } from 'luxon';
 import { toHTML } from '@portabletext/to-html';
+import SanityImage from '../common/SanityImage.astro';
 
 export interface Props {
   season: TheatreSeason;
@@ -32,13 +32,10 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
       <a class="group relative block" href={link ?? 'javascript:void(0)'}>
         <div class="relative">
           {show.hero && (
-            <SanityPicture
-              src={show.hero}
-              sizes="(max-width: 600px) 80px"
-              img={{
-                alt: show.title,
-                class: 'h-auto max-w-full bg-gray-400 dark:bg-slate-700 rounded shadow-lg',
-              }}
+            <SanityImage
+              image={show.hero}
+              alt={show.title}
+              className="h-auto max-w-full bg-gray-400 dark:bg-slate-700 rounded shadow-lg"
             />
           )}
         </div>

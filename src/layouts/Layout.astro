@@ -64,15 +64,6 @@ const { language, textDirection } = I18N;
         width: 100%;
         height: auto;
       }
-      img[data-loading] {
-        position: absolute;
-        width: 10px !important; /* must be > 4px to be lazy loaded */
-        height: 10px !important; /* must be > 4px to be lazy loaded */
-        opacity: 0;
-        z-index: -10;
-        pointer-events: none;
-        user-select: none;
-      }
     </style>
     <script>
       import { initFlowbite } from 'flowbite';

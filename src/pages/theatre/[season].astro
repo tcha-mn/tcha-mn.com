@@ -1,11 +1,11 @@
 ---
 import { toHTML } from '@portabletext/to-html';
-import { fetchSlugs, fetchSeasonInfo } from '~/queries/TheatreSeasons';
-import { getRelatedEvents } from '~/queries/Events';
-import { SanityPicture } from '~/queries/sanity';
+import { fetchSlugs, fetchSeasonInfo } from '../../queries/TheatreSeasons';
+import { getRelatedEvents } from '../../queries/Events';
+import { SanityPicture } from '../../queries/sanity';
 import Hero from '../../components/widgets/Hero.astro';
 import Layout from '../../layouts/PageLayout.astro';
-import ShowList from '~/components/theatre/List.astro';
+import ShowList from '../../components/theatre/List.astro';
 
 export async function getStaticPaths() {
   const seasons = await fetchSlugs();

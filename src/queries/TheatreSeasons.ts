@@ -1,4 +1,4 @@
-import { parseDate, DateTime } from '~/utils/dates';
+import { parseDate, DateTime } from '../utils/dates';
 import {
   makeDataAccess,
   now,
@@ -53,7 +53,8 @@ const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
       ${picture('headshot')}
     },
     "participation_is_open": participation.deadline > now(),
-    participation
+    participation,
+    "gallery": { ${picture('images.images[]', { as: 'images' })} }
 `;
 const SEASON_INFO = ({ season, picture }: QueryOptions) => `
 *[${VISIBLE_THEATRE_SEASONS} && title == "${season}"] {
@@ -69,8 +70,7 @@ interface ShowQueryOptions extends BaseQueryOptions {
 
 const SHOW_INFO = ({ slug, picture }: ShowQueryOptions) => `
 *[_type == "show" && slug.current == "${slug}" ] | order(date_range.start) {
-  ${SHOW_FIELDS({ picture })}, 
-  "gallery": { ${picture('images.images[]', { as: 'images' })} }
+  ${SHOW_FIELDS({ picture })}
 }[0]
 `;
 

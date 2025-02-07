@@ -1,12 +1,12 @@
 ---
 import { toHTML } from '@portabletext/to-html';
-import { SanityPicture } from '~/queries/sanity';
+import { SanityPicture } from '../../../queries/sanity';
 import { DateTime } from 'luxon';
 
-import Hero from '~/components/widgets/Hero.astro';
-import Layout from '~/layouts/PageLayout.astro';
-import { getRelatedEvents } from '~/queries/Events';
-import { fetchOne, fetchShowInfo, fetchSlugs } from '~/queries/TheatreSeasons';
+import Hero from '../../../components/widgets/Hero.astro';
+import Layout from '../../../layouts/PageLayout.astro';
+import { getRelatedEvents } from '../../../queries/Events';
+import { fetchOne, fetchShowInfo, fetchSlugs } from '../../../queries/TheatreSeasons';
 
 export async function getStaticPaths() {
   const seasons = await fetchSlugs();
@@ -55,7 +55,7 @@ function formatDate(date: DateTime): string {
     }
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
-    <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Synopsis</h3>
+    <h3 id="synopsis" class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Synopsis</h3>
     <p class="my-2" set:html={toHTML(showInfo.description)} />
     {
       showInfo.participation_is_open && showInfo.participation && (

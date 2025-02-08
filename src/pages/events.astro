@@ -44,7 +44,7 @@ const metadata = {
             `${info.event.extendedProps.location}<br />(<a target="_blank" href="https://maps.google.com/?q=${info.event.extendedProps.location}">see map</a>)`;
 
           document.getElementById('eventModal-description-wrapper')!.hidden = !info.event.extendedProps.description;
-          document.getElementById('eventModal-description')!.innerText = info.event.extendedProps.description;
+          document.getElementById('eventModal-description')!.innerHTML = info.event.extendedProps.description;
           eventModal.show();
         },
       });

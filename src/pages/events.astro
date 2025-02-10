@@ -15,13 +15,22 @@ const metadata = {
     import listPlugin from '@fullcalendar/list';
     import googleCalendarPlugin from '@fullcalendar/google-calendar';
 
-    const $modalEl = document.getElementById('eventModal');
-    const eventModal = new Modal($modalEl, {}, { id: 'eventModal', override: true });
-    Object.assign(window, { eventModal });
+    let calendar: Calendar | undefined;
 
     const initCalendar = () => {
+      if (calendar) {
+        return;
+      }
+
+      if (!window.location.pathname.startsWith('/events/')) {
+        return;
+      }
+
+      const $modalEl = document.getElementById('eventModal');
+      const eventModal = new Modal($modalEl, {}, { id: 'eventModal', override: true });
+
       var calendarEl = document.getElementById('calendar')!;
-      const calendar = new Calendar(calendarEl, {
+      calendar = new Calendar(calendarEl, {
         plugins: [dayGridPlugin, listPlugin, googleCalendarPlugin],
         googleCalendarApiKey: 'AIzaSyDDtm0Kq9peyIES6MurVMzvpj0qxPd57es',
         events: {
@@ -51,7 +60,10 @@ const metadata = {
       calendar.render();
     };
     document.addEventListener('astro:page-load', initCalendar);
-    //document.addEventListener('astro:after-swap', initCalendar);
+    document.addEventListener('astro:after-swap', () => {
+      calendar?.destroy();
+      calendar = undefined;
+    });
   </script>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
     <div class="max-w-6xl" id="calendar"></div>

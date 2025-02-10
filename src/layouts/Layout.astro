@@ -29,16 +29,6 @@ const { language, textDirection } = I18N;
 <!doctype html>
 <html lang={language} dir={textDirection} class="2xl:text-[20px]">
   <head>
-    <ThemeModeScript />
-    <CommonMeta />
-    <Favicons />
-    <CustomStyles />
-    <ApplyColorMode />
-    <Metadata {...metadata} />
-    <SiteVerification />
-    <Analytics />
-    <ClientRouter fallback="swap" />
-    <script src="https://tally.so/widgets/embed.js"></script>
     <script is:inline type="importmap">
       {
         "imports": {
@@ -49,6 +39,16 @@ const { language, textDirection } = I18N;
         }
       }
     </script>
+    <ThemeModeScript />
+    <CommonMeta />
+    <Favicons />
+    <CustomStyles />
+    <ApplyColorMode />
+    <Metadata {...metadata} />
+    <SiteVerification />
+    <Analytics />
+    <ClientRouter fallback="swap" />
+    <script src="https://tally.so/widgets/embed.js"></script>
   </head>
 
   <body class="bg-page tracking-tight text-default antialiased">
@@ -68,19 +68,6 @@ const { language, textDirection } = I18N;
     <script>
       import { initFlowbite } from 'flowbite';
       document.addEventListener('astro:page-load', initFlowbite);
-      document.addEventListener('astro:after-swap', () => {
-        document.querySelectorAll<HTMLImageElement>('img[data-x-lqip="true"]').forEach((img) => {
-          img.addEventListener('load', () => {
-            img.animate([{ opacity: 0 }, { opacity: 1 }], {
-              duration: parseInt(img.dataset['xLqipTransitionDuration']!),
-              fill: 'forwards',
-            });
-          });
-          if (img.complete) {
-            img.style.opacity = '1';
-          }
-        });
-      });
     </script>
     <Subscribe />
   </body>

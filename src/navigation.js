@@ -79,6 +79,11 @@ export const headerData = {
       id: 'theatre',
       text: 'Theatre',
       links: [
+        {
+          text: 'Gala',
+          href: 'https://tchagala2025.rsvpify.com/',
+          dividerAfter: true,
+        },
         ...seasons.map((s) => {
           if (!s.isVisible) {
             return { text: `${s.title} Season (coming soon!)` };

@@ -41,6 +41,7 @@
     "debug": "^4.4.0",
     "flowbite": "^2.3.0",
     "flowbite-react": "^0.7.3",
+    "flowbite-typography": "^1.0.5",
     "limax": "4.1.0",
     "listify": "^1.0.3",
     "lodash.merge": "^4.6.2",

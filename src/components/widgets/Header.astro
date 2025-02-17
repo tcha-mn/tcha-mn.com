@@ -1,13 +1,13 @@
 ---
-import Logo from '~/components/Logo.astro';
-import ToggleTheme from '~/components/common/ToggleTheme.astro';
-import ToggleMenu from '~/components/common/ToggleMenu.astro';
-import Button from '~/components/ui/Button.astro';
-import HeaderSubMenu from '~/components/widgets/HeaderSubMenu.astro';
+import Logo from '../Logo.astro';
+import ToggleTheme from '../common/ToggleTheme.astro';
+import ToggleMenu from '../common/ToggleMenu.astro';
+import Button from '../ui/Button.astro';
+import HeaderSubMenu from '../widgets/HeaderSubMenu.astro';
 
-import { getHomePermalink } from '~/utils/permalinks';
-import { trimSlash } from '~/utils/permalinks';
-import type { CallToAction } from '~/types';
+import { getHomePermalink } from '../../utils/permalinks';
+import { trimSlash } from '../../utils/permalinks';
+import type { CallToAction } from '../../types';
 
 interface Link {
   text?: string;

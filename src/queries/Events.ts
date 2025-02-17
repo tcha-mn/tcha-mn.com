@@ -1,4 +1,10 @@
-import { groqDateTimeFromDate, makeDynamicDataAccess, type BaseQueryOptions, type PortableTextBlock } from './sanity';
+import {
+  groqDateTimeFromDate,
+  makeDataAccess,
+  makeDynamicDataAccess,
+  type BaseQueryOptions,
+  type PortableTextBlock,
+} from './sanity';
 import type { DateTime } from 'luxon';
 import { now } from './sanity';
 import { parseDate } from '../utils/dates';
@@ -54,6 +60,15 @@ interface EventDetailsQueryOpts extends BaseQueryOptions {
   eventSlug: string;
 }
 
+const FEATURED_EVENTS_QUERY = ({ picture }: BaseQueryOptions) => `
+*[_type=="event"
+  && announce
+  && ${groqDateTimeFromDate('publish_date')} < ${now}
+  && count(dates[@ > now()]) > 0] | order(dates[0]) {
+    ${EVENT_FIELDS({ picture })}
+  }
+`;
+
 const EVENT_DETAILS = ({ eventSlug, picture }: EventDetailsQueryOpts) =>
   `*[_type=="event" && slug.current == "${eventSlug}"] { ${EVENT_FIELDS({ picture })} }`;
 
@@ -66,6 +81,7 @@ function processResults(raw: EventRaw[]): EventParsed[] {
 }
 
 export const getRelatedEvents = makeDynamicDataAccess(RELATED_EVENTS_QUERY, processResults);
-
 export const lookupEvent = makeDynamicDataAccess(EVENT_DETAILS, processResults);
+export const getFeaturedEvents = makeDynamicDataAccess(FEATURED_EVENTS_QUERY, processResults);
+
 export type { EventParsed as Event };

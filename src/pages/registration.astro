@@ -1,13 +1,12 @@
 ---
 import { Image } from 'astro:assets';
-import Hero from '~/components/widgets/Hero.astro';
+import Hero from '../components/widgets/Hero.astro';
 import { DateTime } from 'luxon';
-import { classesOpenForRegistration } from '~/queries/Registration';
+import { classesOpenForRegistration } from '../queries/Registration';
 import Layout from '../layouts/PageLayout.astro';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-import Ternary from '~/components/Ternary.astro';
-import { findLocalImage } from '~/utils/images';
-import { Icon } from 'astro-icon/components';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import Ternary from '../components/Ternary.astro';
+import { findLocalImage } from '../utils/images';
 
 const hero = await findLocalImage('~/assets/images/registration-hero.jpg');
 

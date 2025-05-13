@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { Avatar, Card } from 'flowbite-react';
 import listify from 'listify';
 import { DateTime } from 'luxon';
@@ -8,11 +9,13 @@ import { urlFor } from '../../queries/sanity';
 import { Icon } from 'astro-icon/components';
 import { toHTML } from '@portabletext/to-html';
 import SanityImage from '../common/SanityImage.astro';
+import { findLocalImage } from '../../utils/images';
 
 export interface Props {
   classItem: ParsedClass;
 }
 
+const genericClassImage = await findLocalImage('~/assets/images/generic-class.png');
 const { classItem } = Astro.props;
 ---
 
@@ -21,7 +24,7 @@ const { classItem } = Astro.props;
     id={'class-' + classItem._id}
     className="max-w-sm"
     imgAlt={classItem.title}
-    imgSrc={urlFor(classItem.preview_image).url()}
+    imgSrc={classItem.preview_image ? urlFor(classItem.preview_image).url() : genericClassImage.src}
   >
     <div>
       <h5 class="mb-4 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">
@@ -149,7 +152,7 @@ const { classItem } = Astro.props;
           <span class="sr-only">Close drawer</span>
         </button>
       </div>
-      <SanityImage image={classItem.preview_image} />
+{classItem.preview_image ? <SanityImage image={classItem.preview_image} /> : <Image src={genericClassImage} alt={classItem.title} />}
       <div>
         {
           classItem.isOpenForRegistration && classItem.registrationLink && (

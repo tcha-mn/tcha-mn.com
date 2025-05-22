@@ -2,13 +2,14 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
-import tailwind from '@astrojs/tailwind';
 import partytown from '@astrojs/partytown';
 import icon from 'astro-icon';
 import tasks from './src/utils/tasks.mjs';
 import { ANALYTICS, SITE, SANITY } from './src/utils/config.ts';
 import sanityIntegration from '@sanity/astro';
 import react from '@astrojs/react';
+
+import tailwindcss from '@tailwindcss/vite';
 
 const CURRENT_THEATRE_SEASON = '2024-2025';
 
@@ -27,9 +28,6 @@ export default defineConfig({
   trailingSlash: SITE.trailingSlash ? 'always' : 'ignore',
   output: 'static',
   integrations: [
-    tailwind({
-      applyBaseStyles: false,
-    }),
     sitemap(),
     icon({
       include: {
@@ -73,5 +71,7 @@ export default defineConfig({
         '~': path.resolve(__dirname, './src'),
       },
     },
+
+    plugins: [tailwindcss()],
   },
 });

@@ -26,7 +26,7 @@ const openClasses = await classesOpenForRegistration();
     <Hero
       actions={[
         {
-          text: '2024-25 Class Policies and Information',
+          text: '2025-26 Class Policies and Information',
           href: 'https://docs.google.com/document/d/1uyqx2_iXhoAzuZlWm3EDpfqt3n5rYyvVRdxnGetxbus/edit?usp=sharing',
           variant: 'primary',
           target: '_blank',
@@ -70,8 +70,8 @@ const openClasses = await classesOpenForRegistration();
           <li>If a class is dropped after the second week of class, no refund will be given.</li>
         </ul>
         <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-          <table class="mx-0 w-full table-auto text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-            <thead class="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
+          <table class="mx-0 w-full table-auto text-left text-sm text-gray-500 rtl:text-right dark:text-gray-400">
+            <thead class="bg-gray-100 text-xs text-gray-700 uppercase dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" class="px-4 py-3"> Title </th>
                 <th scope="col" class="px-4 py-3 text-center"> Ages/Grades </th>
@@ -102,7 +102,7 @@ const openClasses = await classesOpenForRegistration();
                       <span title={`Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}`}>
                         <a
                           type="button"
-                          class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
+                          class="bg-secondary text-primary hover:bg-darkMode focus:bg-darkMode dark:hover:bg-primary mt-4 mb-4 inline-flex items-center gap-x-1 rounded-lg px-3 py-2 text-center text-xs font-medium hover:text-white focus:text-white focus:outline-none"
                           href={c.registrationLink}
                           target="_blank"
                         >
@@ -111,7 +111,7 @@ const openClasses = await classesOpenForRegistration();
                       </span>
                       <a
                         type="button"
-                        class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-accent px-3 py-2 text-center text-xs font-medium text-white hover:bg-darkMode focus:bg-darkMode focus:outline-none dark:hover:bg-primary"
+                        class="bg-accent hover:bg-darkMode focus:bg-darkMode dark:hover:bg-primary mt-4 mb-4 ml-2 inline-flex items-center gap-x-1 rounded-lg px-3 py-2 text-center text-xs font-medium text-white focus:outline-none"
                         href={c.moreInfoLink}
                       >
                         Learn More

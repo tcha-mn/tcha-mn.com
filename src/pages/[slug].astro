@@ -1,10 +1,10 @@
 ---
-import Hero from '~/components/widgets/Hero.astro';
-import Layout from '~/layouts/PageLayout.astro';
-import { fetchAll, type Page } from '~/queries/Pages.ts';
-import { urlFor } from '~/queries/sanity';
-import Blocks from '~/utils/blocks';
-import type { MetaData as MetaDataType } from '~/types';
+import Hero from '../components/widgets/Hero.astro';
+import Layout from '../layouts/PageLayout.astro';
+import { fetchAll, type Page } from '../queries/Pages';
+import { urlFor } from '../queries/sanity';
+import Blocks from '../utils/blocks';
+import type { MetaData as MetaDataType } from '../types';
 
 export async function getStaticPaths() {
   const pagesData: Page[] = await fetchAll();

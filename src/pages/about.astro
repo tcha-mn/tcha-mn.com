@@ -1,12 +1,12 @@
 ---
 import { Image } from 'astro:assets';
-import ColumnSteps from '~/components/widgets/ColumnSteps.astro';
-import Features2 from '~/components/widgets/Features2.astro';
-import Hero from '~/components/widgets/Hero.astro';
-import Layout from '~/layouts/PageLayout.astro';
-import { fetchAll } from '~/queries/Values';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
-import { findLocalImage } from '~/utils/images';
+import ColumnSteps from '../components/widgets/ColumnSteps.astro';
+import Features2 from '../components/widgets/Features2.astro';
+import Hero from '../components/widgets/Hero.astro';
+import Layout from '../layouts/PageLayout.astro';
+import { fetchAll } from '../queries/Values';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
+import { findLocalImage } from '../utils/images';
 
 const hero = await findLocalImage('~/assets/images/about-hero.jpg');
 
@@ -42,7 +42,7 @@ const values = await fetchAll();
           principles, including the inerrancy of Scripture as the Word of God, and salvation through faith in Jesus
           Christ.
         </p>
-        <p class="mb-3 text-muted">TCHA is a 501(c)(3) charitable non-profit organization.</p>
+        <p class="text-muted mb-3">TCHA is a 501(c)(3) charitable non-profit organization.</p>
       </Fragment>
     </Hero>
   </WidgetWrapper>

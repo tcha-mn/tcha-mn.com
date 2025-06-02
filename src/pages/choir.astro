@@ -1,10 +1,10 @@
 ---
 import { Image } from 'astro:assets';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
 import Hero from '../components/widgets/Hero.astro';
 import Layout from '../layouts/PageLayout.astro';
 import List from '../components/classes/List.astro';
-import { findLocalImage } from '~/utils/images';
+import { findLocalImage } from '../utils/images';
 
 const hero = await findLocalImage('~/assets/images/choir-hero.jpg');
 

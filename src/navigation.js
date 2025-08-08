@@ -128,7 +128,7 @@ export const footerData = {
     {
       title: 'Events',
       links: [
-        { text: 'Theatre', href: '/theatre/2023-2024/' },
+        { text: 'Theatre', href: '/theatre/2025-2026/' },
         { text: 'Calendar', href: '/events/' },
       ],
     },

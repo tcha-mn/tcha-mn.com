@@ -10,7 +10,7 @@ import { ANALYTICS, SITE, SANITY } from './src/utils/config.ts';
 import sanityIntegration from '@sanity/astro';
 import react from '@astrojs/react';
 
-const CURRENT_THEATRE_SEASON = '2024-2025';
+const CURRENT_THEATRE_SEASON = '2025-2026';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const whenExternalScripts = (items = []) =>
@@ -59,9 +59,6 @@ export default defineConfig({
     react(),
   ],
   redirects: {
-    '/cinderella': '/theatre/2024-2025/2024-cinderella/',
-    '/event/annie-jr/': '/theatre/2023-2024/',
-    '/event/les-mis-play/': '/theatre/2023-2024/',
     '/theatre/': `/theatre/${CURRENT_THEATRE_SEASON}/`,
   },
   image: {

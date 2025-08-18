@@ -1,6 +1,7 @@
 import type { PortableTextBlock } from 'sanity';
 import type { BaseQueryOptions } from './sanity';
 import { makeDataAccess } from './sanity';
+import type { StandardImageAsset } from '~/types';
 
 export interface Page {
   _id: string;
@@ -11,7 +12,7 @@ export interface Page {
   heading: string;
   subheading: string;
   hero: {
-    image: string;
+    image: StandardImageAsset;
     alt: string;
   };
   body: PortableTextBlock[];

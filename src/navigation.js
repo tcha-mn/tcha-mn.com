@@ -37,6 +37,10 @@ export const headerData = {
           href: `${SITE.base}/faqs/`,
         },
         {
+          text: 'Newsletter',
+          href: `${SITE.base}/newsletter/`,
+        },
+        {
           text: 'Contact Us',
           href: `${SITE.base}/contact/`,
         },

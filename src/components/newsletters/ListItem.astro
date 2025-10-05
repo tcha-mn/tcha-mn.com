@@ -1,0 +1,87 @@
+---
+import { Icon } from 'astro-icon/components';
+import SanityImage from '~/components/common/SanityImage.astro';
+import { toHTML } from '@portabletext/to-html';
+import type { Newsletter } from '~/queries/Newsletters';
+import { getFormattedDate } from '~/utils/utils';
+
+const { newsletter } = Astro.props as { newsletter: Newsletter };
+
+const pdfUrl = newsletter.file?.asset?.url;
+const parsedDate = newsletter.date_visible ? new Date(newsletter.date_visible) : undefined;
+const publishedDate = parsedDate && !Number.isNaN(parsedDate.valueOf()) ? parsedDate : undefined;
+const formattedDate = publishedDate ? getFormattedDate(publishedDate) : undefined;
+const dateTimeAttr = publishedDate ? publishedDate.toISOString() : undefined;
+const descriptionHtml = newsletter.description?.length ? toHTML(newsletter.description) : undefined;
+const issueLabel = newsletter.issue?.trim();
+const heroAlt = newsletter.hero?.alt || newsletter.headline || issueLabel || 'Newsletter cover image';
+---
+
+<article class="mx-auto max-w-4xl">
+  <div
+    class="flex flex-col gap-6 rounded-lg bg-white/70 p-4 shadow-md backdrop-blur md:grid md:grid-cols-[minmax(0,300px)_minmax(0,1fr)] md:items-start md:gap-10"
+  >
+    <div class="overflow-hidden rounded-md bg-gray-200 dark:bg-slate-700">
+      {
+        newsletter.hero?.asset ? (
+          pdfUrl ? (
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener"
+              class="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
+            >
+              <SanityImage
+                image={newsletter.hero}
+                alt={heroAlt}
+                mode="cover"
+                className="aspect-[8.5/11] h-full w-full object-contain transition duration-200 ease-out group-hover:scale-105"
+              />
+            </a>
+          ) : (
+            <SanityImage
+              image={newsletter.hero}
+              alt={heroAlt}
+              mode="cover"
+              className="aspect-[8.5/11] h-full w-full object-contain"
+            />
+          )
+        ) : (
+          <div class="flex aspect-[3/2] h-full w-full items-center justify-center text-sm text-muted">
+            No image available
+          </div>
+        )
+      }
+    </div>
+    <div class="flex flex-col gap-4">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-sm text-gray-600 dark:text-gray-400">
+        {
+          issueLabel && (
+            <span class="text-xs uppercase tracking-wide text-primary" title={formattedDate ?? undefined}>
+              {issueLabel}
+            </span>
+          )
+        }
+      </div>
+      <h2 class="font-heading text-3xl font-bold leading-tight tracking-tighter text-gray-900 dark:text-slate-200">
+        {newsletter.headline}
+      </h2>
+      {descriptionHtml && <div class="prose prose-gray max-w-none dark:prose-invert" set:html={descriptionHtml} />}
+      {
+        pdfUrl && (
+          <div>
+            <a
+              href={pdfUrl}
+              target="_blank"
+              rel="noopener"
+              class="focus:ring-primary/40 inline-flex items-center gap-2 rounded-md bg-primary px-4 py-2 font-semibold text-white transition hover:brightness-95 focus:outline-none focus:ring-2"
+            >
+              <Icon name="tabler:file-type-pdf" class="h-5 w-5" />
+              View PDF
+            </a>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</article>

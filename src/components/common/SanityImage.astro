@@ -1,7 +1,7 @@
 ---
 import { SanityImage as NpmSanityImage, type WrapperProps } from 'sanity-image';
-import { SANITY } from '../../utils/config';
-import type { StandardImageAsset } from '../../types';
+import { SANITY } from '~/utils/config';
+import type { StandardImageAsset } from '~/types';
 
 export interface Props extends Omit<WrapperProps<'img'>, 'id' | 'preview'> {
   image: StandardImageAsset;

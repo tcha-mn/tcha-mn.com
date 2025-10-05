@@ -1,15 +1,15 @@
 ---
 import { Image } from 'astro:assets';
-import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
 import Hero from '~/components/widgets/Hero.astro';
 import Layout from '~/layouts/PageLayout.astro';
-import List from '~/components/classes/List.astro';
+import WidgetWrapper from '~/components/ui/WidgetWrapper.astro';
+import List from '~/components/newsletters/List.astro';
 import { findLocalImage } from '~/utils/images';
 
-const hero = await findLocalImage('~/assets/images/drama-hero.jpg');
+const hero = await findLocalImage('~/assets/images/newsletter-hero.jpg');
 
 const metadata = {
-  title: 'Drama Classes | TCHA',
+  title: 'Newsletters | TCHA',
 };
 ---
 
@@ -22,14 +22,14 @@ const metadata = {
         <Image src={hero} alt="Spotlight" class="h-full w-full object-cover object-[50%_25%]" />
       </div>
     </Fragment>
-    <Hero tagline="Classes" title="Drama" backdropOverlay="sm">
+    <Hero title="Quarterly Newsletter" backdropOverlay="sm">
       <Fragment slot="subtitle">
-        TCHA offers several drama classes each semester for a variety of ages ranging from Kindergarten through 12th
-        grade.
+        Catch up on the latest news from the TCHA community or reminisce about years gone by, check out our list of
+        newsletters!
       </Fragment>
     </Hero>
   </WidgetWrapper>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
-    <List classType="Drama" />
+    <List />
   </section>
 </Layout>

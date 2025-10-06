@@ -67,7 +67,9 @@ const { language, textDirection } = I18N;
     </style>
     <script>
       import { initFlowbite } from 'flowbite';
-      document.addEventListener('astro:page-load', initFlowbite);
+      const hydrateFlowbite = () => initFlowbite();
+      document.addEventListener('astro:page-load', hydrateFlowbite);
+      document.addEventListener('astro:after-swap', hydrateFlowbite);
     </script>
     <Subscribe />
   </body>

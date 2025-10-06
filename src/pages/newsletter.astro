@@ -22,7 +22,18 @@ const metadata = {
         <Image src={hero} alt="Spotlight" class="h-full w-full object-cover object-[50%_25%]" />
       </div>
     </Fragment>
-    <Hero title="Newsletter" backdropOverlay="sm">
+    <Hero
+      title="Newsletter"
+      backdropOverlay="sm"
+      actions={[
+        {
+          text: 'Receive our newsletter in your inbox!',
+          variant: 'primary',
+          'data-modal-target': 'subscribe-modal',
+          'data-modal-toggle': 'subscribe-modal',
+        },
+      ]}
+    >
       <Fragment slot="subtitle">
         Catch up on the latest news from the TCHA community or reminisce about the past in our quarterly newsletter!
       </Fragment>

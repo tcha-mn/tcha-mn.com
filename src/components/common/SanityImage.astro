@@ -32,24 +32,47 @@ const styleString = Object.entries(style)
 />
 
 <script>
-  function swapImagePreview(src: Element | Event) {
-    let img = src instanceof Event ? (src.target as HTMLImageElement) : src;
-    img.setAttribute('style', img.getAttribute('data-onLoadStyle'));
-    img.removeAttribute('data-onLoadStyle');
-    img.removeAttribute('data-loading');
-    const lqip = img.previousElementSibling as HTMLImageElement;
-    if (lqip.tagName === 'IMG' && lqip.hasAttribute('data-lqip')) {
-      lqip.replaceWith(img);
-    }
-    img.removeEventListener('load', swapImagePreview);
-  }
-  document.addEventListener('astro:page-load', () => {
-    document.querySelectorAll<HTMLImageElement>('img[data-loading]').forEach((img) => {
-      if (img.complete) {
-        swapImagePreview(img);
-      } else {
-        img.addEventListener('load', swapImagePreview);
+  (() => {
+    const win = window as typeof window & { __sanityImageLqipInit?: boolean };
+    if (win.__sanityImageLqipInit) return;
+    win.__sanityImageLqipInit = true;
+
+    function swapImagePreview(src: Element | Event) {
+      const img = src instanceof Event ? (src.target as HTMLImageElement) : (src as HTMLImageElement);
+      const onLoadStyle = img.getAttribute('data-onLoadStyle');
+      if (onLoadStyle !== null) {
+        if (onLoadStyle.trim().length > 0) {
+          img.setAttribute('style', onLoadStyle);
+        } else {
+          img.removeAttribute('style');
+        }
+        img.removeAttribute('data-onLoadStyle');
       }
-    });
-  });
+      img.removeAttribute('data-loading');
+      const lqip = img.previousElementSibling as HTMLImageElement | null;
+      if (lqip && lqip.tagName === 'IMG' && lqip.hasAttribute('data-lqip')) {
+        lqip.replaceWith(img);
+      }
+      img.removeEventListener('load', swapImagePreview);
+    }
+
+    const hydrateImages = () => {
+      document.querySelectorAll<HTMLImageElement>('img[data-loading]').forEach((img) => {
+        if (img.complete) {
+          swapImagePreview(img);
+        } else {
+          img.addEventListener('load', swapImagePreview, { once: true });
+        }
+      });
+    };
+
+    document.addEventListener('astro:page-load', hydrateImages);
+    document.addEventListener('astro:after-swap', hydrateImages);
+
+    if (document.readyState === 'complete' || document.readyState === 'interactive') {
+      requestAnimationFrame(hydrateImages);
+    } else {
+      document.addEventListener('DOMContentLoaded', hydrateImages, { once: true });
+    }
+  })();
 </script>

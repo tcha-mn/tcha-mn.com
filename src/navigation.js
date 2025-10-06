@@ -83,6 +83,11 @@ export const headerData = {
       id: 'theatre',
       text: 'Theatre',
       links: [
+        {
+          text: 'Auditions',
+          href: `${SITE.base}/auditions/`,
+          dividerAfter: true,
+        },
         // {
         //   text: 'Gala',
         //   href: 'https://tchagala2025.rsvpify.com/',

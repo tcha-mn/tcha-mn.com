@@ -5,12 +5,17 @@ const { text, links, currentPath } = Astro.props;
 ---
 
 <>
-  <button class="hover:text-link flex items-center px-4 py-3 text-white">
+  <button
+    type="button"
+    class="hover:text-link flex items-center px-4 py-3 text-white"
+    aria-expanded="true"
+    data-aw-submenu-toggle
+  >
     {text}
     <Icon name="tabler:chevron-down" class="ml-0.5 hidden h-3.5 w-3.5 lg:inline rtl:ml-0 rtl:mr-0.5" />
   </button>
   <ul
-    class="dropdown-menu dark:lg:bg-dark rounded border border-gray-300 px-4 font-medium drop-shadow-xl dark:border-gray-700 lg:absolute lg:hidden lg:min-w-[200px] lg:bg-white/90 lg:p-0 lg:backdrop-blur-md"
+    class="dropdown-menu dark:bg-dark dark:lg:bg-dark block rounded border border-white/20 bg-primary px-4 font-medium drop-shadow-xl dark:border-gray-700 lg:absolute lg:hidden lg:min-w-[200px] lg:border-gray-300 lg:bg-white/90 lg:p-0 lg:backdrop-blur-md"
   >
     {
       links.map(({ text: subtext, href, dividerAfter = false }) => (

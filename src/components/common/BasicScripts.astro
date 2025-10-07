@@ -40,9 +40,28 @@ import { UI } from '~/utils/config';
     }
   }
 
+  function setMobileSubmenus(expanded = true) {
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      return;
+    }
+
+    document.querySelectorAll('#header .dropdown').forEach((dropdown) => {
+      const trigger = dropdown.querySelector('[data-aw-submenu-toggle]');
+      const menu = dropdown.querySelector('.dropdown-menu');
+      if (!trigger || !menu) {
+        return;
+      }
+
+      trigger.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      menu.classList.toggle('hidden', !expanded);
+    });
+  }
+
   const onLoad = function () {
     let lastKnownScrollPosition = window.scrollY;
     let ticking = true;
+
+    setMobileSubmenus(true);
 
     attachEvent('#header nav', 'click', function () {
       document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
@@ -51,6 +70,7 @@ import { UI } from '~/utils/config';
       document.getElementById('header')?.classList.remove('expanded');
       document.querySelector('#header nav')?.classList.add('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+      setMobileSubmenus(true);
     });
 
     attachEvent('[data-aw-toggle-menu]', 'click', function (_, elem) {
@@ -60,6 +80,28 @@ import { UI } from '~/utils/config';
       document.getElementById('header')?.classList.toggle('expanded');
       document.querySelector('#header nav')?.classList.toggle('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
+      if (elem.classList.contains('expanded')) {
+        setMobileSubmenus(true);
+      }
+    });
+
+    attachEvent('[data-aw-submenu-toggle]', 'click', function (event, elem) {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+      if (isDesktop) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const submenu = elem.nextElementSibling;
+      if (!submenu) {
+        return;
+      }
+
+      const willOpen = elem.getAttribute('aria-expanded') !== 'true';
+      elem.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      submenu.classList.toggle('hidden', !willOpen);
     });
 
     attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
@@ -111,6 +153,7 @@ import { UI } from '~/utils/config';
       document.getElementById('header')?.classList.remove('expanded');
       document.querySelector('#header nav')?.classList.add('hidden');
       document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+      setMobileSubmenus(true);
     });
 
     function appyHeaderStylesOnScroll() {
@@ -146,6 +189,7 @@ import { UI } from '~/utils/config';
     document.getElementById('header')?.classList.remove('h-screen');
     document.getElementById('header')?.classList.remove('expanded');
     document.querySelector('#header nav')?.classList.add('hidden');
+    setMobileSubmenus(true);
   };
 
   window.onload = onLoad;

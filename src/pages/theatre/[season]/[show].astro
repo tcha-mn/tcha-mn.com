@@ -25,6 +25,9 @@ const events = await getRelatedEvents({ show });
 const metadata = {
   title: `${showInfo.title} | ${seasonInfo.title} | TCHA`,
 };
+const ticketLink = events[0]?.ticket_link;
+const hasTicketLink = Boolean(ticketLink);
+const hasProgramPdf = Boolean(showInfo.program_pdf);
 function formatDate(date: DateTime): string {
   return date.toLocaleString(DateTime.DATE_MED_WITH_WEEKDAY);
 }
@@ -41,19 +44,30 @@ function formatDate(date: DateTime): string {
     <Fragment slot="subtitle">
       {formatDate(showInfo.date_range.start)} - {formatDate(showInfo.date_range.end)}
     </Fragment>
-    {
-      events.length > 0 && events[0].ticket_link && (
-        <Fragment slot="content">
-          <a
-            class="btn-secondary"
-            class="m-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
-            href={events[0].ticket_link}
-          >
-            Get Tickets
-          </a>
-        </Fragment>
-      )
-    }
+    <Fragment slot="content">
+      {
+        (hasTicketLink || hasProgramPdf) && (
+          <div class="m-4 flex flex-wrap items-center justify-center gap-4">
+            {hasTicketLink && (
+              <a
+                class="btn-secondary inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
+                href={ticketLink}
+              >
+                Get Tickets
+              </a>
+            )}
+            {hasProgramPdf && (
+              <a
+                class="btn-secondary inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
+                href={showInfo.program_pdf}
+              >
+                Download Playbill
+              </a>
+            )}
+          </div>
+        )
+      }
+    </Fragment>
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
     <h3 id="synopsis" class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Synopsis</h3>

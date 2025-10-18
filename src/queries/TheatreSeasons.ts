@@ -48,7 +48,8 @@ const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
     },
     "participation_is_open": participation.deadline > now(),
     participation,
-    "gallery": { ${picture('images.images[]', { as: 'images' })} }
+    "gallery": { ${picture('images.images[]', { as: 'images' })} },
+    "program_pdf": program.asset->url
 `;
 const SEASON_INFO = ({ season, picture }: QueryOptions) => `
 *[${VISIBLE_THEATRE_SEASONS} && title == "${season}"] {
@@ -102,6 +103,7 @@ interface ShowRaw {
   gallery: {
     images: StandardImageAsset[];
   };
+  program_pdf?: string;
 }
 export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
   gallery: {

@@ -8,8 +8,8 @@ export interface Props extends Omit<WrapperProps<'img'>, 'id' | 'preview'> {
   preview?: boolean;
 }
 
-const { image, preview = true, ...props } = Astro.props;
-const { style = {} } = props;
+const { image, preview = true, ...rest } = Astro.props as Props;
+const { style = {}, mode = 'cover' } = rest;
 const styleString = Object.entries(style)
   .map(([key, value]) => {
     const kebabKey = key.replace(/([A-Z])/g, '-$1').toLowerCase(); // Convert camelCase to kebab-case
@@ -20,11 +20,11 @@ const styleString = Object.entries(style)
 
 <NpmSanityImage
   alt={image.alt}
-  {...props}
+  {...rest}
   id={image.asset._id}
   projectId={SANITY.projectId}
   dataset={SANITY.dataset}
-  mode="cover"
+  mode={mode}
   hotspot={image.hotspot}
   crop={image.crop}
   preview={preview ? image.asset.metadata.lqip : undefined}

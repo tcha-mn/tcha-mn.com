@@ -39,6 +39,10 @@ const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
     ${picture('hero')},
     description,
     date_range,
+    "season": season->{
+      title,
+      "slug": slug.current
+    },
     "slug": slug.current,
     "directors": directors[]->{
       _id,
@@ -46,7 +50,7 @@ const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
       "bio": coalesce(class_type_bio[class_type == "theatre"][0].bio, bio),
       ${picture('headshot')}
     },
-    "participation_is_open": participation.deadline > now(),
+    "participation_is_open": dateTime(participation.opens) < ${now} && dateTime(participation.deadline) > ${now},
     participation,
     "gallery": { ${picture('images.images[]', { as: 'images' })} },
     "program_pdf": program.asset->url
@@ -62,6 +66,12 @@ const SEASON_INFO = ({ season, picture }: QueryOptions) => `
 interface ShowQueryOptions extends BaseQueryOptions {
   slug: string;
 }
+
+const AUDITION_LIST = ({
+  picture,
+}: BaseQueryOptions) => `*[_type == "show" && participation.deadline > now()] | order(participation.opens) {
+  ${SHOW_FIELDS({ picture })}
+}`;
 
 const SHOW_INFO = ({ slug, picture }: ShowQueryOptions) => `
 *[_type == "show" && slug.current == "${slug}" ] | order(date_range.start) {
@@ -84,6 +94,10 @@ interface ShowRaw {
   slug: string;
   hero: StandardImageAsset;
   description: PortableTextBlock[];
+  season?: {
+    title: string;
+    slug: string;
+  };
   date_range: {
     start: string;
     end: string;
@@ -96,6 +110,7 @@ interface ShowRaw {
   }[];
   participation_is_open: boolean;
   participation?: {
+    opens: string;
     deadline: string;
     registration_link: string;
     details: PortableTextBlock[];
@@ -114,6 +129,7 @@ export interface Show extends Omit<ShowRaw, 'date_range' | 'participation'> {
     end: DateTime;
   };
   participation?: {
+    opens: DateTime;
     deadline: DateTime;
     registration_link: string;
     details: PortableTextBlock[];
@@ -137,7 +153,9 @@ function processSeasonInfo(info: SeasonInfoRaw) {
 
 function processShowInfo(show: ShowRaw): Show {
   const participationDeadline =
-    show.participation_is_open && show.participation ? parseDate(show.participation.deadline) : DateTime.now();
+    show.participation ? parseDate(show.participation.deadline) : DateTime.now();
+  const participationOpen =
+    show.participation ? parseDate(show.participation.opens) : DateTime.now().plus({ days: 1 });
   return {
     ...show,
     date_range: {
@@ -145,6 +163,7 @@ function processShowInfo(show: ShowRaw): Show {
       end: parseDate(show.date_range.end),
     },
     participation: show.participation && {
+      opens: participationOpen,
       deadline: participationDeadline,
       registration_link: show.participation.registration_link,
       details: show.participation.details,
@@ -157,3 +176,4 @@ export const fetchOne = makeDynamicDataAccess(SINGLE_SEASON, (season: TheatreSea
 export const fetchSlugs = makeDataAccess<TheatreSeasonSlugs[]>(SEASON_SHOW_SLUGS);
 export const fetchSeasonInfo = makeDynamicDataAccess(SEASON_INFO, processSeasonInfo);
 export const fetchShowInfo = makeDynamicDataAccess(SHOW_INFO, processShowInfo);
+export const fetchAuditions = makeDataAccess(AUDITION_LIST, (shows: ShowRaw[]) => shows.map(processShowInfo));

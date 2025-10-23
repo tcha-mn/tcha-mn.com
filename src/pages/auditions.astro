@@ -1,18 +1,20 @@
 ---
 import { Image } from 'astro:assets';
+import { toHTML } from '@portabletext/to-html';
 import Hero from '../components/widgets/Hero.astro';
-import { DateTime } from 'luxon';
 import Layout from '../layouts/PageLayout.astro';
+import SanityImage from '../components/common/SanityImage.astro';
 import WidgetWrapper from '../components/ui/WidgetWrapper.astro';
 import Ternary from '../components/Ternary.astro';
 import { findLocalImage } from '../utils/images';
+import { fetchAuditions } from '~/queries/TheatreSeasons';
 
 const hero = await findLocalImage('~/assets/images/registration-hero.jpg');
 
 const metadata = {
   title: 'Auditions | TCHA',
 };
-const openAuditions = [] as Record<string, any>[];
+const showsWithUpcomingAuditions = await fetchAuditions();
 ---
 
 <Layout metadata={metadata}>
@@ -26,7 +28,7 @@ const openAuditions = [] as Record<string, any>[];
   </WidgetWrapper>
   <WidgetWrapper containerClass="max-w-7xl mx-auto lg:py-8 md:py-8 py-8">
     <>
-      <Ternary condition={openAuditions.length > 0}>
+      <Ternary condition={showsWithUpcomingAuditions.length > 0}>
         <Fragment slot="false">
           <div
             class="mb-4 rounded-lg bg-blue-50 p-4 text-center text-sm text-blue-800 dark:bg-gray-800 dark:text-blue-400"
@@ -40,83 +42,116 @@ const openAuditions = [] as Record<string, any>[];
           </div>
         </Fragment>
         <Fragment slot="true">
-          <h3 class="mb-3 text-left text-xl font-bold">Registration Policies</h3>
-          <ul class="mb-3 w-full list-disc text-left">
-            <li>There is a 20% non-refundable deposit required at the time of registration.</li>
-            <li>
-              Choir registration deadline is two weeks before the start of classes to allow the directors to choose and
-              order enough copies of music. For those who register after this deadline, there will be a $20 late fee.
-            </li>
-            <li>
-              If a class is dropped before the second week of classes, a full refund, minus the 20% non-refundable
-              deposit, will be given.
-            </li>
-            <li>If a class is dropped after the second week of class, no refund will be given.</li>
-          </ul>
-          <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-            <table class="mx-0 w-full table-auto text-left text-sm text-gray-500 dark:text-gray-400 rtl:text-right">
-              <thead class="bg-gray-100 text-xs uppercase text-gray-700 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" class="px-4 py-3"> Title </th>
-                  <th scope="col" class="px-4 py-3 text-center"> Ages/Grades </th>
-                  <th scope="col" class="px-4 py-3 text-center"> Time </th>
-                  <th scope="col" class="px-4 py-3 text-center"> When </th>
-                  <th scope="col" class="px-4 py-3 text-center"> Actions </th>
-                </tr>
-              </thead>
-              <tbody>
-                {
-                  openAuditions.map((c) => (
-                    <tr class="border-b bg-white dark:border-gray-700 dark:bg-gray-800">
-                      <th scope="row" class="px-4 py-3 font-medium text-gray-900 dark:text-white">
-                        {c.title}
-                        <br />
-                        <span class="ml-4 text-gray-500">{c.class_type}</span>
-                      </th>
-                      <td class="px-4 py-3 text-center">
-                        {c.grades.min} - {c.grades.max}
-                      </td>
-                      <td class="px-4 py-3 text-center">
-                        {c.classTimes?.start}-{c.classTimes?.end}
-                      </td>
-                      <td class="px-4 py-3 text-center">
-                        {c.dates.toString()} ({c.semester})
-                      </td>
-                      <td class="px-4 py-4 text-center">
-                        <span title={`Registration closes ${c.registration_close.toLocaleString(DateTime.DATE_MED)}`}>
-                          <a
-                            type="button"
-                            class="mb-4 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-secondary px-3 py-2 text-center text-xs font-medium text-primary hover:bg-darkMode hover:text-white focus:bg-darkMode focus:text-white focus:outline-none dark:hover:bg-primary"
-                            href={c.registrationLink}
-                            target="_blank"
-                          >
-                            Register
-                          </a>
-                        </span>
-                        <a
-                          type="button"
-                          class="mb-4 ml-2 mt-4 inline-flex items-center gap-x-1 rounded-lg bg-accent px-3 py-2 text-center text-xs font-medium text-white hover:bg-darkMode focus:bg-darkMode focus:outline-none dark:hover:bg-primary"
-                          href={c.moreInfoLink}
-                        >
-                          Learn More
-                        </a>
-                      </td>
-                    </tr>
-                  ))
-                }
-              </tbody>
-            </table>
+          <h2 class="mb-6 text-left text-2xl font-bold text-gray-900 dark:text-slate-100">Upcoming Auditions</h2>
+          <div class="space-y-12 mb-16">
+            {
+              showsWithUpcomingAuditions.map((show) => {
+                const showLink = show.season?.slug ? `/theatre/${show.season.slug}/${show.slug}/` : undefined;
+                const registrationLink = show.participation?.registration_link;
+                const showRegistrationButton = Boolean(show.participation_is_open && registrationLink);
+                const showRegistrationMessage = Boolean(!show.participation_is_open);
+                const shouldRenderActions = Boolean(showLink || showRegistrationButton || showRegistrationMessage);
+                return (
+                  <article class="mx-auto max-w-5xl">
+                    <div
+                      class="flex flex-col gap-6 rounded-2xl bg-white/80 p-6 shadow-md ring-1 ring-black/5 backdrop-blur transition hover:shadow-lg dark:bg-slate-800/90 dark:ring-slate-700 md:grid md:grid-cols-[minmax(0,320px)_minmax(0,1fr)] md:items-start md:gap-10"
+                    >
+                      <div class="overflow-hidden rounded-lg bg-gray-200 dark:bg-slate-700">
+                        {
+                          show.hero ? (
+                            showLink ? (
+                              <a
+                                href={showLink}
+                                class="group block focus:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                              >
+                                <SanityImage
+                                  image={show.hero}
+                                  alt={show.hero.alt ?? show.title}
+                                  mode="contain"
+                                  className="h-full w-full object-contain transition duration-200 ease-out group-hover:scale-[1.02]"
+                                />
+                              </a>
+                            ) : (
+                              <SanityImage
+                                image={show.hero}
+                                alt={show.hero.alt ?? show.title}
+                                mode="contain"
+                                className="h-full w-full object-contain transition duration-200 ease-out"
+                              />
+                            )
+                          ) : (
+                            <div class="flex h-full w-full items-center justify-center text-sm text-gray-500 dark:text-gray-400">
+                              Image coming soon
+                            </div>
+                          )
+                        }
+                      </div>
+                      <div class="flex flex-col gap-4">
+                        <h3 class="font-heading text-3xl font-bold leading-tight tracking-tight text-gray-900 dark:text-slate-100">
+                          {show.title}
+                        </h3>
+                        {
+                          show.participation?.details?.length ? (
+                            <div
+                              class="prose prose-gray max-w-none text-gray-700 dark:prose-invert"
+                              set:html={toHTML(show.participation.details)}
+                            />
+                          ) : (
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Audition details will be available soon.</p>
+                          )
+                        }
+                        {
+                          shouldRenderActions && (
+                            <div class="flex flex-wrap items-center gap-3 text-sm">
+                              {showLink && (
+                                <a
+                                  class="btn-secondary inline-flex items-center justify-center gap-2 px-4 py-2"
+                                  href={showLink}
+                                >
+                                  Learn More
+                                </a>
+                              )}
+                              {showRegistrationButton ? (
+                                <a
+                                  class="focus:ring-primary/40 inline-flex items-center justify-center gap-2 rounded-md bg-primary px-4 py-2 font-semibold text-white transition hover:brightness-95 focus:outline-none focus:ring-2"
+                                  href={registrationLink}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                >
+                                  Register Now
+                                </a>
+                              ) : (
+                                showRegistrationMessage && (
+                                  <span class="italic text-gray-600 dark:text-gray-300">
+                                    Auditions signups are not yet open. Check back soon!
+                                  </span>
+                                )
+                              )}
+                            </div>
+                          )
+                        }
+                      </div>
+                    </div>
+                  </article>
+                );
+              })
+            }
           </div>
         </Fragment>
       </Ternary>
-<div>
-  <h3 class="mb-3 text-left text-xl font-bold">Typical Audition Schedule</h3>
-  <ul class="mb-3 w-full list-disc text-left">
-    <li>Auditions for the Fall Musical (ages 13–18) are typically held in May.</li>
-    <li>Auditions for our two winter plays — one for children (ages 8–13) and one for teens (ages 13–18) — are usually held in November or early December.</li>
-    <li>Auditions for the Summer Musical (ages 8–18) are typically scheduled for late March or early April.</li>
-  </ul>
-</div>
+      <div class="mt-16">
+        <div class="mx-auto max-w-3xl rounded-2xl bg-white/80 p-6 shadow-md ring-1 ring-black/5 backdrop-blur dark:bg-slate-800/90 dark:ring-slate-700">
+          <h3 class="mb-3 text-left text-xl font-bold text-gray-900 dark:text-slate-100">Typical Audition Schedule</h3>
+          <ul class="mb-0 list-disc space-y-2 text-left text-gray-700 dark:text-gray-300">
+            <li>Auditions for the Fall Musical (ages 13–18) are typically held in May.</li>
+            <li>
+              Auditions for our two winter plays — one for children (ages 8–13) and one for teens (ages 13–18) — are
+              usually held in November or early December.
+            </li>
+            <li>Auditions for the Summer Musical (ages 8–18) are typically scheduled for late March or early April.</li>
+          </ul>
+        </div>
+      </div>
     </>
   </WidgetWrapper>
 </Layout>

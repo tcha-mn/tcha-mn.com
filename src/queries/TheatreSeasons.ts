@@ -153,9 +153,9 @@ function processSeasonInfo(info: SeasonInfoRaw) {
 
 function processShowInfo(show: ShowRaw): Show {
   const participationDeadline =
-    show.participation ? parseDate(show.participation.deadline) : DateTime.now();
+    show.participation?.deadline ? parseDate(show.participation.deadline) : DateTime.now();
   const participationOpen =
-    show.participation ? parseDate(show.participation.opens) : DateTime.now().plus({ days: 1 });
+    show.participation?.opens ? parseDate(show.participation.opens) : DateTime.now().plus({ days: 1 });
   return {
     ...show,
     date_range: {

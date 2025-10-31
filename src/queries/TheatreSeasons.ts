@@ -50,7 +50,7 @@ const SHOW_FIELDS = ({ picture }: BaseQueryOptions) => `_id,
       "bio": coalesce(class_type_bio[class_type == "theatre"][0].bio, bio),
       ${picture('headshot')}
     },
-    "participation_is_open": dateTime(participation.opens) < ${now} && dateTime(participation.deadline) > ${now},
+    "participation_is_open": dateTime(participation.opens + "T00:00:00Z") < ${now} && dateTime(participation.deadline + "T00:00:00Z") > ${now},
     participation,
     "gallery": { ${picture('images.images[]', { as: 'images' })} },
     "program_pdf": program.asset->url
@@ -152,10 +152,10 @@ function processSeasonInfo(info: SeasonInfoRaw) {
 }
 
 function processShowInfo(show: ShowRaw): Show {
-  const participationDeadline =
-    show.participation?.deadline ? parseDate(show.participation.deadline) : DateTime.now();
-  const participationOpen =
-    show.participation?.opens ? parseDate(show.participation.opens) : DateTime.now().plus({ days: 1 });
+  const participationDeadline = show.participation?.deadline ? parseDate(show.participation.deadline) : DateTime.now();
+  const participationOpen = show.participation?.opens
+    ? parseDate(show.participation.opens)
+    : DateTime.now().plus({ days: 1 });
   return {
     ...show,
     date_range: {

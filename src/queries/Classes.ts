@@ -27,6 +27,7 @@ export interface RawClass {
   no_early_registration_discount: boolean;
   is_cancelled: boolean;
   early_registration_end?: string;
+  early_registration_discount: number;
   dates: {
     frequency: 'once' | 'daily' | 'weekly' | 'monthly';
     day_of_week?: string;
@@ -48,6 +49,7 @@ export interface ParsedClass
   registration_open: DateTime;
   registration_close: DateTime;
   early_registration_end?: DateTime;
+  early_registration_discount: number;
   is_cancelled: boolean;
   dates: {
     frequency: 'once' | 'daily' | 'weekly' | 'monthly';
@@ -57,6 +59,7 @@ export interface ParsedClass
     end: DateTime;
     breaks?: DateTime[];
     isRecurring: boolean;
+    toString(): string;
   };
   toString(): string;
   moreInfoLink: string;
@@ -80,6 +83,7 @@ export const CLASS_QUERY_FRAGMENT = ({ picture, includeInstructors = false }: Qu
     no_early_registration_discount,
     is_cancelled,
     "early_registration_end": semester->.early_registration_end,
+    early_registration_discount,
     ${includeInstructors ? instructorFragment : ''}
     "classTimes": class_times,
     "grades": {
@@ -116,6 +120,7 @@ export function parseRawClass({
     isOpenForRegistration: registrationOpen < now && registrationClose >= now.startOf('day'),
     isEarlyRegistration: !c.no_early_registration_discount && earlyRegistrationEnd > now,
     early_registration_end: earlyRegistrationEnd,
+    early_registration_discount: c.no_early_registration_discount ? 0 : c.early_registration_discount || 10,
     registration_open: registrationOpen,
     registration_close: registrationClose,
     moreInfoLink: `/${c.class_type.toLowerCase()}/#class-${c._id}`,

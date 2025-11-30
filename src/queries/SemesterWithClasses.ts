@@ -31,7 +31,7 @@ const QUERY = ({ classType, registration, picture }: QueryOptions) => `
     ${classType ? ' && class_type == "' + classType + '"' : ''} &&
     references(^._id) &&
     ${groqDateTimeFromDate('coalesce(dates, ^.dates).end')} > ${now}
-  ] | order(age_minimum, age_maximum) ${CLASS_QUERY_FRAGMENT({ picture, includeInstructors: true })}
+  ] | order(age_minimum, age_maximum, title) ${CLASS_QUERY_FRAGMENT({ picture, includeInstructors: true })}
 }`;
 
 type Result = {

@@ -87,7 +87,7 @@ const { classItem } = Astro.props;
           <span class:list={{ 'text-gray-500 line-through dark:text-gray-400': classItem.isEarlyRegistration }}
             >{classItem.price}</span
           >
-          {classItem.isEarlyRegistration && <>{classItem.price - 10}</>}
+          {classItem.isEarlyRegistration && <>{classItem.price - classItem.early_registration_discount}</>}
         </span>
       </div>
       {
@@ -211,7 +211,7 @@ const { classItem } = Astro.props;
             <span class:list={{ 'text-gray-500 line-through dark:text-gray-400': classItem.isEarlyRegistration }}
               >{classItem.price}</span
             >
-            {classItem.isEarlyRegistration && <>{classItem.price - 10}</>}
+            {classItem.isEarlyRegistration && <>{classItem.price - classItem.early_registration_discount}</>}
           </span>
         </div>
       </div>

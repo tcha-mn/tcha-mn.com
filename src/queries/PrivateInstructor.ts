@@ -1,5 +1,7 @@
 import type { Instructor } from './Instructor';
-import { makeDynamicDataAccess, type BaseQueryOptions } from './sanity';
+import { makeDataAccess, type BaseQueryOptions } from './sanity';
+
+const PRIVATE_LESSONS = 'Private Lessons';
 
 export interface PrivateInstructor extends Instructor {
   private_lessons: {
@@ -12,13 +14,13 @@ export interface PrivateInstructor extends Instructor {
 }
 
 const QUERY = ({ picture }: BaseQueryOptions) => `
-*[_type == "instructor" && "Private Lessons" in class_types] {
+*[_type == "instructor" && "${PRIVATE_LESSONS}" in class_types] {
   name,
   class_types,
-  "bio": coalesce(class_type_bio[class_type == ^.^.class_type][0].bio, bio),
+  "bio": coalesce(class_type_bio[class_type == "${PRIVATE_LESSONS}"][0].bio, bio),
   ${picture('headshot')},
   private_lessons
 } | order(name)
 `;
 
-export const fetchAll = makeDynamicDataAccess<PrivateInstructor[]>(QUERY);
+export const fetchAll = makeDataAccess<PrivateInstructor[]>(QUERY);

@@ -45,10 +45,10 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
   <div class="mt-2">
     <header>
       <div class="mb-1">
-        <h2 class="mb-2 font-heading text-xl font-bold leading-tight dark:text-slate-300 sm:text-2xl">
+        <h2 class="font-heading mb-2 text-xl leading-tight font-bold sm:text-2xl dark:text-slate-300">
           {
             link ? (
-              <a class="transition duration-200 ease-in hover:text-primary dark:hover:text-blue-700" href={link}>
+              <a class="hover:text-primary transition duration-200 ease-in dark:hover:text-blue-700" href={link}>
                 {show.title}
               </a>
             ) : (
@@ -70,7 +70,7 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
         {
           show.participation_is_open && show.participation && (
             <>
-              <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Auditions</h3>
+              <h3 class="text-m my-2 font-bold sm:text-xl dark:text-slate-300">Auditions</h3>
               <p class="my-2" set:html={toHTML(show.participation.details)} />
               {show.participation.registration_link && (
                 <a class="btn-secondary my-2 px-4 py-2" target="_blank" href={show.participation.registration_link}>
@@ -83,7 +83,7 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
         {
           event?.dates?.length > 0 && (
             <>
-              <h3 class="text-m my-2 font-bold dark:text-slate-300 sm:text-xl">Performances</h3>
+              <h3 class="text-m my-2 font-bold sm:text-xl dark:text-slate-300">Performances</h3>
               <p class="my-2">
                 <ul>
                   {event.dates.map((d) => (

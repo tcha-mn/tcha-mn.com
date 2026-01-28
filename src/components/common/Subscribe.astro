@@ -4,9 +4,19 @@ import { Icon } from 'astro-icon/components';
 
 <script>
   const SCRIPT_ID = 'ml-universal-script';
-  const FUNC_NAME = 'ml';
+  const FUNC_NAME = 'ml' as const;
   const ACCOUNT_ID = '183132';
   const FORM_ID = '0rw08R';
+
+  type MailerLiteStub = CallableFunction & {
+    q: unknown[][];
+    fn?: Partial<Record<string, CallableFunction>>;
+  };
+
+  type MailerLiteWindow = Window & {
+    ml?: MailerLiteStub;
+    __mlPendingEmbeds?: unknown[];
+  };
 
   const clearExistingEmbed = () => {
     document.querySelectorAll<HTMLDivElement>(`.ml-embedded[data-form="${FORM_ID}"]`).forEach((container) => {
@@ -25,19 +35,13 @@ import { Icon } from 'astro-icon/components';
     document
       .querySelectorAll<HTMLLinkElement>('link[href="https://assets.mailerlite.com/css/universal.css"]')
       .forEach((link) => link.remove());
-    const win = window as typeof window & {
-      [key: string]: unknown;
-      __mlPendingEmbeds?: unknown[];
-    };
-    delete win[`__${FUNC_NAME}__initialized`];
+    const win = window as MailerLiteWindow;
+    delete (win as unknown as Record<string, unknown>)[`__${FUNC_NAME}__initialized`];
 
     win.__mlPendingEmbeds = [];
 
-    const stub = ((...args: unknown[]) => {
+    const stub: MailerLiteStub = (...args: unknown[]) => {
       (stub.q = stub.q || []).push(args);
-    }) as (typeof window)[FUNC_NAME] & {
-      q?: unknown[][];
-      fn?: Record<string, (payload: unknown) => void>;
     };
 
     stub.q = [];
@@ -60,15 +64,13 @@ import { Icon } from 'astro-icon/components';
     script.src = `https://assets.mailerlite.com/js/universal.js#account=${ACCOUNT_ID}`;
     script.id = SCRIPT_ID;
     script.addEventListener('load', () => {
-      const win = window as typeof window & { [key: string]: unknown; __mlPendingEmbeds?: unknown[] };
+      const win = window as MailerLiteWindow;
       if (win.__mlPendingEmbeds?.length) {
         const embeds = [...win.__mlPendingEmbeds];
         win.__mlPendingEmbeds = [];
         embeds.forEach((payload) => {
           try {
-            const facade = win[FUNC_NAME] as typeof window[typeof FUNC_NAME] & {
-              fn?: { renderEmbeddedForm?: (data: unknown) => void };
-            };
+            const facade = win[FUNC_NAME];
             facade?.fn?.renderEmbeddedForm?.(payload as never);
           } catch (error) {
             console.error('Failed to render MailerLite embed after reload', error);
@@ -98,7 +100,7 @@ import { Icon } from 'astro-icon/components';
   title="Join our mailing list"
   data-modal-target="subscribe-modal"
   data-modal-toggle="subscribe-modal"
-  class="fixed bottom-10 right-10 flex h-12 w-12 items-center justify-center rounded-2xl rounded-bl-sm bg-primary text-center text-sm font-medium text-white hover:bg-darkMode dark:bg-secondary dark:text-primary hover:dark:bg-primary hover:dark:text-white"
+  class="bg-primary hover:bg-darkMode dark:bg-secondary dark:text-primary hover:dark:bg-primary fixed right-10 bottom-10 flex h-12 w-12 items-center justify-center rounded-2xl rounded-bl-sm text-center text-sm font-medium text-white hover:dark:text-white"
   type="button"
 >
   <Icon title="Join our mailing list" name="tabler:at" class="text-xl" />
@@ -109,7 +111,7 @@ import { Icon } from 'astro-icon/components';
   id="subscribe-modal"
   tabindex="-1"
   aria-hidden="true"
-  class="fixed left-0 right-0 top-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-y-auto overflow-x-hidden md:inset-0"
+  class="fixed top-0 right-0 left-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-x-hidden overflow-y-auto md:inset-0"
 >
   <div class="relative w-full max-w-lg px-4">
     <button
@@ -117,7 +119,7 @@ import { Icon } from 'astro-icon/components';
       aria-label="Close subscribe modal"
       title="Close"
       data-modal-hide="subscribe-modal"
-      class="focus:ring-primary/40 absolute right-2 top-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-gray-600 shadow hover:bg-white hover:text-gray-900 focus:outline-none focus:ring-2 dark:bg-gray-800/80 dark:text-gray-300 dark:hover:bg-gray-800"
+      class="focus:ring-primary/40 absolute top-2 right-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-gray-600 shadow hover:bg-white hover:text-gray-900 focus:ring-2 focus:outline-none dark:bg-gray-800/80 dark:text-gray-300 dark:hover:bg-gray-800"
     >
       <Icon name="tabler:x" class="h-5 w-5" />
     </button>

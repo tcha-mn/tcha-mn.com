@@ -4,8 +4,7 @@ import ListItem from './ListItem.astro';
 
 const newsletters = await fetchAllNewsletters();
 ---
+
 <section class="mx-auto max-w-6xl space-y-12 py-8 sm:space-y-16 sm:py-16 lg:space-y-20 lg:py-20">
-  {newsletters.map((nl) => (
-    <ListItem newsletter={nl} />
-  ))}
+  {newsletters.map((nl) => <ListItem newsletter={nl} />)}
 </section>

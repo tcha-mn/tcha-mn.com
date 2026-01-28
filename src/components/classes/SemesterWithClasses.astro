@@ -15,13 +15,13 @@ const { semester, classes } = Astro.props;
 <div class="mt-16 xl:mt-24">
   {
     semester.isPopup ? (
-      <h3 class="leading-tighter text-heading mb-12 font-heading text-xl font-bold tracking-tighter md:text-3xl">
+      <h3 class="leading-tighter text-heading font-heading mb-12 text-xl font-bold tracking-tighter md:text-3xl">
         Pop-up Classes
       </h3>
     ) : (
       <>
         <SemesterInfo semester={semester} />
-        <h3 class="leading-tighter text-heading mb-12 font-heading text-xl font-bold tracking-tighter md:text-3xl">
+        <h3 class="leading-tighter text-heading font-heading mb-12 text-xl font-bold tracking-tighter md:text-3xl">
           Classes
         </h3>
       </>

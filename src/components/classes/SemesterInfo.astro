@@ -1,6 +1,5 @@
 ---
 import { DateTime } from 'luxon';
-import { Icon } from 'astro-icon/components';
 
 import type { Semester } from '~/queries/Semester';
 import BlockScheduleDownload from '~/components/widgets/BlockScheduleDownload.astro';
@@ -17,7 +16,7 @@ const registrationOpen = semester.registration_open < now && semester.dates.star
 const registrationPast = semester.dates.start < now.startOf('day');
 ---
 
-<h2 class="leading-tighter text-heading mb-12 font-heading text-3xl font-bold tracking-tighter md:text-4xl">
+<h2 class="leading-tighter text-heading font-heading mb-12 text-3xl font-bold tracking-tighter md:text-4xl">
   {semester.name} Semester
 </h2>
 

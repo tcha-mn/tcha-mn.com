@@ -27,10 +27,10 @@ const {
       testimonials &&
         testimonials.map(({ testimonial, name, initials, relationship, image }) => (
           <div class="flex h-auto">
-            <div class="flex flex-col rounded-md p-4 shadow-xl dark:border dark:border-slate-400 dark:shadow-none md:p-6">
+            <div class="flex flex-col rounded-md p-4 shadow-xl md:p-6 dark:border dark:border-slate-400 dark:shadow-none">
               {testimonial && (
                 <blockquote class="flex-auto">
-                  <p class="text-white dark:text-muted">"{testimonial}"</p>
+                  <p class="dark:text-muted text-white">"{testimonial}"</p>
                 </blockquote>
               )}
 
@@ -53,14 +53,14 @@ const {
                     )}
                   </div>
                 ) : (
-                  <div class="relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-accent">
+                  <div class="bg-accent relative inline-flex h-10 w-10 items-center justify-center overflow-hidden rounded-full">
                     <span class="font-medium">{initials}</span>
                   </div>
                 )}
 
-                <div class="ml-3 grow rtl:ml-0 rtl:mr-3">
+                <div class="ml-3 grow rtl:mr-3 rtl:ml-0">
                   {name && <p class="text-base font-semibold">{name}</p>}
-                  {relationship && <p class="text-xs text-muted">{relationship}</p>}
+                  {relationship && <p class="text-muted text-xs">{relationship}</p>}
                 </div>
               </div>
             </div>

@@ -25,7 +25,7 @@ const {
     <div class={containerClass}>
       {items.map(({ title, description, icon, classes: itemClasses = {} }, index = 0) => (
         <div class={twMerge('flex', panelClass, itemClasses?.panel)}>
-          <div class="mr-4 flex flex-col items-center rtl:ml-4 rtl:mr-0">
+          <div class="mr-4 flex flex-col items-center rtl:mr-0 rtl:ml-4">
             <div>
               <div class="flex items-center justify-center">
                 {(icon || defaultIcon) && (
@@ -42,7 +42,7 @@ const {
             {title && <p class={twMerge('text-xl font-bold', titleClass, itemClasses?.title)} set:html={title} />}
             {description && (
               <p
-                class={twMerge('mt-2 text-muted', descriptionClass, itemClasses?.description)}
+                class={twMerge('text-muted mt-2', descriptionClass, itemClasses?.description)}
                 set:html={description}
               />
             )}

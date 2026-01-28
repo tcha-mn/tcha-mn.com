@@ -51,7 +51,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
 <header
   class:list={[
     { sticky: isSticky, relative: !isSticky, dark: isDark },
-    'top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0 bg-primary dark:bg-darkMode',
+    'bg-primary dark:bg-darkMode top-0 z-40 mx-auto w-full flex-none border-b border-gray-50/0',
   ]}
   {...isSticky ? { 'data-aw-sticky-header': true } : {}}
   {...id ? { id } : {}}
@@ -59,13 +59,13 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
   <div class="absolute inset-0"></div>
   <div
     class:list={[
-      'relative mx-auto w-full px-3 py-3 text-default lg:flex lg:justify-between lg:px-6',
+      'text-default relative mx-auto w-full px-3 py-3 lg:flex lg:justify-between lg:px-6',
       {
         'max-w-7xl': !isFullWidth,
       },
     ]}
   >
-    <div class:list={[{ 'mr-auto rtl:ml-auto rtl:mr-0': position === 'right' }, 'flex justify-between']}>
+    <div class:list={[{ 'mr-auto rtl:mr-0 rtl:ml-auto': position === 'right' }, 'flex justify-between']}>
       <a class="flex items-center" href={getHomePermalink()} aria-label="TCHA Logo">
         <Logo />
       </a>
@@ -74,7 +74,7 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
       </div>
     </div>
     <nav
-      class="hidden w-full items-center overflow-y-auto overflow-x-hidden text-default lg:mx-5 lg:flex lg:w-auto lg:overflow-x-auto lg:overflow-y-visible"
+      class="text-default hidden w-full items-center overflow-x-hidden overflow-y-auto lg:mx-5 lg:flex lg:w-auto lg:overflow-x-auto lg:overflow-y-visible"
       aria-label="Main navigation"
     >
       <ul
@@ -106,8 +106,8 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
     </nav>
     <div
       class:list={[
-        { 'ml-auto rtl:ml-0 rtl:mr-auto': position === 'left' },
-        'fixed bottom-0 left-0 hidden w-full items-center justify-end p-3 lg:static lg:mb-0 lg:flex lg:w-auto lg:self-center lg:p-0 rtl:left-auto rtl:right-0',
+        { 'ml-auto rtl:mr-auto rtl:ml-0': position === 'left' },
+        'fixed bottom-0 left-0 hidden w-full items-center justify-end p-3 lg:static lg:mb-0 lg:flex lg:w-auto lg:self-center lg:p-0 rtl:right-0 rtl:left-auto',
       ]}
     >
       <div class="flex w-full items-center justify-between lg:w-auto">
@@ -116,11 +116,11 @@ const currentPath = `/${trimSlash(new URL(Astro.url).pathname)}`;
         </div>
         {
           actions?.length ? (
-            <span class="ml-4 rtl:ml-0 rtl:mr-4">
+            <span class="ml-4 rtl:mr-4 rtl:ml-0">
               {actions.map((btnProps) => (
                 <Button
                   {...btnProps}
-                  class="px-5.5 ml-2 w-auto py-2.5 text-sm font-semibold text-white shadow-none lg:px-6"
+                  class="ml-2 w-auto px-5.5 py-2.5 text-sm font-semibold text-white shadow-none lg:px-6"
                 />
               ))}
             </span>

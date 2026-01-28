@@ -1,10 +1,4 @@
-import {
-  groqDateTimeFromDate,
-  makeDataAccess,
-  makeDynamicDataAccess,
-  type BaseQueryOptions,
-  type PortableTextBlock,
-} from './sanity';
+import { groqDateTimeFromDate, makeDynamicDataAccess, type BaseQueryOptions, type PortableTextBlock } from './sanity';
 import type { DateTime } from 'luxon';
 import { now } from './sanity';
 import { parseDate } from '../utils/dates';

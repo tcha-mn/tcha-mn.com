@@ -39,11 +39,10 @@ export interface RawClass {
   connect_class_id?: number;
   registration_link?: string;
 }
-export interface ParsedClass
-  extends Omit<
-    RawClass,
-    'dates' | 'registration_open' | 'registration_close' | 'registration_link' | 'early_registration_end'
-  > {
+export interface ParsedClass extends Omit<
+  RawClass,
+  'dates' | 'registration_open' | 'registration_close' | 'registration_link' | 'early_registration_end'
+> {
   isOpenForRegistration: boolean;
   isEarlyRegistration: boolean;
   registration_open: DateTime;

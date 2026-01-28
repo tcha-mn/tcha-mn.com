@@ -1,4 +1,4 @@
-import imageUrlBuilder from '@sanity/image-url';
+import { createImageUrlBuilder } from '@sanity/image-url';
 import { sanityClient } from 'sanity:client';
 export type { PortableTextBlock } from '@portabletext/types';
 import debug from 'debug';
@@ -19,7 +19,7 @@ const picture = (attr: string, opts?: { as: string }) => groq`'${opts?.as ?? att
   }
 }`;
 
-const builder = imageUrlBuilder(sanityClient);
+const builder = createImageUrlBuilder(sanityClient);
 
 export interface BaseQueryOptions {
   picture: typeof picture;
@@ -54,9 +54,9 @@ export function makeDynamicDataAccess<
 >(
   query: (options: Options) => string,
   preprocessor?: (result: PreProcessedResult) => Result
-): (options: Exclude<Options, BaseQueryOptions>) => Promise<Result> {
-  return async (options: Exclude<Options, BaseQueryOptions>): Promise<Result> => {
-    const formedQuery = query({ ...options, picture });
+): (options: Omit<Options, keyof BaseQueryOptions>) => Promise<Result> {
+  return async (options: Omit<Options, keyof BaseQueryOptions>): Promise<Result> => {
+    const formedQuery = query({ ...options, picture } as Options);
     return queryAndProcess(formedQuery, preprocessor);
   };
 }

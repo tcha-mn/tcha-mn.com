@@ -1,9 +1,9 @@
 ---
 import { Icon } from 'astro-icon/components';
-import { Announcement as AnnouncementType } from '../../queries/Announcement';
+import type { Announcement } from '../../queries/Announcement';
 
 export interface Props {
-  announcement: AnnouncementType;
+  announcement: Announcement;
 }
 const {
   announcement: { badge, headline, link },

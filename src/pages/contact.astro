@@ -40,8 +40,10 @@ const metadata = {
       title="Contact Us"></iframe>
 
     <script>
-      // eslint-disable-next-line no-undef
-      document.addEventListener('astro:page-load', () => Tally.loadEmbeds());
+      document.addEventListener('astro:page-load', () => {
+        const tally = (window as Window & { Tally?: { loadEmbeds?: () => void } }).Tally;
+        tally?.loadEmbeds?.();
+      });
     </script>
   </section>
 </Layout>

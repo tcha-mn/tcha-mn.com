@@ -191,9 +191,12 @@ const { classItem } = Astro.props;
             <div>
               <span class="text-sm">
                 <Icon title="Class Times" name="tabler:clock" class="-mt-0.5 inline-block h-3.5 w-3.5 dark:text-gray-400" />
-                <time datetime=`${classItem.classTimes.start}/${classItem.classTimes.end}` class="inline-block"
-                  >{classItem.classTimes.start} - {classItem.classTimes.end}</time
+                <time
+                  datetime={`${classItem.classTimes.start}/${classItem.classTimes.end}`}
+                  class="inline-block"
                 >
+                  {classItem.classTimes.start} - {classItem.classTimes.end}
+                </time>
               </span>
             </div>
           )

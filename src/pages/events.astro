@@ -28,6 +28,8 @@ const metadata = {
 
       const $modalEl = document.getElementById('eventModal');
       const eventModal = new Modal($modalEl, {}, { id: 'eventModal', override: true });
+      const closeButton = document.getElementById('eventModal-close');
+      closeButton?.addEventListener('click', () => eventModal.hide());
 
       var calendarEl = document.getElementById('calendar')!;
       calendar = new Calendar(calendarEl, {
@@ -71,18 +73,18 @@ const metadata = {
       id="eventModal"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed top-0 right-0 left-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full overflow-x-hidden overflow-y-auto p-4 md:inset-0"
+      class="fixed inset-0 z-50 hidden w-full overflow-y-auto bg-black/40 backdrop-blur-sm p-4 md:p-6"
     >
-      <div class="relative max-h-full w-full max-w-2xl">
+      <div class="relative mx-auto w-full max-w-2xl">
         <!-- Modal content -->
-        <div class="relative rounded-lg bg-white shadow dark:bg-gray-700">
+        <div class="relative rounded-lg bg-white shadow-2xl ring-1 ring-black/10 dark:bg-gray-700">
           <!-- Modal header -->
           <div class="flex items-start justify-between rounded-t px-5 pt-4">
             <h3 id="eventModal-title" class="text-xl font-semibold text-gray-900 lg:text-2xl dark:text-white"></h3>
             <button
+              id="eventModal-close"
               type="button"
               class="ms-auto inline-flex h-8 w-8 items-center justify-center rounded-lg bg-transparent text-sm text-gray-400 hover:bg-gray-200 hover:text-gray-900 dark:hover:bg-gray-600 dark:hover:text-white"
-              onclick="window.eventModal?.hide()"
             >
               <svg
                 class="h-3 w-3"

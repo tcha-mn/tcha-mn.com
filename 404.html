@@ -1,0 +1,348 @@
+<!DOCTYPE html><html lang="en" dir="ltr" class="2xl:text-[20px]"> <head><script data-flowbite-theme-mode-script="true">
+    try {
+      const storageMode = window.localStorage.getItem("flowbite-theme-mode");
+      const isStorageModeValid = storageMode === "light" || storageMode === "dark" || storageMode === "auto";
+      const resolvedMode = (isStorageModeValid ? storageMode : null) ?? undefined ?? "auto";
+      const computedMode =
+        resolvedMode === "auto" ? (window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light") : resolvedMode;
+      const className = "dark";
+
+      if (computedMode === "dark") {
+        document.documentElement.classList.add(className);
+      } else {
+        document.documentElement.classList.remove(className);
+      }
+      localStorage.setItem("flowbite-theme-mode", resolvedMode);
+
+      // Add listener for system theme changes
+      const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+      mediaQuery.addEventListener("change", (e) => {
+        const storageMode = window.localStorage.getItem("flowbite-theme-mode");
+        const isStorageModeValid = storageMode === "light" || storageMode === "dark" || storageMode === "auto";
+        const resolvedMode = isStorageModeValid ? storageMode : "auto";
+
+        if (resolvedMode === "auto") {
+          if (e.matches) {
+            document.documentElement.classList.add(className);
+          } else {
+            document.documentElement.classList.remove(className);
+          }
+        }
+      });
+
+      // Add listener for storage changes
+      window.addEventListener("storage", (e) => {
+        if (e.key === "flowbite-theme-mode") {
+          const newMode = e.newValue;
+          const isStorageModeValid = newMode === "light" || newMode === "dark" || newMode === "auto";
+          const resolvedMode = isStorageModeValid ? newMode : "auto";
+
+          if (resolvedMode === "dark" || (resolvedMode === "auto" && window.matchMedia("(prefers-color-scheme: dark)").matches)) {
+            document.documentElement.classList.add(className);
+          } else {
+            document.documentElement.classList.remove(className);
+          }
+        }
+      });
+    } catch (e) {}
+  </script><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><meta name="facebook-domain-verification" content="ikwvremhfpgp3sdj6myy9bepct3j2w"><link rel="sitemap" href="/sitemap-index.xml"><link rel="icon" href="/favicon.ico" sizes="32x32"><link rel="shortcut icon" href="/favicon256.ico" sizes="256x256"><link rel="icon" href="/_astro/favicon.T9fl3OVk_2gbwYE.svg" type="image/svg+xml" sizes="any"><link rel="manifest" href="/manifest.json"><link rel="mask-icon" href="/_astro/favicon.T9fl3OVk.svg" color="#000000"><link rel="apple-touch-icon" sizes="180x180" href="/_astro/favicon.BdW-BrU3_Z1Wnvs8.png"><style is:global>
+  :root {
+    --aw-font-sans: 'Lato';
+    --aw-font-serif: var(--aw-font-sans);
+    --aw-font-heading: 'Josefin Sans Variable';
+
+    --aw-color-primary: rgb(51 84 109);
+    --aw-color-secondary: rgb(255 201 96);
+    --aw-color-accent: rgb(241 72 91);
+
+    --aw-color-text-heading: var(--aw-color-text-default);
+    --aw-color-text-default: rgb(16 16 16);
+    --aw-color-text-muted: rgb(16 16 16 / 66%);
+    --aw-color-bg-page: rgb(255 255 255);
+
+    --aw-color-bg-page-dark: rgb(3 6 32);
+
+    ::selection {
+      background-color: lavender;
+    }
+    --fc-small-font-size: 0.65em;
+  }
+
+  .dark {
+    --aw-font-sans: 'Lato';
+    --aw-font-serif: var(--aw-font-sans);
+    --aw-font-heading: 'Josefin Sans Variable';
+
+    --aw-color-primary: rgb(51 84 109);
+    --aw-color-secondary: rgb(255 201 96);
+    --aw-color-accent: rgb(215, 65, 83);
+
+    --aw-color-text-heading: rgb(0 0 0);
+    --aw-color-text-default: rgb(229 236 246);
+    --aw-color-text-muted: rgb(229 236 246 / 66%);
+    --aw-color-bg-page: var(--aw-color-bg-page-dark);
+
+    ::selection {
+      background-color: black;
+      color: snow;
+    }
+
+    --fc-small-font-size: 0.65em;
+    --fc-page-bg-color: rgb(3 6 32);
+    --fc-neutral-bg-color: rgb(20 27 45);
+    --fc-list-event-hover-bg-color: rgb(30 41 59);
+  }
+  /* --aw-color-accent: rgb(194, 61, 76); */
+</style><script>(function(){const defaultTheme = "light";
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    const matches = document.querySelectorAll('[data-aw-toggle-color-scheme] > input');
+
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        elem.checked = theme !== 'dark';
+      });
+    }
+  }
+
+  if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
+    applyTheme(defaultTheme.replace(':only', ''));
+  } else if (
+    localStorage.theme === 'dark' ||
+    (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+  ) {
+    applyTheme('dark');
+  } else {
+    applyTheme('light');
+  }
+})();</script><title>Error 404 — Twin Cities Homeschoolers for the Arts</title>
+<meta name="description" content="Providing performing arts classes and opportunities to home educated students in the Minneapolis/St. Paul area.">
+<meta name="robots" content="index,follow">
+<link rel="canonical" href="https://tcha-mn.com/404">
+<meta property="og:title" content="Error 404">
+<meta property="og:description" content="Providing performing arts classes and opportunities to home educated students in the Minneapolis/St. Paul area.">
+<meta property="og:url" content="https://tcha-mn.com/404">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://tcha-mn.com/_astro/default.Ds1kjobh_mLNdi.webp">
+<meta property="og:image:width" content="1183">
+<meta property="og:image:height" content="921">
+
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Twin Cities Homeschoolers for the Arts">
+<meta name="twitter:card" content="summary"><meta name="google-site-verification" content="orcPxI47GSa-cRvY11tUe6iGg2IO_RPvnA1q95iEM3M"><script async src="https://www.googletagmanager.com/gtag/js?id=G-HT76FR2B2P"></script><script>(function(){const id = "G-HT76FR2B2P";
+
+  window.dataLayer = window.dataLayer || [];
+  function gtag() {
+    window.dataLayer.push(arguments);
+  }
+  gtag("js", new Date());
+  gtag("config", id);
+})();</script><meta name="astro-view-transitions-enabled" content="true"><meta name="astro-view-transitions-fallback" content="swap"><script type="module" src="/_astro/ClientRouter.astro_astro_type_script_index_0_lang.CDGfc0hd.js"></script><script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.6jrJyzCM.js"></script><link rel="stylesheet" href="/_astro/_slug_.BkyoyQDe.css"></head> <body class="bg-page text-default tracking-tight antialiased">  <section class="flex h-full items-center p-16"> <div class="container mx-auto my-8 flex flex-col items-center justify-center px-5"> <div class="max-w-md text-center"> <h2 class="mb-8 text-9xl font-bold"> <span class="sr-only">Error</span> <span class="text-primary">404</span> </h2> <p class="text-3xl font-semibold md:text-3xl">Sorry, we couldn't find this page.</p> <p class="text-muted mt-4 mb-8 text-lg dark:text-slate-400">
+But dont worry, you can find plenty of other things on our homepage.
+</p> <a rel="noopener noreferrer" href="/" class="btn ml-4">Back to homepage</a> </div> </div> </section>  <script>(function(){const defaultTheme = "light";
+
+  if (window.basic_script) {
+    return;
+  }
+
+  window.basic_script = true;
+
+  function applyTheme(theme) {
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }
+
+  const theme = defaultTheme || 'system';
+
+  const initTheme = function () {
+    if ((theme && theme.endsWith(':only')) || (!localStorage.theme && theme !== 'system')) {
+      applyTheme(theme.replace(':only', ''));
+    } else if (
+      localStorage.theme === 'dark' ||
+      (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
+    ) {
+      applyTheme('dark');
+    } else {
+      applyTheme('light');
+    }
+  };
+  initTheme();
+
+  function attachEvent(selector, event, fn) {
+    const matches = typeof selector === 'string' ? document.querySelectorAll(selector) : selector;
+    if (matches && matches.length) {
+      matches.forEach((elem) => {
+        elem.addEventListener(event, (e) => fn(e, elem), false);
+      });
+    }
+  }
+
+  function setMobileSubmenus(expanded = true) {
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      return;
+    }
+
+    document.querySelectorAll('#header .dropdown').forEach((dropdown) => {
+      const trigger = dropdown.querySelector('[data-aw-submenu-toggle]');
+      const menu = dropdown.querySelector('.dropdown-menu');
+      if (!trigger || !menu) {
+        return;
+      }
+
+      trigger.setAttribute('aria-expanded', expanded ? 'true' : 'false');
+      menu.classList.toggle('hidden', !expanded);
+    });
+  }
+
+  const onLoad = function () {
+    let lastKnownScrollPosition = window.scrollY;
+    let ticking = true;
+
+    setMobileSubmenus(true);
+
+    attachEvent('#header nav', 'click', function () {
+      document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
+      document.body.classList.remove('overflow-hidden');
+      document.getElementById('header')?.classList.remove('h-screen');
+      document.getElementById('header')?.classList.remove('expanded');
+      document.querySelector('#header nav')?.classList.add('hidden');
+      document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+      setMobileSubmenus(true);
+    });
+
+    attachEvent('[data-aw-toggle-menu]', 'click', function (_, elem) {
+      elem.classList.toggle('expanded');
+      document.body.classList.toggle('overflow-hidden');
+      document.getElementById('header')?.classList.toggle('h-screen');
+      document.getElementById('header')?.classList.toggle('expanded');
+      document.querySelector('#header nav')?.classList.toggle('hidden');
+      document.querySelector('#header > div > div:last-child')?.classList.toggle('hidden');
+      if (elem.classList.contains('expanded')) {
+        setMobileSubmenus(true);
+      }
+    });
+
+    attachEvent('[data-aw-submenu-toggle]', 'click', function (event, elem) {
+      const isDesktop = window.matchMedia('(min-width: 1024px)').matches;
+      if (isDesktop) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopPropagation();
+
+      const submenu = elem.nextElementSibling;
+      if (!submenu) {
+        return;
+      }
+
+      const willOpen = elem.getAttribute('aria-expanded') !== 'true';
+      elem.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
+      submenu.classList.toggle('hidden', !willOpen);
+    });
+
+    attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
+      if (theme.endsWith(':only')) {
+        return;
+      }
+      document.documentElement.classList.toggle('dark');
+      localStorage.theme = document.documentElement.classList.contains('dark') ? 'dark' : 'light';
+    });
+
+    attachEvent('[data-aw-social-share]', 'click', function (_, elem) {
+      const network = elem.getAttribute('data-aw-social-share');
+      const url = encodeURIComponent(elem.getAttribute('data-aw-url'));
+      const text = encodeURIComponent(elem.getAttribute('data-aw-text'));
+
+      let href;
+      switch (network) {
+        case 'facebook':
+          href = `https://www.facebook.com/sharer.php?u=${url}`;
+          break;
+        case 'twitter':
+          href = `https://twitter.com/intent/tweet?url=${url}&text=${text}`;
+          break;
+        case 'linkedin':
+          href = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${text}`;
+          break;
+        case 'whatsapp':
+          href = `https://wa.me/?text=${text}%20${url}`;
+          break;
+        case 'mail':
+          href = `mailto:?subject=%22${text}%22&body=${text}%20${url}`;
+          break;
+
+        default:
+          return;
+      }
+
+      const newlink = document.createElement('a');
+      newlink.target = '_blank';
+      newlink.href = href;
+      newlink.click();
+    });
+
+    let screenSize = window.matchMedia('(max-width: 767px)');
+    screenSize.addEventListener('change', function () {
+      document.querySelector('[data-aw-toggle-menu]')?.classList.remove('expanded');
+      document.body.classList.remove('overflow-hidden');
+      document.getElementById('header')?.classList.remove('h-screen');
+      document.getElementById('header')?.classList.remove('expanded');
+      document.querySelector('#header nav')?.classList.add('hidden');
+      document.querySelector('#header > div > div:last-child')?.classList.add('hidden');
+      setMobileSubmenus(true);
+    });
+
+    function appyHeaderStylesOnScroll() {
+      const header = document.querySelector('#header[data-aw-sticky-header]');
+      if (!header) return;
+      if (lastKnownScrollPosition > 60 && !header.classList.contains('scroll')) {
+        document.getElementById('header').classList.add('scroll');
+      } else if (lastKnownScrollPosition <= 60 && header.classList.contains('scroll')) {
+        document.getElementById('header').classList.remove('scroll');
+      }
+      ticking = false;
+    }
+    appyHeaderStylesOnScroll();
+
+    attachEvent([document], 'scroll', function () {
+      lastKnownScrollPosition = window.scrollY;
+
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          appyHeaderStylesOnScroll();
+        });
+        ticking = true;
+      }
+    });
+  };
+  const onPageShow = function () {
+    document.documentElement.classList.add('motion-safe:scroll-smooth');
+    const elem = document.querySelector('[data-aw-toggle-menu]');
+    if (elem) {
+      elem.classList.remove('expanded');
+    }
+    document.body.classList.remove('overflow-hidden');
+    document.getElementById('header')?.classList.remove('h-screen');
+    document.getElementById('header')?.classList.remove('expanded');
+    document.querySelector('#header nav')?.classList.add('hidden');
+    setMobileSubmenus(true);
+  };
+
+  window.addEventListener('load', onLoad);
+  window.addEventListener('pageshow', onPageShow);
+
+  document.addEventListener('astro:after-swap', () => {
+    initTheme();
+    onLoad();
+    onPageShow();
+  });
+})();</script> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_1_lang.DGytt7FD.js"></script> <script type="module">const s="ml-universal-script";const i="183132",a="0rw08R",m=()=>{document.querySelectorAll(`.ml-embedded[data-form="${a}"]`).forEach(e=>{e.innerHTML=""}),document.querySelectorAll('script[src^="https://assets.mailerlite.com/jsonp/"]').forEach(e=>e.remove())},l=()=>{const e=document.getElementById(s);e&&e.remove(),document.querySelectorAll('link[href="https://assets.mailerlite.com/css/universal.css"]').forEach(r=>r.remove());const n=window;delete n.__ml__initialized,n.__mlPendingEmbeds=[];const t=(...r)=>{(t.q=t.q||[]).push(r)};t.q=[],t.fn={renderEmbeddedForm:r=>{n.__mlPendingEmbeds?.push(r)}},n.ml=t},E=()=>{if(document.getElementById(s))return;const e=document.createElement("script");e.async=!0,e.src=`https://assets.mailerlite.com/js/universal.js#account=${i}`,e.id=s,e.addEventListener("load",()=>{const t=window;if(t.__mlPendingEmbeds?.length){const r=[...t.__mlPendingEmbeds];t.__mlPendingEmbeds=[],r.forEach(d=>{try{t.ml?.fn?.renderEmbeddedForm?.(d)}catch(o){console.error("Failed to render MailerLite embed after reload",o)}})}});const n=document.getElementsByTagName("script")[0];n?.parentNode?.insertBefore(e,n)},u=()=>{m(),l(),E()},c=()=>{u()};document.addEventListener("astro:page-load",c);document.addEventListener("astro:after-swap",c);</script> <!-- Modal toggle --><button title="Join our mailing list" data-modal-target="subscribe-modal" data-modal-toggle="subscribe-modal" class="bg-primary hover:bg-darkMode dark:bg-secondary dark:text-primary hover:dark:bg-primary fixed right-10 bottom-10 flex h-12 w-12 items-center justify-center rounded-2xl rounded-bl-sm text-center text-sm font-medium text-white hover:dark:text-white" type="button"> <svg width="1em" height="1em" class="text-xl" data-icon="tabler:at"> <title>Join our mailing list</title>  <symbol id="ai:tabler:at" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M8 12a4 4 0 1 0 8 0a4 4 0 1 0-8 0"/><path d="M16 12v1.5a2.5 2.5 0 0 0 5 0V12a9 9 0 1 0-5.5 8.28"/></g></symbol><use href="#ai:tabler:at"></use>  </svg> </button> <!-- Main modal --> <div id="subscribe-modal" tabindex="-1" aria-hidden="true" class="fixed inset-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-x-hidden overflow-y-auto md:inset-0"> <div aria-hidden="true" data-modal-hide="subscribe-modal" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div> <div class="relative z-10 flex w-full justify-center px-4"> <div class="relative w-full max-w-95"> <button type="button" aria-label="Close subscribe modal" title="Close" data-modal-hide="subscribe-modal" class="focus:ring-primary absolute -top-5 right-2 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow hover:bg-white hover:text-gray-900 focus:ring-2 focus:outline-none dark:bg-gray-800/90 dark:text-gray-300 dark:hover:bg-gray-800"> <svg width="1em" height="1em" class="h-5 w-5" data-icon="tabler:x">   <symbol id="ai:tabler:x" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 6L6 18M6 6l12 12"/></symbol><use href="#ai:tabler:x"></use>  </svg> </button> <div class="ml-embedded" data-form="0rw08R"></div> </div> </div> </div> </body></html>

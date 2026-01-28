@@ -51,16 +51,15 @@
     "sanity": "^5.7.0",
     "sanity-image": "^1.0.0",
     "sharp-ico": "^0.1.5",
-    "typescript-esbuild": "^0.4.10",
     "unpic": "^4.2.2"
   },
   "devDependencies": {
     "@astrojs/mdx": "^4.3.13",
     "@astrojs/partytown": "^2.1.4",
     "@astrojs/ts-plugin": "^1.10.6",
+    "@eslint/js": "^9.39.2",
     "@iconify-json/flat-color-icons": "^1.2.3",
     "@iconify-json/tabler": "^1.2.26",
-    "@eslint/js": "^9.39.2",
     "@tailwindcss/typography": "^0.5.19",
     "@tailwindcss/vite": "^4.1.18",
     "@types/js-yaml": "^4.0.9",

@@ -70,15 +70,20 @@ function formatDate(date: DateTime): string {
     </Fragment>
   </Hero>
   <section class="mx-auto max-w-4xl px-6 pb-12 sm:px-6 sm:pb-16 lg:pb-20">
-    <h3 id="synopsis" class="text-m my-2 font-bold sm:text-xl dark:text-slate-300">Synopsis</h3>
+    <h3 id="synopsis" class="my-2 text-base font-bold sm:text-xl dark:text-slate-300">Synopsis</h3>
     <p class="my-2" set:html={toHTML(showInfo.description)} />
     {
       showInfo.participation_is_open && showInfo.participation && (
         <>
-          <h3 class="text-m my-2 font-bold sm:text-xl dark:text-slate-300">Auditions</h3>
+          <h3 class="my-2 text-base font-bold sm:text-xl dark:text-slate-300">Auditions</h3>
           <p class="my-2" set:html={toHTML(showInfo.participation.details)} />
           {showInfo.participation.registration_link && (
-            <a class="btn-secondary mt-4" target="_blank" href={showInfo.participation.registration_link}>
+            <a
+              class="btn-secondary mt-4"
+              target="_blank"
+              rel="noopener noreferrer"
+              href={showInfo.participation.registration_link}
+            >
               Audition Information
             </a>
           )}
@@ -95,6 +100,7 @@ function formatDate(date: DateTime): string {
                 data-pswp-width={image.asset.metadata.dimensions.width}
                 data-pswp-height={image.asset.metadata.dimensions.height}
                 target="_blank"
+                rel="noopener noreferrer"
               >
                 <SanityImage image={image} className="mb-4" />
               </a>

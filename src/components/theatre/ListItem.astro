@@ -70,10 +70,15 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
         {
           show.participation_is_open && show.participation && (
             <>
-              <h3 class="text-m my-2 font-bold sm:text-xl dark:text-slate-300">Auditions</h3>
+              <h3 class="my-2 text-base font-bold sm:text-xl dark:text-slate-300">Auditions</h3>
               <p class="my-2" set:html={toHTML(show.participation.details)} />
               {show.participation.registration_link && (
-                <a class="btn-secondary my-2 px-4 py-2" target="_blank" href={show.participation.registration_link}>
+                <a
+                  class="btn-secondary my-2 px-4 py-2"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={show.participation.registration_link}
+                >
                   Audition Information
                 </a>
               )}
@@ -83,16 +88,16 @@ const link = `/theatre/${season.slug}/${show.slug}/`;
         {
           event?.dates?.length > 0 && (
             <>
-              <h3 class="text-m my-2 font-bold sm:text-xl dark:text-slate-300">Performances</h3>
-              <p class="my-2">
-                <ul>
+              <h3 class="my-2 text-base font-bold sm:text-xl dark:text-slate-300">Performances</h3>
+              <div class="my-2">
+                <ul class="list-disc pl-5">
                   {event.dates.map((d) => (
                     <li>
                       <time datetime={String(d)}>{getFormattedDateTime(d)}</time>
                     </li>
                   ))}
                 </ul>
-              </p>
+              </div>
             </>
           )
         }

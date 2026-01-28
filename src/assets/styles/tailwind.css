@@ -25,7 +25,7 @@
   background-color: var(--aw-color-bg-page);
 }
 @utility text-page {
-  color: var(--aw-color-text-page);
+  color: var(--aw-color-text-default);
 }
 @utility text-muted {
   color: var(--aw-color-text-muted);

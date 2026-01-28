@@ -17,6 +17,76 @@ const metadata = {
 
     let calendar: Calendar | undefined;
 
+    const sanitizeLimitedHtml = (value: string | null | undefined) => {
+      if (!value || typeof value !== 'string') {
+        return '';
+      }
+
+      const allowedTags = new Set(['A', 'B', 'BR']);
+      const doc = new DOMParser().parseFromString(value, 'text/html');
+
+      const sanitizeNode = (node: Node) => {
+        [...node.childNodes].forEach((child) => {
+          if (child instanceof Element) {
+            const element = child;
+            const tagName = element.tagName.toUpperCase();
+
+            if (!allowedTags.has(tagName)) {
+              const textNode = doc.createTextNode(element.textContent || '');
+              element.replaceWith(textNode);
+              return;
+            }
+
+            if (tagName === 'A') {
+              const href = element.getAttribute('href') || '';
+              const isSafeHref =
+                href.startsWith('http://') ||
+                href.startsWith('https://') ||
+                href.startsWith('mailto:') ||
+                href.startsWith('tel:') ||
+                href.startsWith('/');
+
+              const target = element.getAttribute('target') || '';
+              const rel = element.getAttribute('rel') || '';
+
+              [...element.attributes].forEach((attr) => element.removeAttribute(attr.name));
+
+              if (isSafeHref) {
+                element.setAttribute('href', href);
+              }
+              if (target) {
+                element.setAttribute('target', target);
+              }
+              if (target === '_blank') {
+                const relParts = new Set(rel.split(/\s+/).filter(Boolean));
+                relParts.add('noopener');
+                relParts.add('noreferrer');
+                element.setAttribute('rel', [...relParts].join(' '));
+              } else if (rel) {
+                element.setAttribute('rel', rel);
+              }
+            } else {
+              [...element.attributes].forEach((attr) => element.removeAttribute(attr.name));
+            }
+          }
+
+          if (child.childNodes && child.childNodes.length > 0) {
+            sanitizeNode(child);
+          }
+        });
+      };
+
+      sanitizeNode(doc.body);
+      return doc.body.innerHTML;
+    };
+
+    const htmlToText = (value: string | null | undefined) => {
+      if (!value) return '';
+      const div = document.createElement('div');
+      div.innerHTML = value;
+      return (div.textContent || '').trim();
+    };
+
     const initCalendar = () => {
       if (calendar) {
         return;
@@ -46,16 +116,56 @@ const metadata = {
         },
         eventClick(info) {
           info.jsEvent.preventDefault();
-          document.getElementById('eventModal-title')!.innerText = info.event.title;
-          document.getElementById('eventModal-subtitle')!.innerText = info.event.allDay
-            ? 'All Day'
-            : `${dayjs(info.event.start).format('h:mm a')} - ${dayjs(info.event.end).format('h:mm a')}`;
-          document.getElementById('eventModal-location-wrapper')!.hidden = !info.event.extendedProps.location;
-          document.getElementById('eventModal-location')!.innerHTML =
-            `${info.event.extendedProps.location}<br />(<a target="_blank" href="https://maps.google.com/?q=${info.event.extendedProps.location}">see map</a>)`;
+          const titleEl = document.getElementById('eventModal-title');
+          if (titleEl) {
+            titleEl.textContent = info.event.title || '';
+          }
 
-          document.getElementById('eventModal-description-wrapper')!.hidden = !info.event.extendedProps.description;
-          document.getElementById('eventModal-description')!.innerHTML = info.event.extendedProps.description;
+          const subtitleEl = document.getElementById('eventModal-subtitle');
+          if (subtitleEl) {
+            if (info.event.allDay) {
+              subtitleEl.textContent = 'All Day';
+            } else if (info.event.start && info.event.end) {
+              subtitleEl.textContent = `${dayjs(info.event.start).format('h:mm a')} - ${dayjs(info.event.end).format('h:mm a')}`;
+            } else if (info.event.start) {
+              subtitleEl.textContent = dayjs(info.event.start).format('h:mm a');
+            } else {
+              subtitleEl.textContent = 'Time TBD';
+            }
+          }
+
+          const locationWrapper = document.getElementById('eventModal-location-wrapper');
+          const locationEl = document.getElementById('eventModal-location');
+          const rawLocation = info.event.extendedProps.location || '';
+          const sanitizedLocation = sanitizeLimitedHtml(rawLocation);
+          if (locationWrapper && locationEl) {
+            locationWrapper.hidden = !sanitizedLocation;
+            locationEl.innerHTML = sanitizedLocation;
+            if (sanitizedLocation) {
+              const locationText = htmlToText(sanitizedLocation);
+              if (locationText) {
+                const lineBreak = document.createElement('br');
+                const mapLink = document.createElement('a');
+                mapLink.target = '_blank';
+                mapLink.rel = 'noopener noreferrer';
+                mapLink.href = `https://maps.google.com/?q=${encodeURIComponent(locationText)}`;
+                mapLink.textContent = 'see map';
+                locationEl.appendChild(lineBreak);
+                locationEl.appendChild(document.createTextNode('('));
+                locationEl.appendChild(mapLink);
+                locationEl.appendChild(document.createTextNode(')'));
+              }
+            }
+          }
+
+          const descriptionWrapper = document.getElementById('eventModal-description-wrapper');
+          const descriptionEl = document.getElementById('eventModal-description');
+          const rawDescription = info.event.extendedProps.description || '';
+          const sanitizedDescription = sanitizeLimitedHtml(rawDescription);
+          if (descriptionWrapper && descriptionEl) {
+            descriptionWrapper.hidden = !sanitizedDescription;
+            descriptionEl.innerHTML = sanitizedDescription;
+          }
           eventModal.show();
         },
       });
@@ -73,7 +183,7 @@ const metadata = {
       id="eventModal"
       tabindex="-1"
       aria-hidden="true"
-      class="fixed inset-0 z-50 hidden w-full overflow-y-auto bg-black/40 backdrop-blur-sm p-4 md:p-6"
+      class="fixed inset-0 z-50 hidden w-full overflow-y-auto bg-black/40 p-4 backdrop-blur-sm md:p-6"
     >
       <div class="relative mx-auto w-full max-w-2xl">
         <!-- Modal content -->

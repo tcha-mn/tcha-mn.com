@@ -26,24 +26,25 @@ const tasksIntegration = () => {
           const sitemapExists = fs.existsSync(sitemapFile);
 
           if (hasIntegration && sitemapExists) {
-            const robotsTxt = fs.readFileSync(robotsTxtFile, { encoding: 'utf8', flags: 'a+' });
+            const robotsTxt = fs.existsSync(robotsTxtFile) ? fs.readFileSync(robotsTxtFile, 'utf8') : '';
             const sitemapUrl = new URL(sitemapName, String(new URL(config.base, config.site)));
             const pattern = /^Sitemap:(.*)$/m;
 
+            let updatedRobots = '';
             if (!pattern.test(robotsTxt)) {
-              fs.appendFileSync(robotsTxtFileInOut, `${os.EOL}${os.EOL}Sitemap: ${sitemapUrl}`, {
-                encoding: 'utf8',
-                flags: 'w',
-              });
+              const separator = robotsTxt.trim().length ? `${os.EOL}${os.EOL}` : '';
+              updatedRobots = `${robotsTxt}${separator}Sitemap: ${sitemapUrl}`;
             } else {
-              fs.writeFileSync(robotsTxtFileInOut, robotsTxt.replace(pattern, `Sitemap: ${sitemapUrl}`), {
-                encoding: 'utf8',
-                flags: 'w',
-              });
+              updatedRobots = robotsTxt.replace(pattern, `Sitemap: ${sitemapUrl}`);
             }
+
+            fs.writeFileSync(robotsTxtFileInOut, updatedRobots, {
+              encoding: 'utf8',
+              flags: 'w',
+            });
           }
-        } catch {
-          /* empty */
+        } catch (error) {
+          console.warn('[tasks] Failed to update robots.txt sitemap entry', error);
         }
       },
     },

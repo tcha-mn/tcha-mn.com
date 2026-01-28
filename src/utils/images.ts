@@ -52,10 +52,7 @@ export async function findImage(
 }
 
 /** */
-export const adaptOpenGraphImages = async (
-  openGraph: OpenGraph = {},
-  astroSite: URL | undefined = new URL('')
-): Promise<OpenGraph> => {
+export const adaptOpenGraphImages = async (openGraph: OpenGraph = {}, astroSite?: URL): Promise<OpenGraph> => {
   if (!openGraph?.images?.length) {
     return openGraph;
   }
@@ -82,8 +79,10 @@ export const adaptOpenGraphImages = async (
         });
 
         if (typeof _image === 'object') {
+          const resolvedUrl =
+            typeof _image.src === 'string' ? (astroSite ? String(new URL(_image.src, astroSite)) : _image.src) : '';
           return {
-            url: typeof _image.src === 'string' ? String(new URL(_image.src, astroSite)) : 'pepe',
+            url: resolvedUrl,
             width: typeof _image.attributes.width === 'number' ? _image.attributes.width : undefined,
             height: typeof _image.attributes.height === 'number' ? _image.attributes.height : undefined,
           };

@@ -25,7 +25,7 @@ export default function Blocks({ value }: Props) {
       return (
         <div
           key={block._key}
-          className="prose-lg prose-h2:leading-tighter prose-h2:text-heading prose-h2:mb-12 prose-h2:font-heading prose-h2:text-3xl prose-h2:font-bold prose-h2:tracking-tighter prose-h2:md:text-4xl prose-h3:font-bold prose-h4:font-bold prose-p:text-l prose-p:mb-6"
+          className="prose-lg prose-h2:leading-tighter prose-h2:text-heading prose-h2:mb-12 prose-h2:font-heading prose-h2:text-3xl prose-h2:font-bold prose-h2:tracking-tighter prose-h2:md:text-4xl prose-h3:font-bold prose-h4:font-bold prose-p:text-lg prose-p:mb-6"
         >
           <PortableText
             value={value}

@@ -17,9 +17,11 @@ import { UI } from '~/utils/config';
     }
   }
 
+  const theme = defaultTheme || 'system';
+
   const initTheme = function () {
-    if ((defaultTheme && defaultTheme.endsWith(':only')) || (!localStorage.theme && defaultTheme !== 'system')) {
-      applyTheme(defaultTheme.replace(':only', ''));
+    if ((theme && theme.endsWith(':only')) || (!localStorage.theme && theme !== 'system')) {
+      applyTheme(theme.replace(':only', ''));
     } else if (
       localStorage.theme === 'dark' ||
       (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
@@ -105,7 +107,7 @@ import { UI } from '~/utils/config';
     });
 
     attachEvent('[data-aw-toggle-color-scheme]', 'click', function () {
-      if (defaultTheme.endsWith(':only')) {
+      if (theme.endsWith(':only')) {
         return;
       }
       document.documentElement.classList.toggle('dark');
@@ -192,8 +194,8 @@ import { UI } from '~/utils/config';
     setMobileSubmenus(true);
   };
 
-  window.onload = onLoad;
-  window.onpageshow = onPageShow;
+  window.addEventListener('load', onLoad);
+  window.addEventListener('pageshow', onPageShow);
 
   document.addEventListener('astro:after-swap', () => {
     initTheme();

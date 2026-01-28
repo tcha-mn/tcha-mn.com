@@ -113,21 +113,19 @@ import { Icon } from 'astro-icon/components';
   aria-hidden="true"
   class="fixed inset-0 z-50 hidden h-[calc(100%-1rem)] max-h-full w-full items-center justify-center overflow-x-hidden overflow-y-auto md:inset-0"
 >
-  <div
-    aria-hidden="true"
-    data-modal-hide="subscribe-modal"
-    class="absolute inset-0 bg-black/60 backdrop-blur-sm"
-  ></div>
-  <div class="relative z-10 w-full max-w-lg px-4">
-    <button
-      type="button"
-      aria-label="Close subscribe modal"
-      title="Close"
-      data-modal-hide="subscribe-modal"
-      class="focus:ring-primary/40 absolute top-2 right-2 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/80 text-gray-600 shadow hover:bg-white hover:text-gray-900 focus:ring-2 focus:outline-none dark:bg-gray-800/80 dark:text-gray-300 dark:hover:bg-gray-800"
-    >
-      <Icon name="tabler:x" class="h-5 w-5" />
-    </button>
-    <div class="ml-embedded" data-form="0rw08R"></div>
+  <div aria-hidden="true" data-modal-hide="subscribe-modal" class="absolute inset-0 bg-black/60 backdrop-blur-sm"></div>
+  <div class="relative z-10 flex w-full justify-center px-4">
+    <div class="relative w-full max-w-95">
+      <button
+        type="button"
+        aria-label="Close subscribe modal"
+        title="Close"
+        data-modal-hide="subscribe-modal"
+        class="focus:ring-primary absolute -top-5 right-2 z-20 inline-flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-gray-600 shadow hover:bg-white hover:text-gray-900 focus:ring-2 focus:outline-none dark:bg-gray-800/90 dark:text-gray-300 dark:hover:bg-gray-800"
+      >
+        <Icon name="tabler:x" class="h-5 w-5" />
+      </button>
+      <div class="ml-embedded" data-form="0rw08R"></div>
+    </div>
   </div>
 </div>

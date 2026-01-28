@@ -13,6 +13,7 @@ module.exports = {
         secondary: 'var(--aw-color-secondary)',
         accent: 'var(--aw-color-accent)',
         default: 'var(--aw-color-text-default)',
+        heading: 'var(--aw-color-text-heading)',
         muted: 'var(--aw-color-text-muted)',
         darkMode: 'var(--aw-color-bg-page-dark)',
       },

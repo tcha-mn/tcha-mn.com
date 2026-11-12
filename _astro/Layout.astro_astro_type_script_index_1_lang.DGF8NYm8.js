@@ -1,0 +1,1 @@
+import{t as e}from"./esm.BYq24zJz.js";var t=()=>e();document.addEventListener(`astro:page-load`,t),document.addEventListener(`astro:after-swap`,t);
